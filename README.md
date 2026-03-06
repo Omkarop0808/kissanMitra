@@ -1,4 +1,4 @@
-# 🌾 Kisaan Saathi – Empowering Farmers with AI
+# 🌾 Kisaan Mitra – Empowering Farmers with AI
 
 **Kisaan Saathi** is a comprehensive **AI-powered Farmer Dashboard** designed to support Indian farmers through real-time data, smart decision-making tools, and access to vital resources. From intelligent crop disease diagnosis to market price analysis, equipment rental, and weather forecasting — Kisaan Saathi is your digital companion in the field.
 
