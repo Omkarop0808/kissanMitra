@@ -1,0 +1,56 @@
+[
+  {
+    "id": "94876cb5-2d71-4ad7-8253-854ec017cca9",
+    "name": "demo",
+    "email": "demo@gmail.com",
+    "phone": "9082876645",
+    "farm_name": "bapu",
+    "password_hash": "46d99100e89175c1900f15777a1b0424:307b1998ba92380593fec2c2ad5f44e9b25481add886b506dff57d53ed85e486",
+    "created_at": "2026-03-03T12:35:37.326246"
+  },
+  {
+    "id": "721ce2aa-05d3-437c-a364-a139df195cf2",
+    "name": "Test Farmer",
+    "email": "test_1772521802@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "02341fa0abbc22de0dc1ab3d6f8d8a21:8d83b18e080ec647e6699af6e875998a5d399174fca884d4df52585a9a2ebe64",
+    "created_at": "2026-03-03T12:40:02.870739"
+  },
+  {
+    "id": "8c180e9b-aaef-4f41-9103-04e27d99a641",
+    "name": "Test Farmer",
+    "email": "test_1772522456@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "cdef3bc6686b71e2376031d8fc2a9aa8:e0919f7bb324e06b50633eb0d9e556d1c0d1f3e82d39e2f3908a93b98acd469d",
+    "created_at": "2026-03-03T12:50:56.806048"
+  },
+  {
+    "id": "a4c35881-95f6-4c4e-9aaf-38cd927fb3a5",
+    "name": "Test Farmer",
+    "email": "test_1772526786@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "82dc9264ad8f5724ff615ede66039d73:b28f84b3d17fbd82832349375812b4930bee2aa5ce7a8e7e77c630d4a9035e19",
+    "created_at": "2026-03-03T14:03:06.956844"
+  },
+  {
+    "id": "6e9a6a8e-1c7c-47a5-8d2d-a48456befbce",
+    "name": "Test Farmer",
+    "email": "test_1772527319@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "50d1906c64821b6de1b2a23f87bd322d:15bb12b7141bd67d6eabdbab0ddb2dfef126cb3f3e2324ea15cc9f43aa24c5a1",
+    "created_at": "2026-03-03T14:11:59.565928"
+  },
+  {
+    "id": "87b95abb-7ace-4844-9568-b5478c9895ea",
+    "name": "Test Farmer",
+    "email": "test_1772531366@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "e0d437386fbfacb06b3e42fd03819688:f5782b409d1f9d9d8f4ebb765e53d6249453074d10c9f174d78817d3c025e96a",
+    "created_at": "2026-03-03T15:19:26.507398"
+  }
+]

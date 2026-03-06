@@ -1,0 +1,74 @@
+[
+  {
+    "id": "b3a02f8d-7814-4507-b04d-c9c29d022129",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 500,
+    "location": "Village Ramnagar, Varanasi",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 500.0,
+    "seller": "demo_farmer",
+    "created_at": "2026-03-03T12:31:59.303502"
+  },
+  {
+    "id": "a101fdc0-12fc-4ee8-b819-27ae12e7165b",
+    "waste_type": "sugarcane-bagasse",
+    "waste_type_label": "Sugarcane Bagasse",
+    "quantity": 1000,
+    "location": "Village Kothrud, Pune",
+    "pickup_date": "2026-03-06",
+    "status": "scheduled",
+    "price": 1200.0,
+    "seller": "demo_farmer",
+    "created_at": "2026-03-03T12:31:59.303502"
+  },
+  {
+    "id": "1a9f6cfd-6528-451d-a65b-e85c2c6045f2",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-03T12:51:02.603386"
+  },
+  {
+    "id": "7976e073-dc1e-4aad-9f83-3a8e8f231938",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-03T14:03:15.430925"
+  },
+  {
+    "id": "a388f016-1ef1-43ec-923e-bbeddac342d2",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-03T14:12:04.664252"
+  },
+  {
+    "id": "949395e8-591f-4164-be2f-99b8b2e2b08b",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-03T15:19:34.530995"
+  }
+]
