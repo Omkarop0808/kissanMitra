@@ -17,8 +17,6 @@ from prediction import model_response
 import pandas as pd
 from google import genai
 from pydantic import BaseModel
-from FarmerAssistant import app as farmer_assistant_app, main as init_farmer_assistant
-from langchain_core.messages import HumanMessage, AIMessage
 import joblib
 import numpy as np
 import hashlib
@@ -122,14 +120,16 @@ gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 if not GROQ_API_KEY:
     raise ValueError("GROQ API KEY is not set in the .env file")
 
-# Initialize farmer assistant lazily on first use to avoid blocking server startup
-# init_farmer_assistant()
+# Lazy-loaded farmer assistant to avoid blocking server startup with heavy ML imports
+farmer_assistant_app = None
 farmer_assistant_initialized = False
 
 def ensure_farmer_assistant_initialized():
-    global farmer_assistant_initialized
+    global farmer_assistant_initialized, farmer_assistant_app
     if not farmer_assistant_initialized:
         logger.info("Initializing Farmer Assistant (first use)...")
+        from FarmerAssistant import app as fa_app, main as init_farmer_assistant
+        farmer_assistant_app = fa_app
         init_farmer_assistant()
         farmer_assistant_initialized = True
         logger.info("Farmer Assistant initialized successfully")
@@ -477,6 +477,7 @@ async def chat(request: Request):
 @app.post("/api/farmer-chat")
 async def farmer_chat(request: Request):
     try:
+        from langchain_core.messages import HumanMessage, AIMessage
         # Initialize farmer assistant on first use
         ensure_farmer_assistant_initialized()
         
