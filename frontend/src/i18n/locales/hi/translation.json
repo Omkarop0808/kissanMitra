@@ -36,7 +36,10 @@
     "close": "बंद करें",
     "viewAll": "सभी देखें",
     "noData": "कोई डेटा उपलब्ध नहीं",
-    "retry": "पुनः प्रयास करें"
+    "retry": "पुनः प्रयास करें",
+    "all": "सभी",
+    "anonymousFarmer": "अनाम किसान",
+    "anonymous": "अनाम"
   },
   "auth": {
     "login": "लॉगिन",
@@ -89,7 +92,11 @@
     "yourLocation": "आपका स्थान",
     "selectImage": "कृपया एक तस्वीर फ़ाइल चुनें (JPG, PNG, आदि)",
     "imageTooLarge": "तस्वीर 2MB से कम होनी चाहिए",
-    "uploadFirst": "कृपया पहले एक तस्वीर अपलोड करें"
+    "uploadFirst": "कृपया पहले एक तस्वीर अपलोड करें",
+    "geolocationNotSupported": "आपके ब्राउज़र में जियोलोकेशन समर्थित नहीं है",
+    "failedGetLocation": "स्थान प्राप्त करने में विफल",
+    "unexpectedResponse": "अप्रत्याशित प्रतिक्रिया प्रारूप",
+    "failedAnalyze": "छवि विश्लेषण करने में विफल"
   },
   "assistant": {
     "title": "AI खेती सहायक",
@@ -208,7 +215,22 @@
       "paymentShared": "भुगतान शेयर किया गया",
       "renter": "किराएदार",
       "amount": "राशि"
-    }
+    },
+    "typeTractor": "ट्रैक्टर",
+    "typeHarvester": "हार्वेस्टर",
+    "typeSprayer": "स्प्रेयर",
+    "typePlough": "हल",
+    "typeRotavator": "रोटावेटर",
+    "typeDrone": "ड्रोन",
+    "typeOther": "अन्य",
+    "fillAllFields": "कृपया सभी फ़ील्ड भरें",
+    "invalidPhone": "कृपया 10 अंकों का वैध फ़ोन नंबर दर्ज करें",
+    "bookingFailed": "बुकिंग विफल",
+    "failedBooking": "बुकिंग पूर्ण करने में विफल",
+    "phonePlaceholder": "10 अंकों का फ़ोन नंबर",
+    "minPerDay": "न्यूनतम /दिन",
+    "maxPerDay": "अधिकतम /दिन",
+    "bookTitle": "बुकिंग: {{name}}"
   },
   "waste": {
     "title": "फसल अपशिष्ट विनिमय",
@@ -228,7 +250,16 @@
     "qty": "मात्रा (किलो)",
     "pickup": "पिकअप",
     "price": "मूल्य",
-    "status": "स्थिति"
+    "status": "स्थिति",
+    "typeRiceStraw": "धान का पुआल",
+    "typeWheatStraw": "गेहूं का भूसा",
+    "typeSugarcaneBagasse": "गन्ने की खोई",
+    "typeCornStalks": "मक्के के डंठल",
+    "typeCottonStalks": "कपास के डंठल",
+    "typeOther": "अन्य",
+    "locationPlaceholder": "शहर या क्षेत्र",
+    "confirmRemove": "इस लिस्टिंग को हटाएं?",
+    "failedAdd": "लिस्टिंग जोड़ने में विफल"
   },
   "education": {
     "title": "खेती शिक्षा",
@@ -239,7 +270,12 @@
     "tip1": "अपनी मिट्टी का स्वास्थ्य नियमित रूप से जांचें - बेहतर उपज के लिए हर फसल सत्र में कम से कम एक बार।",
     "tip2": "पारंपरिक बाढ़ सिंचाई की तुलना में 60% तक पानी बचाने के लिए ड्रिप सिंचाई का उपयोग करें।",
     "tip3": "मिट्टी के पोषक तत्वों की कमी और कीट संचय को रोकने के लिए हर मौसम में फसल बदलें।",
-    "tip4": "बिना हानिकारक रसायनों के फसलों की रक्षा के लिए नीम तेल का प्रयोग करें।"
+    "tip4": "बिना हानिकारक रसायनों के फसलों की रक्षा के लिए नीम तेल का प्रयोग करें।",
+    "categoryCropManagement": "फसल प्रबंधन",
+    "categoryOrganicFarming": "जैविक खेती",
+    "categoryTechnology": "टेक्नोलॉजी",
+    "categorySchemesFinance": "योजनाएं और वित्त",
+    "categoryWaterManagement": "जल प्रबंधन"
   },
   "community": {
     "title": "किसान समुदाय",
@@ -281,7 +317,17 @@
     "failedDelete": "पोस्ट हटाने में विफल",
     "failedAnswer": "उत्तर जोड़ने में विफल",
     "failedBest": "सर्वश्रेष्ठ उत्तर चुनने में विफल",
-    "youAreHere": "आप यहां हैं"
+    "youAreHere": "आप यहां हैं",
+    "categoryCropTips": "फसल सुझाव",
+    "categoryMarket": "बाजार चर्चा",
+    "categoryWeather": "मौसम अपडेट",
+    "categoryEquipment": "उपकरण समीक्षा",
+    "categoryGeneral": "सामान्य",
+    "justNow": "अभी",
+    "minutesAgo": "{{count}} मिनट पहले",
+    "hoursAgo": "{{count}} घंटे पहले",
+    "daysAgo": "{{count}} दिन पहले",
+    "by": "द्वारा"
   },
   "donation": {
     "title": "किसानों का समर्थन करें",

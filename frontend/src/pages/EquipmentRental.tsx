@@ -43,7 +43,16 @@ interface Booking {
   created_at: string
 }
 
-const EQUIPMENT_TYPES = ['All', 'Tractor', 'Harvester', 'Sprayer', 'Plough', 'Rotavator', 'Drone', 'Other']
+const EQUIPMENT_TYPES = [
+  { value: 'All', tKey: 'common.all' },
+  { value: 'Tractor', tKey: 'equipment.typeTractor' },
+  { value: 'Harvester', tKey: 'equipment.typeHarvester' },
+  { value: 'Sprayer', tKey: 'equipment.typeSprayer' },
+  { value: 'Plough', tKey: 'equipment.typePlough' },
+  { value: 'Rotavator', tKey: 'equipment.typeRotavator' },
+  { value: 'Drone', tKey: 'equipment.typeDrone' },
+  { value: 'Other', tKey: 'equipment.typeOther' },
+]
 
 const DEFAULT_IMAGES: Record<string, string> = {
   tractor: '/images/tractor.jpg',
@@ -140,8 +149,8 @@ export default function EquipmentRental() {
   }
 
   const handleBook = async () => {
-    if (!bookingItem || !bookName || !bookPhone || !bookStart || !bookEnd) { setBookError('Please fill all fields'); return }
-    if (!/^\d{10}$/.test(bookPhone.replace(/\D/g, ''))) { setBookError('Please enter a valid 10-digit phone number'); return }
+    if (!bookingItem || !bookName || !bookPhone || !bookStart || !bookEnd) { setBookError(t('equipment.fillAllFields')); return }
+    if (!/^\d{10}$/.test(bookPhone.replace(/\D/g, ''))) { setBookError(t('equipment.invalidPhone')); return }
     setBookLoading(true)
     setBookError('')
     try {
@@ -154,8 +163,8 @@ export default function EquipmentRental() {
       if (data.success) {
         setBookSuccess(t('equipment.awaitingConfirm'))
         setTimeout(() => { setBookingItem(null); setBookSuccess('') }, 3000)
-      } else { setBookError(data.message || 'Booking failed') }
-    } catch { setBookError('Failed to complete booking') }
+      } else { setBookError(data.message || t('equipment.bookingFailed')) }
+    } catch { setBookError(t('equipment.failedBooking')) }
     finally { setBookLoading(false) }
   }
 
@@ -166,7 +175,7 @@ export default function EquipmentRental() {
       const res = await fetch('/api/equipment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: addName, type: addType, daily_rate: parseFloat(addRate), location: addLocation, description: addDesc, owner: user?.name || 'Anonymous' }),
+        body: JSON.stringify({ name: addName, type: addType, daily_rate: parseFloat(addRate), location: addLocation, description: addDesc, owner: user?.name || t('common.anonymous') }),
       })
       const data = await res.json()
       if (data.success) {
@@ -207,7 +216,7 @@ export default function EquipmentRental() {
         payment_method: paymentMethod,
         payment_details: details,
       })
-      setPaymentSuccess('Booking confirmed! Payment details shared.')
+      setPaymentSuccess(t('equipment.payment.confirmed'))
       setTimeout(() => { setPaymentBooking(null); setPaymentSuccess(''); loadMyBookings() }, 2500)
     } catch { /* ignore */ }
     finally { setPaymentLoading(false) }
@@ -260,11 +269,11 @@ export default function EquipmentRental() {
           {/* Filters */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             <select value={filterType} onChange={e => setFilterType(e.target.value)} className="form-select">
-              {EQUIPMENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+              {EQUIPMENT_TYPES.map(et => <option key={et.value} value={et.value}>{t(et.tKey)}</option>)}
             </select>
             <input value={filterLocation} onChange={e => setFilterLocation(e.target.value)} placeholder={t('equipment.location')} className="form-input" />
-            <input type="number" value={minPrice} onChange={e => setMinPrice(e.target.value)} placeholder="Min /day" className="form-input" />
-            <input type="number" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} placeholder="Max /day" className="form-input" />
+            <input type="number" value={minPrice} onChange={e => setMinPrice(e.target.value)} placeholder={t('equipment.minPerDay')} className="form-input" />
+            <input type="number" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} placeholder={t('equipment.maxPerDay')} className="form-input" />
           </div>
 
           {loading ? (
@@ -398,7 +407,7 @@ export default function EquipmentRental() {
         <div className="modal-overlay" onClick={() => setBookingItem(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-[var(--color-on-surface)]">Book: {bookingItem.name}</h3>
+              <h3 className="text-lg font-bold text-[var(--color-on-surface)]">{t('equipment.bookTitle', { name: bookingItem.name })}</h3>
               <button onClick={() => setBookingItem(null)} className="w-8 h-8 rounded-full hover:bg-[var(--color-surface-variant)] flex items-center justify-center bg-transparent border-none cursor-pointer"><X size={18} /></button>
             </div>
             {bookSuccess ? (
@@ -408,7 +417,7 @@ export default function EquipmentRental() {
                 {bookError && <div className="bg-[var(--color-error-container)] text-[var(--color-error)] rounded-xl p-3 mb-3 text-sm">{bookError}</div>}
                 <div className="space-y-3">
                   <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.fullName')} *</label><input value={bookName} onChange={e => setBookName(e.target.value)} className="form-input" required /></div>
-                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.phoneNumber')} *</label><input value={bookPhone} onChange={e => setBookPhone(e.target.value)} className="form-input" placeholder="10-digit phone number" required /></div>
+                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.phoneNumber')} *</label><input value={bookPhone} onChange={e => setBookPhone(e.target.value)} className="form-input" placeholder={t('equipment.phonePlaceholder')} required /></div>
                   <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.startDate')} *</label><input type="date" value={bookStart} onChange={e => setBookStart(e.target.value)} className="form-input" required /></div>
                   <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.endDate')} *</label><input type="date" value={bookEnd} onChange={e => setBookEnd(e.target.value)} className="form-input" required /></div>
                   {bookStart && bookEnd && calcDays() > 0 && (
@@ -576,7 +585,7 @@ export default function EquipmentRental() {
               <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.equipmentName')}</label><input value={addName} onChange={e => setAddName(e.target.value)} className="form-input" required /></div>
               <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.type')}</label>
                 <select value={addType} onChange={e => setAddType(e.target.value)} className="form-select">
-                  {EQUIPMENT_TYPES.filter(t => t !== 'All').map(t => <option key={t} value={t}>{t}</option>)}
+                  {EQUIPMENT_TYPES.filter(et => et.value !== 'All').map(et => <option key={et.value} value={et.value}>{t(et.tKey)}</option>)}
                 </select>
               </div>
               <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.dailyRate')}</label><input type="number" value={addRate} onChange={e => setAddRate(e.target.value)} className="form-input" required /></div>

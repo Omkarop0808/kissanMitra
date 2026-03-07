@@ -12,7 +12,22 @@ interface VideoCard {
   duration: string
 }
 
-const categories = ['All', 'Crop Management', 'Organic Farming', 'Technology', 'Schemes & Finance', 'Water Management']
+const categoryKeys = [
+  { value: 'All', tKey: 'common.all' },
+  { value: 'Crop Management', tKey: 'education.categoryCropManagement' },
+  { value: 'Organic Farming', tKey: 'education.categoryOrganicFarming' },
+  { value: 'Technology', tKey: 'education.categoryTechnology' },
+  { value: 'Schemes & Finance', tKey: 'education.categorySchemesFinance' },
+  { value: 'Water Management', tKey: 'education.categoryWaterManagement' },
+]
+
+const categoryTKeyMap: Record<string, string> = {
+  'Crop Management': 'education.categoryCropManagement',
+  'Organic Farming': 'education.categoryOrganicFarming',
+  'Technology': 'education.categoryTechnology',
+  'Schemes & Finance': 'education.categorySchemesFinance',
+  'Water Management': 'education.categoryWaterManagement',
+}
 
 const videos: VideoCard[] = [
   { title: 'Modern Farming Techniques for Indian Farmers', thumbnail: 'https://i3.ytimg.com/vi/fRlUhUWS0Hk/hqdefault.jpg', url: 'https://www.youtube.com/watch?v=fRlUhUWS0Hk', category: 'Crop Management', duration: '12:30' },
@@ -67,19 +82,19 @@ export default function Education() {
       </div>
 
       <div className="flex flex-wrap gap-2 mb-8">
-        {categories.map(cat => {
-          const Icon = categoryIconMap[cat] || LayoutGrid
+        {categoryKeys.map(cat => {
+          const Icon = categoryIconMap[cat.value] || LayoutGrid
           return (
             <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
+              key={cat.value}
+              onClick={() => setActiveCategory(cat.value)}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all border flex items-center gap-2 ${
-                activeCategory === cat
+                activeCategory === cat.value
                   ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white'
                   : 'bg-white border-[var(--color-outline-variant)] text-[var(--color-on-surface-variant)] hover:border-[var(--color-primary)]'
               }`}
             >
-              <Icon size={14} />{cat}
+              <Icon size={14} />{t(cat.tKey)}
             </button>
           )
         })}
@@ -112,7 +127,7 @@ export default function Education() {
                 </div>
                 <div className="p-4">
                   <span className="text-xs text-[var(--color-primary)] font-medium mb-2 flex items-center gap-1">
-                    <CatIcon size={12} />{video.category}
+                    <CatIcon size={12} />{categoryTKeyMap[video.category] ? t(categoryTKeyMap[video.category]) : video.category}
                   </span>
                   <h3 className="text-sm font-semibold leading-snug line-clamp-2 text-[var(--color-on-surface)]">{video.title}</h3>
                 </div>

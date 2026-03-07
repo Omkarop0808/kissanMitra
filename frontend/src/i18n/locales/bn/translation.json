@@ -36,7 +36,10 @@
     "close": "বন্ধ করুন",
     "viewAll": "সব দেখুন",
     "noData": "কোনো তথ্য নেই",
-    "retry": "আবার চেষ্টা করুন"
+    "retry": "আবার চেষ্টা করুন",
+    "all": "সব",
+    "anonymousFarmer": "বেনামী কৃষক",
+    "anonymous": "বেনামী"
   },
   "auth": {
     "login": "লগইন",
@@ -55,7 +58,7 @@
     "haveAccount": "ইতিমধ্যে অ্যাকাউন্ট আছে?"
   },
   "dashboard": {
-    "greeting": "{{greeting}}, {{name}} \uD83C\uDF3E",
+    "greeting": "{{greeting}}, {{name}} 🌾",
     "subtitle": "আজ আপনার খামারের সারসংক্ষেপ",
     "quickAccess": "দ্রুত প্রবেশ",
     "goodMorning": "শুভ সকাল",
@@ -89,7 +92,11 @@
     "yourLocation": "আপনার অবস্থান",
     "selectImage": "ছবি নির্বাচন করুন",
     "imageTooLarge": "ছবি অনেক বড়",
-    "uploadFirst": "প্রথমে ছবি আপলোড করুন"
+    "uploadFirst": "প্রথমে ছবি আপলোড করুন",
+    "geolocationNotSupported": "আপনার ব্রাউজারে জিওলোকেশন সমর্থিত নয়",
+    "failedGetLocation": "অবস্থান পেতে ব্যর্থ",
+    "unexpectedResponse": "অপ্রত্যাশিত প্রতিক্রিয়া ফরম্যাট",
+    "failedAnalyze": "ছবি বিশ্লেষণ করতে ব্যর্থ"
   },
   "assistant": {
     "title": "AI সহায়ক",
@@ -208,7 +215,22 @@
       "paymentShared": "পেমেন্ট বিবরণ শেয়ার করা হয়েছে",
       "renter": "ভাড়াটে",
       "amount": "পরিমাণ"
-    }
+    },
+    "typeTractor": "ট্র্যাক্টর",
+    "typeHarvester": "হার্ভেস্টার",
+    "typeSprayer": "স্প্রেয়ার",
+    "typePlough": "লাঙ্গল",
+    "typeRotavator": "রোটাভেটর",
+    "typeDrone": "ড্রোন",
+    "typeOther": "অন্যান্য",
+    "fillAllFields": "অনুগ্রহ করে সব ক্ষেত্র পূরণ করুন",
+    "invalidPhone": "অনুগ্রহ করে 10 সংখ্যার বৈধ ফোন নম্বর দিন",
+    "bookingFailed": "বুকিং ব্যর্থ",
+    "failedBooking": "বুকিং সম্পূর্ণ করতে ব্যর্থ",
+    "phonePlaceholder": "10 সংখ্যার ফোন নম্বর",
+    "minPerDay": "সর্বনিম্ন /দিন",
+    "maxPerDay": "সর্বোচ্চ /দিন",
+    "bookTitle": "বুকিং: {{name}}"
   },
   "waste": {
     "title": "বর্জ্য ব্যবস্থাপনা",
@@ -228,7 +250,16 @@
     "qty": "পরিমাণ",
     "pickup": "তোলা",
     "price": "দাম",
-    "status": "অবস্থা"
+    "status": "অবস্থা",
+    "typeRiceStraw": "ধানের খড়",
+    "typeWheatStraw": "গমের খড়",
+    "typeSugarcaneBagasse": "আখের ছোবড়া",
+    "typeCornStalks": "ভুট্টার ডাঁটা",
+    "typeCottonStalks": "তুলার ডাঁটা",
+    "typeOther": "অন্যান্য",
+    "locationPlaceholder": "শহর বা এলাকা",
+    "confirmRemove": "এই তালিকা মুছবেন?",
+    "failedAdd": "তালিকা যোগ করতে ব্যর্থ"
   },
   "education": {
     "title": "কৃষি শিক্ষা",
@@ -239,7 +270,12 @@
     "tip1": "ফসল পর্যায়ক্রমে মাটির স্বাস্থ্য রক্ষা করুন",
     "tip2": "জৈব সার ব্যবহার করুন",
     "tip3": "বীজ বোনার আগে মাটি পরীক্ষা করুন",
-    "tip4": "সঠিক সময়ে সেচ দিন"
+    "tip4": "সঠিক সময়ে সেচ দিন",
+    "categoryCropManagement": "ফসল ব্যবস্থাপনা",
+    "categoryOrganicFarming": "জৈব কৃষি",
+    "categoryTechnology": "প্রযুক্তি",
+    "categorySchemesFinance": "প্রকল্প ও অর্থ",
+    "categoryWaterManagement": "জল ব্যবস্থাপনা"
   },
   "community": {
     "title": "সম্প্রদায়",
@@ -281,7 +317,17 @@
     "failedDelete": "মুছতে ব্যর্থ",
     "failedAnswer": "উত্তর দিতে ব্যর্থ",
     "failedBest": "সেরা চিহ্নিত করতে ব্যর্থ",
-    "youAreHere": "আপনি এখানে আছেন"
+    "youAreHere": "আপনি এখানে আছেন",
+    "categoryCropTips": "ফসল পরামর্শ",
+    "categoryMarket": "বাজার আলোচনা",
+    "categoryWeather": "আবহাওয়া আপডেট",
+    "categoryEquipment": "সরঞ্জাম পর্যালোচনা",
+    "categoryGeneral": "সাধারণ",
+    "justNow": "এইমাত্র",
+    "minutesAgo": "{{count}} মিনিট আগে",
+    "hoursAgo": "{{count}} ঘন্টা আগে",
+    "daysAgo": "{{count}} দিন আগে",
+    "by": "দ্বারা"
   },
   "donation": {
     "title": "দান করুন",

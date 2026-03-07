@@ -35,7 +35,14 @@ interface Post {
   bestAnswerId?: string | null
 }
 
-const postCategories = ['All', 'Crop Tips', 'Market Discussion', 'Weather Updates', 'Equipment Reviews', 'General']
+const postCategoryKeys = [
+  { value: 'All', tKey: 'common.all' },
+  { value: 'Crop Tips', tKey: 'community.categoryCropTips' },
+  { value: 'Market Discussion', tKey: 'community.categoryMarket' },
+  { value: 'Weather Updates', tKey: 'community.categoryWeather' },
+  { value: 'Equipment Reviews', tKey: 'community.categoryEquipment' },
+  { value: 'General', tKey: 'community.categoryGeneral' },
+]
 
 const categoryColors: Record<string, string> = {
   'Crop Tips': '#22c55e', 'Market Discussion': '#eab308', 'Weather Updates': '#06b6d4',
@@ -45,6 +52,12 @@ const categoryColors: Record<string, string> = {
 const categoryIconMap: Record<string, typeof MessageCircle> = {
   'Crop Tips': Sprout, 'Market Discussion': TrendingUp, 'Weather Updates': CloudSun,
   'Equipment Reviews': Tractor, 'General': MessageCircle,
+}
+
+const categoryTKeyMap: Record<string, string> = {
+  'Crop Tips': 'community.categoryCropTips', 'Market Discussion': 'community.categoryMarket',
+  'Weather Updates': 'community.categoryWeather', 'Equipment Reviews': 'community.categoryEquipment',
+  'General': 'community.categoryGeneral',
 }
 
 const locationFilters = [
@@ -152,7 +165,7 @@ export default function Community() {
         title: newTitle.trim(),
         content: newContent.trim(),
         category: newCategory,
-        author: user?.name || 'Anonymous Farmer',
+        author: user?.name || t('common.anonymousFarmer'),
         type: newType,
         lat: userLocation?.lat ?? null,
         lng: userLocation?.lng ?? null,
@@ -173,7 +186,7 @@ export default function Community() {
     if (!answerText.trim()) return
     setAnswerSubmitting(true)
     try {
-      await communityApi.addAnswer(postId, { content: answerText.trim(), author: user?.name || 'Anonymous Farmer' })
+      await communityApi.addAnswer(postId, { content: answerText.trim(), author: user?.name || t('common.anonymousFarmer') })
       setAnswerText('')
       await loadPosts()
     } catch { setError(t('community.failedAnswer')) }
@@ -210,11 +223,11 @@ export default function Community() {
   const timeAgo = (dateStr: string) => {
     const diff = Date.now() - new Date(dateStr).getTime()
     const mins = Math.floor(diff / 60000)
-    if (mins < 1) return 'Just now'
-    if (mins < 60) return `${mins}m ago`
+    if (mins < 1) return t('community.justNow')
+    if (mins < 60) return t('community.minutesAgo', { count: mins })
     const hrs = Math.floor(mins / 60)
-    if (hrs < 24) return `${hrs}h ago`
-    return `${Math.floor(hrs / 24)}d ago`
+    if (hrs < 24) return t('community.hoursAgo', { count: hrs })
+    return t('community.daysAgo', { count: Math.floor(hrs / 24) })
   }
 
   return (
@@ -287,8 +300,8 @@ export default function Community() {
             <div className="mb-4">
               <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('community.category')}</label>
               <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="form-select">
-                {postCategories.filter(c => c !== 'All').map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
+                {postCategoryKeys.filter(c => c.value !== 'All').map(cat => (
+                  <option key={cat.value} value={cat.value}>{t(cat.tKey)}</option>
                 ))}
               </select>
             </div>
@@ -328,21 +341,21 @@ export default function Community() {
 
       {/* Category Filter */}
       <div className="flex flex-wrap gap-2 mb-6">
-        {postCategories.map(cat => {
-          const Icon = categoryIconMap[cat] || MessageCircle
+        {postCategoryKeys.map(cat => {
+          const Icon = categoryIconMap[cat.value] || MessageCircle
           return (
             <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
+              key={cat.value}
+              onClick={() => setActiveCategory(cat.value)}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all border flex items-center gap-2 ${
-                activeCategory === cat
+                activeCategory === cat.value
                   ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-white'
                   : 'bg-white border-[var(--color-outline-variant)] text-[var(--color-on-surface-variant)] hover:border-[var(--color-primary)]'
               }`}
             >
-              {cat !== 'All' && <Icon size={14} />}
-              {cat}
-              {cat === 'All' && <span className="ml-1 text-xs opacity-70">({filteredPosts.length})</span>}
+              {cat.value !== 'All' && <Icon size={14} />}
+              {t(cat.tKey)}
+              {cat.value === 'All' && <span className="ml-1 text-xs opacity-70">({filteredPosts.length})</span>}
             </button>
           )
         })}
@@ -372,10 +385,10 @@ export default function Community() {
               <Marker key={post.id} position={[post.lat!, post.lng!]} icon={grayPinIcon}>
                 <Popup>
                   <div className="max-w-[220px]">
-                    {post.type === 'question' && <span className="text-amber-600 text-xs font-bold">Question</span>}
+                    {post.type === 'question' && <span className="text-amber-600 text-xs font-bold">{t('community.question')}</span>}
                     <h4 className="font-semibold text-sm mb-1">{post.title}</h4>
                     <p className="text-xs text-gray-600 mb-1">{post.content.slice(0, 80)}...</p>
-                    <p className="text-xs text-gray-400">By {post.author} · {timeAgo(post.created_at)}</p>
+                    <p className="text-xs text-gray-400">{t('community.by')} {post.author} · {timeAgo(post.created_at)}</p>
                   </div>
                 </Popup>
               </Marker>
@@ -440,7 +453,7 @@ export default function Community() {
                           className="text-xs px-2 py-0.5 rounded-full font-medium flex items-center gap-1"
                           style={{ background: `${categoryColors[post.category] || '#8b5cf6'}18`, color: categoryColors[post.category] || '#8b5cf6' }}
                         >
-                          <CatIcon size={10} />{post.category}
+                          <CatIcon size={10} />{categoryTKeyMap[post.category] ? t(categoryTKeyMap[post.category]) : post.category}
                         </span>
                       </div>
                     </div>

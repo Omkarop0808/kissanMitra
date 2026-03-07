@@ -36,7 +36,10 @@
     "close": "மூடவும்",
     "viewAll": "அனைத்தையும் காண்க",
     "noData": "தரவு இல்லை",
-    "retry": "மீண்டும் முயற்சிக்கவும்"
+    "retry": "மீண்டும் முயற்சிக்கவும்",
+    "all": "அனைத்தும்",
+    "anonymousFarmer": "அநாம விவசாயி",
+    "anonymous": "அநாம"
   },
   "auth": {
     "login": "உள்நுழைவு",
@@ -55,7 +58,7 @@
     "haveAccount": "ஏற்கனவே கணக்கு உள்ளதா?"
   },
   "dashboard": {
-    "greeting": "{{greeting}}, {{name}} \uD83C\uDF3E",
+    "greeting": "{{greeting}}, {{name}} 🌾",
     "subtitle": "இன்று உங்கள் பண்ணையின் சுருக்கம்",
     "quickAccess": "விரைவு அணுகல்",
     "goodMorning": "காலை வணக்கம்",
@@ -89,7 +92,11 @@
     "yourLocation": "உங்கள் இடம்",
     "selectImage": "புகைப்படம் தேர்ந்தெடுக்கவும்",
     "imageTooLarge": "புகைப்படம் மிகப் பெரியது",
-    "uploadFirst": "முதலில் புகைப்படம் பதிவேற்றவும்"
+    "uploadFirst": "முதலில் புகைப்படம் பதிவேற்றவும்",
+    "geolocationNotSupported": "உங்கள் உலாவியில் புவி இருப்பிடம் ஆதரிக்கப்படவில்லை",
+    "failedGetLocation": "இருப்பிடம் பெற இயலவில்லை",
+    "unexpectedResponse": "எதிர்பாராத பதில் வடிவம்",
+    "failedAnalyze": "படத்தை பகுப்பாய்வு செய்ய இயலவில்லை"
   },
   "assistant": {
     "title": "AI உதவியாளர்",
@@ -208,7 +215,22 @@
       "paymentShared": "பணம் செலுத்தல் விவரங்கள் பகிரப்பட்டன",
       "renter": "வாடகைதாரர்",
       "amount": "தொகை"
-    }
+    },
+    "typeTractor": "டிராக்டர்",
+    "typeHarvester": "அறுவடை இயந்திரம்",
+    "typeSprayer": "ஸ்ப்ரேயர்",
+    "typePlough": "கலப்பை",
+    "typeRotavator": "ரோட்டவேட்டர்",
+    "typeDrone": "ட்ரோன்",
+    "typeOther": "மற்றவை",
+    "fillAllFields": "அனைத்து புலங்களையும் நிரப்பவும்",
+    "invalidPhone": "செல்லுபடியாகும் 10 இலக்க தொலைபேசி எண்ணை உள்ளிடவும்",
+    "bookingFailed": "முன்பதிவு தோல்வி",
+    "failedBooking": "முன்பதிவு நிறைவு செய்ய இயலவில்லை",
+    "phonePlaceholder": "10 இலக்க தொலைபேசி எண்",
+    "minPerDay": "குறைந்தபட்சம் /நாள்",
+    "maxPerDay": "அதிகபட்சம் /நாள்",
+    "bookTitle": "முன்பதிவு: {{name}}"
   },
   "waste": {
     "title": "கழிவு மேலாண்மை",
@@ -228,7 +250,16 @@
     "qty": "அளவு",
     "pickup": "எடுத்துச்செல்லல்",
     "price": "விலை",
-    "status": "நிலை"
+    "status": "நிலை",
+    "typeRiceStraw": "நெல் வைக்கோல்",
+    "typeWheatStraw": "கோதுமை வைக்கோல்",
+    "typeSugarcaneBagasse": "கரும்பு சக்கை",
+    "typeCornStalks": "சோள தண்டுகள்",
+    "typeCottonStalks": "பருத்தி தண்டுகள்",
+    "typeOther": "மற்றவை",
+    "locationPlaceholder": "நகரம் அல்லது பகுதி",
+    "confirmRemove": "இந்த பட்டியலை நீக்கவா?",
+    "failedAdd": "பட்டியல் சேர்க்க இயலவில்லை"
   },
   "education": {
     "title": "விவசாய கல்வி",
@@ -239,7 +270,12 @@
     "tip1": "பயிர் சுழற்சி மூலம் மண் ஆரோக்கியத்தை பராமரிக்கவும்",
     "tip2": "இயற்கை உரங்களைப் பயன்படுத்துங்கள்",
     "tip3": "விதைப்பதற்கு முன் மண் பரிசோதனை செய்யுங்கள்",
-    "tip4": "சரியான நேரத்தில் பாசனம் செய்யுங்கள்"
+    "tip4": "சரியான நேரத்தில் பாசனம் செய்யுங்கள்",
+    "categoryCropManagement": "பயிர் மேலாண்மை",
+    "categoryOrganicFarming": "இயற்கை வேளாண்மை",
+    "categoryTechnology": "தொழில்நுட்பம்",
+    "categorySchemesFinance": "திட்டங்கள் & நிதி",
+    "categoryWaterManagement": "நீர் மேலாண்மை"
   },
   "community": {
     "title": "சமூகம்",
@@ -281,7 +317,17 @@
     "failedDelete": "நீக்குவதில் தோல்வி",
     "failedAnswer": "பதிலளிப்பதில் தோல்வி",
     "failedBest": "சிறந்ததாக தேர்வு செய்வதில் தோல்வி",
-    "youAreHere": "நீங்கள் இங்கே இருக்கிறீர்கள்"
+    "youAreHere": "நீங்கள் இங்கே இருக்கிறீர்கள்",
+    "categoryCropTips": "பயிர் குறிப்புகள்",
+    "categoryMarket": "சந்தை விவாதம்",
+    "categoryWeather": "வானிலை புதுப்பிப்புகள்",
+    "categoryEquipment": "உபகரண மதிப்பாய்வு",
+    "categoryGeneral": "பொது",
+    "justNow": "இப்போது",
+    "minutesAgo": "{{count}} நிமிடங்களுக்கு முன்",
+    "hoursAgo": "{{count}} மணி நேரத்திற்கு முன்",
+    "daysAgo": "{{count}} நாட்களுக்கு முன்",
+    "by": "மூலம்"
   },
   "donation": {
     "title": "நன்கொடை அளியுங்கள்",

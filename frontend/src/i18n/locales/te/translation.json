@@ -36,7 +36,10 @@
     "close": "మూసివేయండి",
     "viewAll": "అన్నీ చూడండి",
     "noData": "డేటా లేదు",
-    "retry": "మళ్ళీ ప్రయత్నించండి"
+    "retry": "మళ్ళీ ప్రయత్నించండి",
+    "all": "అన్నీ",
+    "anonymousFarmer": "అనామక రైతు",
+    "anonymous": "అనామక"
   },
   "auth": {
     "login": "లాగిన్",
@@ -55,7 +58,7 @@
     "haveAccount": "ఇప్పటికే ఖాతా ఉందా?"
   },
   "dashboard": {
-    "greeting": "{{greeting}}, {{name}} \uD83C\uDF3E",
+    "greeting": "{{greeting}}, {{name}} 🌾",
     "subtitle": "ఈరోజు మీ పొలం సారాంశం",
     "quickAccess": "త్వరిత ప్రవేశం",
     "goodMorning": "శుభోదయం",
@@ -89,7 +92,11 @@
     "yourLocation": "మీ స్థానం",
     "selectImage": "ఫోటో ఎంచుకోండి",
     "imageTooLarge": "ఫోటో చాలా పెద్దది",
-    "uploadFirst": "ముందుగా ఫోటో అప్‌లోడ్ చేయండి"
+    "uploadFirst": "ముందుగా ఫోటో అప్‌లోడ్ చేయండి",
+    "geolocationNotSupported": "మీ బ్రౌజర్‌లో జియోలొకేషన్ మద్దతు లేదు",
+    "failedGetLocation": "స్థానం పొందడంలో విఫలం",
+    "unexpectedResponse": "అనుకోని ప్రతిస్పందన ఫార్మాట్",
+    "failedAnalyze": "చిత్రం విశ్లేషించడంలో విఫలం"
   },
   "assistant": {
     "title": "AI సహాయకుడు",
@@ -208,7 +215,22 @@
       "paymentShared": "చెల్లింపు వివరాలు షేర్ చేయబడ్డాయి",
       "renter": "అద్దెదారు",
       "amount": "మొత్తం"
-    }
+    },
+    "typeTractor": "ట్రాక్టర్",
+    "typeHarvester": "హార్వెస్టర్",
+    "typeSprayer": "స్ప్రేయర్",
+    "typePlough": "నాగలి",
+    "typeRotavator": "రోటావేటర్",
+    "typeDrone": "డ్రోన్",
+    "typeOther": "ఇతర",
+    "fillAllFields": "దయచేసి అన్ని ఫీల్డ్‌లను పూరించండి",
+    "invalidPhone": "దయచేసి 10 అంకెల చెల్లుబాటు అయ్యే ఫోన్ నంబర్ నమోదు చేయండి",
+    "bookingFailed": "బుకింగ్ విఫలం",
+    "failedBooking": "బుకింగ్ పూర్తి చేయడంలో విఫలం",
+    "phonePlaceholder": "10 అంకెల ఫోన్ నంబర్",
+    "minPerDay": "కనిష్ట /రోజు",
+    "maxPerDay": "గరిష్ట /రోజు",
+    "bookTitle": "బుకింగ్: {{name}}"
   },
   "waste": {
     "title": "వ్యర్థ నిర్వహణ",
@@ -228,7 +250,16 @@
     "qty": "పరిమాణం",
     "pickup": "పికప్",
     "price": "ధర",
-    "status": "స్థితి"
+    "status": "స్థితి",
+    "typeRiceStraw": "వరి గడ్డి",
+    "typeWheatStraw": "గోధుమ గడ్డి",
+    "typeSugarcaneBagasse": "చెరకు పిప్పి",
+    "typeCornStalks": "మొక్కజొన్న కాడలు",
+    "typeCottonStalks": "పత్తి కాడలు",
+    "typeOther": "ఇతర",
+    "locationPlaceholder": "నగరం లేదా ప్రాంతం",
+    "confirmRemove": "ఈ జాబితాను తొలగించాలా?",
+    "failedAdd": "జాబితా జోడించడంలో విఫలం"
   },
   "education": {
     "title": "వ్యవసాయ విద్య",
@@ -239,7 +270,12 @@
     "tip1": "పంట మార్పిడితో నేల ఆరోగ్యాన్ని కాపాడండి",
     "tip2": "సేంద్రియ ఎరువులను ఉపయోగించండి",
     "tip3": "విత్తనం వేయడానికి ముందు నేల పరీక్ష చేయండి",
-    "tip4": "సరైన సమయంలో నీటిపారుదల చేయండి"
+    "tip4": "సరైన సమయంలో నీటిపారుదల చేయండి",
+    "categoryCropManagement": "పంట నిర్వహణ",
+    "categoryOrganicFarming": "సేంద్రీయ వ్యవసాయం",
+    "categoryTechnology": "సాంకేతికత",
+    "categorySchemesFinance": "పథకాలు & ఆర్థిక",
+    "categoryWaterManagement": "నీటి నిర్వహణ"
   },
   "community": {
     "title": "సముదాయం",
@@ -281,7 +317,17 @@
     "failedDelete": "తొలగించడంలో విఫలం",
     "failedAnswer": "సమాధానం ఇవ్వడంలో విఫలం",
     "failedBest": "ఉత్తమంగా ఎంచుకోవడంలో విఫలం",
-    "youAreHere": "మీరు ఇక్కడ ఉన్నారు"
+    "youAreHere": "మీరు ఇక్కడ ఉన్నారు",
+    "categoryCropTips": "పంట చిట్కాలు",
+    "categoryMarket": "మార్కెట్ చర్చ",
+    "categoryWeather": "వాతావరణ అప్‌డేట్‌లు",
+    "categoryEquipment": "పరికరాల సమీక్ష",
+    "categoryGeneral": "సాధారణ",
+    "justNow": "ఇప్పుడే",
+    "minutesAgo": "{{count}} నిమిషాల క్రితం",
+    "hoursAgo": "{{count}} గంటల క్రితం",
+    "daysAgo": "{{count}} రోజుల క్రితం",
+    "by": "ద్వారా"
   },
   "donation": {
     "title": "విరాళం ఇవ్వండి",

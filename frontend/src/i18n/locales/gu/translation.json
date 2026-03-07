@@ -36,7 +36,10 @@
     "close": "બંધ કરો",
     "viewAll": "બધું જુઓ",
     "noData": "કોઈ ડેટા નથી",
-    "retry": "ફરી પ્રયાસ કરો"
+    "retry": "ફરી પ્રયાસ કરો",
+    "all": "બધા",
+    "anonymousFarmer": "અનામ ખેડૂત",
+    "anonymous": "અનામ"
   },
   "auth": {
     "login": "લૉગિન",
@@ -55,7 +58,7 @@
     "haveAccount": "પહેલેથી ખાતું છે?"
   },
   "dashboard": {
-    "greeting": "{{greeting}}, {{name}} \uD83C\uDF3E",
+    "greeting": "{{greeting}}, {{name}} 🌾",
     "subtitle": "આજે તમારા ખેતરનો સારાંશ",
     "quickAccess": "ઝડપી ઍક્સેસ",
     "goodMorning": "શુભ સવાર",
@@ -89,7 +92,11 @@
     "yourLocation": "તમારું સ્થાન",
     "selectImage": "ફોટો પસંદ કરો",
     "imageTooLarge": "ફોટો ખૂબ મોટો છે",
-    "uploadFirst": "પહેલાં ફોટો અપલોડ કરો"
+    "uploadFirst": "પહેલાં ફોટો અપલોડ કરો",
+    "geolocationNotSupported": "તમારા બ્રાઉઝરમાં જીઓલોકેશન સમર્થિત નથી",
+    "failedGetLocation": "સ્થાન મેળવવામાં નિષ્ફળ",
+    "unexpectedResponse": "અનપેક્ષિત પ્રતિસાદ ફોર્મેટ",
+    "failedAnalyze": "છબી વિશ્લેષણ કરવામાં નિષ્ફળ"
   },
   "assistant": {
     "title": "AI સહાયક",
@@ -208,7 +215,22 @@
       "paymentShared": "ચુકવણી વિગતો શેર કરી",
       "renter": "ભાડૂત",
       "amount": "રકમ"
-    }
+    },
+    "typeTractor": "ટ્રેક્ટર",
+    "typeHarvester": "હાર્વેસ્ટર",
+    "typeSprayer": "સ્પ્રેયર",
+    "typePlough": "હળ",
+    "typeRotavator": "રોટાવેટર",
+    "typeDrone": "ડ્રોન",
+    "typeOther": "અન્ય",
+    "fillAllFields": "કૃપા કરીને બધા ક્ષેત્રો ભરો",
+    "invalidPhone": "કૃપા કરીને 10 અંકનો માન્ય ફોન નંબર દાખલ કરો",
+    "bookingFailed": "બુકિંગ નિષ્ફળ",
+    "failedBooking": "બુકિંગ પૂર્ણ કરવામાં નિષ્ફળ",
+    "phonePlaceholder": "10 અંકનો ફોન નંબર",
+    "minPerDay": "ન્યૂનતમ /દિવસ",
+    "maxPerDay": "મહત્તમ /દિવસ",
+    "bookTitle": "બુકિંગ: {{name}}"
   },
   "waste": {
     "title": "કચરા વ્યવસ્થાપન",
@@ -228,7 +250,16 @@
     "qty": "જથ્થો",
     "pickup": "ઉઠાવવું",
     "price": "કિંમત",
-    "status": "સ્થિતિ"
+    "status": "સ્થિતિ",
+    "typeRiceStraw": "ડાંગરનું પૂળું",
+    "typeWheatStraw": "ઘઉંનું ભૂસું",
+    "typeSugarcaneBagasse": "શેરડીનો બગાસ",
+    "typeCornStalks": "મકાઈના ડૂંડા",
+    "typeCottonStalks": "કપાસના ડૂંડા",
+    "typeOther": "અન્ય",
+    "locationPlaceholder": "શહેર અથવા વિસ્તાર",
+    "confirmRemove": "આ યાદી દૂર કરવી?",
+    "failedAdd": "યાદી ઉમેરવામાં નિષ્ફળ"
   },
   "education": {
     "title": "ખેતી શિક્ષણ",
@@ -239,7 +270,12 @@
     "tip1": "પાક ફેરબદલીથી જમીનની સુપીકતા જાળવો",
     "tip2": "જૈવિક ખાતરનો ઉપયોગ કરો",
     "tip3": "વાવણી પહેલાં માટીની ચકાસણી કરો",
-    "tip4": "યોગ્ય સમયે સિંચાઈ કરો"
+    "tip4": "યોગ્ય સમયે સિંચાઈ કરો",
+    "categoryCropManagement": "પાક વ્યવસ્થાપન",
+    "categoryOrganicFarming": "જૈવિક ખેતી",
+    "categoryTechnology": "ટેક્નોલોજી",
+    "categorySchemesFinance": "યોજનાઓ અને નાણાં",
+    "categoryWaterManagement": "જળ વ્યવસ્થાપન"
   },
   "community": {
     "title": "સમુદાય",
@@ -281,7 +317,17 @@
     "failedDelete": "કાઢી નાખવામાં નિષ્ફળ",
     "failedAnswer": "જવાબ આપવામાં નિષ્ફળ",
     "failedBest": "શ્રેષ્ઠ પસંદ કરવામાં નિષ્ફળ",
-    "youAreHere": "તમે અહીં છો"
+    "youAreHere": "તમે અહીં છો",
+    "categoryCropTips": "પાક ટિપ્સ",
+    "categoryMarket": "બજાર ચર્ચા",
+    "categoryWeather": "હવામાન અપડેટ",
+    "categoryEquipment": "સાધન સમીક્ષા",
+    "categoryGeneral": "સામાન્ય",
+    "justNow": "હમણાં",
+    "minutesAgo": "{{count}} મિનિટ પહેલાં",
+    "hoursAgo": "{{count}} કલાક પહેલાં",
+    "daysAgo": "{{count}} દિવસ પહેલાં",
+    "by": "દ્વારા"
   },
   "donation": {
     "title": "દાન આપો",

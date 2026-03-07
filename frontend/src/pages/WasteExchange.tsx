@@ -17,11 +17,24 @@ interface WasteListing {
   status: string
 }
 
-const WASTE_TYPES = ['Rice Straw', 'Wheat Straw', 'Sugarcane Bagasse', 'Corn Stalks', 'Cotton Stalks', 'Other']
+const WASTE_TYPE_KEYS = [
+  { value: 'Rice Straw', tKey: 'waste.typeRiceStraw' },
+  { value: 'Wheat Straw', tKey: 'waste.typeWheatStraw' },
+  { value: 'Sugarcane Bagasse', tKey: 'waste.typeSugarcaneBagasse' },
+  { value: 'Corn Stalks', tKey: 'waste.typeCornStalks' },
+  { value: 'Cotton Stalks', tKey: 'waste.typeCottonStalks' },
+  { value: 'Other', tKey: 'waste.typeOther' },
+]
 
 const RATES: Record<string, number> = {
   'Rice Straw': 1.0, 'Wheat Straw': 0.9, 'Sugarcane Bagasse': 1.2,
   'Corn Stalks': 0.8, 'Cotton Stalks': 0.7, 'Other': 0.5,
+}
+
+const wasteTKeyMap: Record<string, string> = {
+  'Rice Straw': 'waste.typeRiceStraw', 'Wheat Straw': 'waste.typeWheatStraw',
+  'Sugarcane Bagasse': 'waste.typeSugarcaneBagasse', 'Corn Stalks': 'waste.typeCornStalks',
+  'Cotton Stalks': 'waste.typeCottonStalks', 'Other': 'waste.typeOther',
 }
 
 export default function WasteExchange() {
@@ -55,17 +68,17 @@ export default function WasteExchange() {
       const res = await fetch('/api/waste', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ waste_type: wasteType, quantity: parseFloat(quantity), location, pickup_date: pickupDate, seller: user?.name || 'Anonymous' }),
+        body: JSON.stringify({ waste_type: wasteType, quantity: parseFloat(quantity), location, pickup_date: pickupDate, seller: user?.name || t('common.anonymous') }),
       })
       const data = await res.json()
       if (data.success) { setQuantity(''); setLocation(''); setPickupDate(''); loadListings() }
-      else { setAddError(data.message || 'Failed to add listing') }
-    } catch { setAddError('Failed to add listing') }
+      else { setAddError(data.message || t('waste.failedAdd')) }
+    } catch { setAddError(t('waste.failedAdd')) }
     finally { setAddLoading(false) }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Remove this listing?')) return
+    if (!confirm(t('waste.confirmRemove'))) return
     try { await fetch(`/api/waste/${id}`, { method: 'DELETE' }); loadListings() } catch { /* ignore */ }
   }
 
@@ -80,7 +93,7 @@ export default function WasteExchange() {
               <div>
                 <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('waste.wasteType')}</label>
                 <select value={wasteType} onChange={e => setWasteType(e.target.value)} className="form-select">
-                  {WASTE_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                  {WASTE_TYPE_KEYS.map(wt => <option key={wt.value} value={wt.value}>{t(wt.tKey)}</option>)}
                 </select>
               </div>
               <div>
@@ -89,7 +102,7 @@ export default function WasteExchange() {
               </div>
               <div>
                 <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('waste.location')}</label>
-                <input value={location} onChange={e => setLocation(e.target.value)} className="form-input" placeholder="City or area" required />
+                <input value={location} onChange={e => setLocation(e.target.value)} className="form-input" placeholder={t('waste.locationPlaceholder')} required />
               </div>
               <div>
                 <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('waste.pickupDate')}</label>
@@ -111,7 +124,7 @@ export default function WasteExchange() {
             <h3 className="text-sm font-semibold mb-3 text-[var(--color-on-surface-variant)]">{t('waste.currentRates')}</h3>
             {Object.entries(RATES).map(([type, rate]) => (
               <div key={type} className="flex justify-between text-sm py-1.5 border-b border-[var(--color-outline-variant)]/50 last:border-0">
-                <span className="text-[var(--color-on-surface-variant)]">{type}</span>
+                <span className="text-[var(--color-on-surface-variant)]">{wasteTKeyMap[type] ? t(wasteTKeyMap[type]) : type}</span>
                 <span className="text-[var(--color-primary)]">₹{rate.toFixed(2)}/kg</span>
               </div>
             ))}

@@ -36,7 +36,10 @@
     "close": "ಮುಚ್ಚಿ",
     "viewAll": "ಎಲ್ಲಾ ನೋಡಿ",
     "noData": "ಡೇಟಾ ಇಲ್ಲ",
-    "retry": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
+    "retry": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
+    "all": "ಎಲ್ಲಾ",
+    "anonymousFarmer": "ಅನಾಮಧೇಯ ರೈತ",
+    "anonymous": "ಅನಾಮಧೇಯ"
   },
   "auth": {
     "login": "ಲಾಗಿನ್",
@@ -55,7 +58,7 @@
     "haveAccount": "ಈಗಾಗಲೇ ಖಾತೆ ಇದೆಯೇ?"
   },
   "dashboard": {
-    "greeting": "{{greeting}}, {{name}} \uD83C\uDF3E",
+    "greeting": "{{greeting}}, {{name}} 🌾",
     "subtitle": "ಇಂದು ನಿಮ್ಮ ಹೊಲದ ಸಾರಾಂಶ",
     "quickAccess": "ತ್ವರಿತ ಪ್ರವೇಶ",
     "goodMorning": "ಶುಭ ಮುಂಜಾನೆ",
@@ -89,7 +92,11 @@
     "yourLocation": "ನಿಮ್ಮ ಸ್ಥಳ",
     "selectImage": "ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿ",
     "imageTooLarge": "ಫೋಟೋ ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ",
-    "uploadFirst": "ಮೊದಲು ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ"
+    "uploadFirst": "ಮೊದಲು ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+    "geolocationNotSupported": "ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಜಿಯೋಲೊಕೇಶನ್ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ",
+    "failedGetLocation": "ಸ್ಥಳ ಪಡೆಯಲು ವಿಫಲ",
+    "unexpectedResponse": "ಅನಿರೀಕ್ಷಿತ ಪ್ರತಿಕ್ರಿಯೆ ಸ್ವರೂಪ",
+    "failedAnalyze": "ಚಿತ್ರ ವಿಶ್ಲೇಷಿಸಲು ವಿಫಲ"
   },
   "assistant": {
     "title": "AI ಸಹಾಯಕ",
@@ -208,7 +215,22 @@
       "paymentShared": "ಪಾವತಿ ವಿವರಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಲಾಗಿದೆ",
       "renter": "ಬಾಡಿಗೆದಾರ",
       "amount": "ಮೊತ್ತ"
-    }
+    },
+    "typeTractor": "ಟ್ರಾಕ್ಟರ್",
+    "typeHarvester": "ಹಾರ್ವೆಸ್ಟರ್",
+    "typeSprayer": "ಸ್ಪ್ರೇಯರ್",
+    "typePlough": "ನೇಗಿಲು",
+    "typeRotavator": "ರೋಟಾವೇಟರ್",
+    "typeDrone": "ಡ್ರೋನ್",
+    "typeOther": "ಇತರ",
+    "fillAllFields": "ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ",
+    "invalidPhone": "ದಯವಿಟ್ಟು 10 ಅಂಕಿಯ ಮಾನ್ಯ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ",
+    "bookingFailed": "ಬುಕಿಂಗ್ ವಿಫಲ",
+    "failedBooking": "ಬುಕಿಂಗ್ ಪೂರ್ಣಗೊಳಿಸಲು ವಿಫಲ",
+    "phonePlaceholder": "10 ಅಂಕಿಯ ಫೋನ್ ಸಂಖ್ಯೆ",
+    "minPerDay": "ಕನಿಷ್ಠ /ದಿನ",
+    "maxPerDay": "ಗರಿಷ್ಠ /ದಿನ",
+    "bookTitle": "ಬುಕಿಂಗ್: {{name}}"
   },
   "waste": {
     "title": "ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆ",
@@ -228,7 +250,16 @@
     "qty": "ಪ್ರಮಾಣ",
     "pickup": "ಪಿಕಪ್",
     "price": "ಬೆಲೆ",
-    "status": "ಸ್ಥಿತಿ"
+    "status": "ಸ್ಥಿತಿ",
+    "typeRiceStraw": "ಭತ್ತದ ಹುಲ್ಲು",
+    "typeWheatStraw": "ಗೋಧಿ ಹುಲ್ಲು",
+    "typeSugarcaneBagasse": "ಕಬ್ಬಿನ ಸಿಪ್ಪೆ",
+    "typeCornStalks": "ಜೋಳದ ದಂಟುಗಳು",
+    "typeCottonStalks": "ಹತ್ತಿ ದಂಟುಗಳು",
+    "typeOther": "ಇತರ",
+    "locationPlaceholder": "ನಗರ ಅಥವಾ ಪ್ರದೇಶ",
+    "confirmRemove": "ಈ ಪಟ್ಟಿಯನ್ನು ತೆಗೆಯಬೇಕೇ?",
+    "failedAdd": "ಪಟ್ಟಿ ಸೇರಿಸಲು ವಿಫಲ"
   },
   "education": {
     "title": "ಕೃಷಿ ಶಿಕ್ಷಣ",
@@ -239,7 +270,12 @@
     "tip1": "ಬೆಳೆ ಪರಿವರ್ತನೆಯಿಂದ ಮಣ್ಣಿನ ಆರೋಗ್ಯ ಕಾಪಾಡಿ",
     "tip2": "ಸಾವಯವ ಗೊಬ್ಬರ ಬಳಸಿ",
     "tip3": "ಬಿತ್ತನೆ ಮೊದಲು ಮಣ್ಣಿನ ಪರೀಕ್ಷೆ ಮಾಡಿ",
-    "tip4": "ಸರಿಯಾದ ಸಮಯಕ್ಕೆ ನೀರಾವರಿ ಮಾಡಿ"
+    "tip4": "ಸರಿಯಾದ ಸಮಯಕ್ಕೆ ನೀರಾವರಿ ಮಾಡಿ",
+    "categoryCropManagement": "ಬೆಳೆ ನಿರ್ವಹಣೆ",
+    "categoryOrganicFarming": "ಸಾವಯವ ಕೃಷಿ",
+    "categoryTechnology": "ತಂತ್ರಜ್ಞಾನ",
+    "categorySchemesFinance": "ಯೋಜನೆಗಳು ಮತ್ತು ಹಣಕಾಸು",
+    "categoryWaterManagement": "ನೀರು ನಿರ್ವಹಣೆ"
   },
   "community": {
     "title": "ಸಮುದಾಯ",
@@ -281,7 +317,17 @@
     "failedDelete": "ಅಳಿಸಲು ವಿಫಲ",
     "failedAnswer": "ಉತ್ತರಿಸಲು ವಿಫಲ",
     "failedBest": "ಅತ್ಯುತ್ತಮ ಆಯ್ಕೆ ಮಾಡಲು ವಿಫಲ",
-    "youAreHere": "ನೀವು ಇಲ್ಲಿದ್ದೀರಿ"
+    "youAreHere": "ನೀವು ಇಲ್ಲಿದ್ದೀರಿ",
+    "categoryCropTips": "ಬೆಳೆ ಸಲಹೆಗಳು",
+    "categoryMarket": "ಮಾರುಕಟ್ಟೆ ಚರ್ಚೆ",
+    "categoryWeather": "ಹವಾಮಾನ ನವೀಕರಣ",
+    "categoryEquipment": "ಸಲಕರಣೆ ವಿಮರ್ಶೆ",
+    "categoryGeneral": "ಸಾಮಾನ್ಯ",
+    "justNow": "ಈಗಷ್ಟೇ",
+    "minutesAgo": "{{count}} ನಿಮಿಷಗಳ ಹಿಂದೆ",
+    "hoursAgo": "{{count}} ಗಂಟೆಗಳ ಹಿಂದೆ",
+    "daysAgo": "{{count}} ದಿನಗಳ ಹಿಂದೆ",
+    "by": "ಮೂಲಕ"
   },
   "donation": {
     "title": "ದೇಣಿಗೆ ನೀಡಿ",

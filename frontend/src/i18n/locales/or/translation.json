@@ -36,7 +36,10 @@
     "close": "ବନ୍ଦ କରନ୍ତୁ",
     "viewAll": "ସବୁ ଦେଖନ୍ତୁ",
     "noData": "କୌଣସି ତଥ୍ୟ ନାହିଁ",
-    "retry": "ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ"
+    "retry": "ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ",
+    "all": "ସମସ୍ତ",
+    "anonymousFarmer": "ଅଜ୍ଞାତ କୃଷକ",
+    "anonymous": "ଅଜ୍ଞାତ"
   },
   "auth": {
     "login": "ଲଗଇନ",
@@ -55,7 +58,7 @@
     "haveAccount": "ପୂର୍ବରୁ ଆକାଉଣ୍ଟ ଅଛି?"
   },
   "dashboard": {
-    "greeting": "{{greeting}}, {{name}} \uD83C\uDF3E",
+    "greeting": "{{greeting}}, {{name}} 🌾",
     "subtitle": "ଆଜି ଆପଣଙ୍କ ଜମିର ସାରାଂଶ",
     "quickAccess": "ଶୀଘ୍ର ପ୍ରବେଶ",
     "goodMorning": "ଶୁଭ ସକାଳ",
@@ -89,7 +92,11 @@
     "yourLocation": "ଆପଣଙ୍କ ଅବସ୍ଥାନ",
     "selectImage": "ଫଟୋ ବାଛନ୍ତୁ",
     "imageTooLarge": "ଫଟୋ ବହୁତ ବଡ",
-    "uploadFirst": "ପ୍ରଥମେ ଫଟୋ ଅପଲୋଡ କରନ୍ତୁ"
+    "uploadFirst": "ପ୍ରଥମେ ଫଟୋ ଅପଲୋଡ କରନ୍ତୁ",
+    "geolocationNotSupported": "ଆପଣଙ୍କ ବ୍ରାଉଜରରେ ଜିଓଲୋକେସନ ସମର୍ଥିତ ନୁହେଁ",
+    "failedGetLocation": "ଅବସ୍ଥାନ ପାଇବାରେ ବିଫଳ",
+    "unexpectedResponse": "ଅପ୍ରତ୍ୟାଶିତ ପ୍ରତିକ୍ରିୟା ଫର୍ମାଟ",
+    "failedAnalyze": "ଛବି ବିଶ୍ଳେଷଣ କରିବାରେ ବିଫଳ"
   },
   "assistant": {
     "title": "AI ସହାୟକ",
@@ -208,7 +215,22 @@
       "paymentShared": "ପେମେଣ୍ଟ ବିବରଣୀ ସେୟାର ହେଲା",
       "renter": "ଭଡାଟିଆ",
       "amount": "ପରିମାଣ"
-    }
+    },
+    "typeTractor": "ଟ୍ରାକ୍ଟର",
+    "typeHarvester": "ହାର୍ଭେଷ୍ଟର",
+    "typeSprayer": "ସ୍ପ୍ରେୟର",
+    "typePlough": "ଲାଙ୍ଗଳ",
+    "typeRotavator": "ରୋଟାଭେଟର",
+    "typeDrone": "ଡ୍ରୋନ",
+    "typeOther": "ଅନ୍ୟ",
+    "fillAllFields": "ଦୟାକରି ସମସ୍ତ ଫିଲ୍ଡ ପୂରଣ କରନ୍ତୁ",
+    "invalidPhone": "ଦୟାକରି 10 ଅଙ୍କ ବିଶିଷ୍ଟ ଫୋନ ନମ୍ବର ଦିଅନ୍ତୁ",
+    "bookingFailed": "ବୁକିଂ ବିଫଳ",
+    "failedBooking": "ବୁକିଂ ସମ୍ପୂର୍ଣ୍ଣ କରିବାରେ ବିଫଳ",
+    "phonePlaceholder": "10 ଅଙ୍କ ବିଶିଷ୍ଟ ଫୋନ ନମ୍ବର",
+    "minPerDay": "ସର୍ବନିମ୍ନ /ଦିନ",
+    "maxPerDay": "ସର୍ବାଧିକ /ଦିନ",
+    "bookTitle": "ବୁକିଂ: {{name}}"
   },
   "waste": {
     "title": "ବର୍ଜ୍ୟ ପରିଚାଳନା",
@@ -228,7 +250,16 @@
     "qty": "ପରିମାଣ",
     "pickup": "ଉଠାଇବା",
     "price": "ଦର",
-    "status": "ସ୍ଥିତି"
+    "status": "ସ୍ଥିତି",
+    "typeRiceStraw": "ଧାନ ଖଡ଼ି",
+    "typeWheatStraw": "ଗହମ ଖଡ଼ି",
+    "typeSugarcaneBagasse": "ଆଖୁ ଛୋଇ",
+    "typeCornStalks": "ମକା ଡଣ୍ଡା",
+    "typeCottonStalks": "କପା ଡଣ୍ଡା",
+    "typeOther": "ଅନ୍ୟ",
+    "locationPlaceholder": "ସହର କିମ୍ବା ଅଞ୍ଚଳ",
+    "confirmRemove": "ଏହି ତାଲିକା ହଟାଇବେ?",
+    "failedAdd": "ତାଲିକା ଯୋଡ଼ିବାରେ ବିଫଳ"
   },
   "education": {
     "title": "କୃଷି ଶିକ୍ଷା",
@@ -239,7 +270,12 @@
     "tip1": "ଫସଲ ପରିବର୍ତ୍ତନରେ ମାଟିର ସ୍ୱାସ୍ଥ୍ୟ ରକ୍ଷା କରନ୍ତୁ",
     "tip2": "ଜୈବିକ ସାର ବ୍ୟବହାର କରନ୍ତୁ",
     "tip3": "ବୁଣିବା ପୂର୍ବରୁ ମାଟି ପରୀକ୍ଷା କରନ୍ତୁ",
-    "tip4": "ଠିକ ସମୟରେ ଜଳସେଚନ କରନ୍ତୁ"
+    "tip4": "ଠିକ ସମୟରେ ଜଳସେଚନ କରନ୍ତୁ",
+    "categoryCropManagement": "ଫସଲ ପରିଚାଳନା",
+    "categoryOrganicFarming": "ଜୈବିକ ଚାଷ",
+    "categoryTechnology": "ପ୍ରଯୁକ୍ତି",
+    "categorySchemesFinance": "ଯୋଜନା ଓ ଅର୍ଥ",
+    "categoryWaterManagement": "ଜଳ ପରିଚାଳନା"
   },
   "community": {
     "title": "ସମୁଦାୟ",
@@ -281,7 +317,17 @@
     "failedDelete": "ବିଲୋପ କରିବାରେ ବିଫଳ",
     "failedAnswer": "ଉତ୍ତର ଦେବାରେ ବିଫଳ",
     "failedBest": "ସର୍ବୋତ୍ତମ ବାଛିବାରେ ବିଫଳ",
-    "youAreHere": "ଆପଣ ଏଠାରେ ଅଛନ୍ତି"
+    "youAreHere": "ଆପଣ ଏଠାରେ ଅଛନ୍ତି",
+    "categoryCropTips": "ଫସଲ ଟିପ୍ସ",
+    "categoryMarket": "ବଜାର ଆଲୋଚନା",
+    "categoryWeather": "ପାଣିପାଗ ଅପଡେଟ",
+    "categoryEquipment": "ଯନ୍ତ୍ରପାତି ସମୀକ୍ଷା",
+    "categoryGeneral": "ସାଧାରଣ",
+    "justNow": "ଏବେ",
+    "minutesAgo": "{{count}} ମିନିଟ ପୂର୍ବେ",
+    "hoursAgo": "{{count}} ଘଣ୍ଟା ପୂର୍ବେ",
+    "daysAgo": "{{count}} ଦିନ ପୂର୍ବେ",
+    "by": "ଦ୍ୱାରା"
   },
   "donation": {
     "title": "ଦାନ ଦିଅନ୍ତୁ",

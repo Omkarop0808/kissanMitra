@@ -77,7 +77,7 @@ export default function CropCare() {
 
   const detectLocation = () => {
     if (!navigator.geolocation) {
-      setLocationError('Geolocation is not supported by your browser')
+      setLocationError(t('cropCare.geolocationNotSupported'))
       return
     }
     setLocationLoading(true)
@@ -88,7 +88,7 @@ export default function CropCare() {
         setLocationLoading(false)
       },
       (err) => {
-        setLocationError(err.message || 'Failed to get location')
+        setLocationError(err.message || t('cropCare.failedGetLocation'))
         setLocationLoading(false)
       },
       { enableHighAccuracy: true, timeout: 10000 }
@@ -167,10 +167,10 @@ export default function CropCare() {
       } else if (data.error) {
         setError(data.error)
       } else {
-        setError('Unexpected response format')
+        setError(t('cropCare.unexpectedResponse'))
       }
     } catch (err: any) {
-      setError(err.message || 'Failed to analyze image')
+      setError(err.message || t('cropCare.failedAnalyze'))
     } finally {
       setLoading(false)
     }

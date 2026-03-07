@@ -36,7 +36,10 @@
     "close": "ਬੰਦ ਕਰੋ",
     "viewAll": "ਸਭ ਵੇਖੋ",
     "noData": "ਕੋਈ ਡਾਟਾ ਨਹੀਂ",
-    "retry": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
+    "retry": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+    "all": "ਸਾਰੇ",
+    "anonymousFarmer": "ਅਣਨਾਮ ਕਿਸਾਨ",
+    "anonymous": "ਅਣਨਾਮ"
   },
   "auth": {
     "login": "ਲੌਗਿਨ",
@@ -55,7 +58,7 @@
     "haveAccount": "ਪਹਿਲਾਂ ਤੋਂ ਖਾਤਾ ਹੈ?"
   },
   "dashboard": {
-    "greeting": "{{greeting}}, {{name}} \uD83C\uDF3E",
+    "greeting": "{{greeting}}, {{name}} 🌾",
     "subtitle": "ਅੱਜ ਤੁਹਾਡੇ ਖੇਤ ਦਾ ਸਾਰ",
     "quickAccess": "ਤੇਜ਼ ਪਹੁੰਚ",
     "goodMorning": "ਸ਼ੁਭ ਸਵੇਰ",
@@ -89,7 +92,11 @@
     "yourLocation": "ਤੁਹਾਡਾ ਟਿਕਾਣਾ",
     "selectImage": "ਤਸਵੀਰ ਚੁਣੋ",
     "imageTooLarge": "ਤਸਵੀਰ ਬਹੁਤ ਵੱਡੀ ਹੈ",
-    "uploadFirst": "ਪਹਿਲਾਂ ਤਸਵੀਰ ਅੱਪਲੋਡ ਕਰੋ"
+    "uploadFirst": "ਪਹਿਲਾਂ ਤਸਵੀਰ ਅੱਪਲੋਡ ਕਰੋ",
+    "geolocationNotSupported": "ਤੁਹਾਡੇ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਜੀਓਲੋਕੇਸ਼ਨ ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ",
+    "failedGetLocation": "ਸਥਾਨ ਪ੍ਰਾਪਤ ਕਰਨ ਵਿੱਚ ਅਸਫ਼ਲ",
+    "unexpectedResponse": "ਅਣਕਿਆਸੀ ਜਵਾਬ ਫਾਰਮੈਟ",
+    "failedAnalyze": "ਚਿੱਤਰ ਵਿਸ਼ਲੇਸ਼ਣ ਕਰਨ ਵਿੱਚ ਅਸਫ਼ਲ"
   },
   "assistant": {
     "title": "AI ਸਹਾਇਕ",
@@ -208,7 +215,22 @@
       "paymentShared": "ਭੁਗਤਾਨ ਵੇਰਵੇ ਸਾਂਝੇ ਕੀਤੇ",
       "renter": "ਕਿਰਾਏਦਾਰ",
       "amount": "ਰਕਮ"
-    }
+    },
+    "typeTractor": "ਟ੍ਰੈਕਟਰ",
+    "typeHarvester": "ਹਾਰਵੈਸਟਰ",
+    "typeSprayer": "ਸਪ੍ਰੇਅਰ",
+    "typePlough": "ਹਲ",
+    "typeRotavator": "ਰੋਟਾਵੇਟਰ",
+    "typeDrone": "ਡ੍ਰੋਨ",
+    "typeOther": "ਹੋਰ",
+    "fillAllFields": "ਕਿਰਪਾ ਕਰਕੇ ਸਾਰੇ ਖੇਤਰ ਭਰੋ",
+    "invalidPhone": "ਕਿਰਪਾ ਕਰਕੇ 10 ਅੰਕਾਂ ਦਾ ਫ਼ੋਨ ਨੰਬਰ ਦਰਜ ਕਰੋ",
+    "bookingFailed": "ਬੁਕਿੰਗ ਅਸਫ਼ਲ",
+    "failedBooking": "ਬੁਕਿੰਗ ਪੂਰੀ ਕਰਨ ਵਿੱਚ ਅਸਫ਼ਲ",
+    "phonePlaceholder": "10 ਅੰਕਾਂ ਦਾ ਫ਼ੋਨ ਨੰਬਰ",
+    "minPerDay": "ਘੱਟੋ-ਘੱਟ /ਦਿਨ",
+    "maxPerDay": "ਵੱਧ ਤੋਂ ਵੱਧ /ਦਿਨ",
+    "bookTitle": "ਬੁਕਿੰਗ: {{name}}"
   },
   "waste": {
     "title": "ਰਹਿੰਦ-ਖੂੰਹਦ ਪ੍ਰਬੰਧਨ",
@@ -228,7 +250,16 @@
     "qty": "ਮਾਤਰਾ",
     "pickup": "ਚੁੱਕਣਾ",
     "price": "ਕੀਮਤ",
-    "status": "ਸਥਿਤੀ"
+    "status": "ਸਥਿਤੀ",
+    "typeRiceStraw": "ਝੋਨੇ ਦੀ ਪਰਾਲੀ",
+    "typeWheatStraw": "ਕਣਕ ਦਾ ਤੂੜੀ",
+    "typeSugarcaneBagasse": "ਗੰਨੇ ਦੀ ਖੋਈ",
+    "typeCornStalks": "ਮੱਕੀ ਦੇ ਡੰਡੇ",
+    "typeCottonStalks": "ਕਪਾਹ ਦੇ ਡੰਡੇ",
+    "typeOther": "ਹੋਰ",
+    "locationPlaceholder": "ਸ਼ਹਿਰ ਜਾਂ ਖੇਤਰ",
+    "confirmRemove": "ਇਹ ਸੂਚੀ ਹਟਾਉਣੀ ਹੈ?",
+    "failedAdd": "ਸੂਚੀ ਜੋੜਨ ਵਿੱਚ ਅਸਫ਼ਲ"
   },
   "education": {
     "title": "ਖੇਤੀ ਸਿੱਖਿਆ",
@@ -239,7 +270,12 @@
     "tip1": "ਫ਼ਸਲ ਚੱਕਰ ਨਾਲ ਮਿੱਟੀ ਦੀ ਸਿਹਤ ਬਣਾਈ ਰੱਖੋ",
     "tip2": "ਜੈਵਿਕ ਖਾਦ ਦੀ ਵਰਤੋਂ ਕਰੋ",
     "tip3": "ਬੀਜ ਬੀਜਣ ਤੋਂ ਪਹਿਲਾਂ ਮਿੱਟੀ ਦੀ ਜਾਂਚ ਕਰੋ",
-    "tip4": "ਸਹੀ ਸਮੇਂ ਤੇ ਸਿੰਚਾਈ ਕਰੋ"
+    "tip4": "ਸਹੀ ਸਮੇਂ ਤੇ ਸਿੰਚਾਈ ਕਰੋ",
+    "categoryCropManagement": "ਫ਼ਸਲ ਪ੍ਰਬੰਧਨ",
+    "categoryOrganicFarming": "ਜੈਵਿਕ ਖੇਤੀ",
+    "categoryTechnology": "ਤਕਨਾਲੋਜੀ",
+    "categorySchemesFinance": "ਯੋਜਨਾਵਾਂ ਅਤੇ ਵਿੱਤ",
+    "categoryWaterManagement": "ਜਲ ਪ੍ਰਬੰਧਨ"
   },
   "community": {
     "title": "ਭਾਈਚਾਰਾ",
@@ -281,7 +317,17 @@
     "failedDelete": "ਮਿਟਾਉਣ ਵਿੱਚ ਅਸਫ਼ਲ",
     "failedAnswer": "ਜਵਾਬ ਦੇਣ ਵਿੱਚ ਅਸਫ਼ਲ",
     "failedBest": "ਸਭ ਤੋਂ ਵਧੀਆ ਚੁਣਨ ਵਿੱਚ ਅਸਫ਼ਲ",
-    "youAreHere": "ਤੁਸੀਂ ਇੱਥੇ ਹੋ"
+    "youAreHere": "ਤੁਸੀਂ ਇੱਥੇ ਹੋ",
+    "categoryCropTips": "ਫ਼ਸਲ ਸੁਝਾਅ",
+    "categoryMarket": "ਬਾਜ਼ਾਰ ਚਰਚਾ",
+    "categoryWeather": "ਮੌਸਮ ਅੱਪਡੇਟ",
+    "categoryEquipment": "ਸਾਜ਼ੋ-ਸਮਾਨ ਸਮੀਖਿਆ",
+    "categoryGeneral": "ਆਮ",
+    "justNow": "ਹੁਣੇ",
+    "minutesAgo": "{{count}} ਮਿੰਟ ਪਹਿਲਾਂ",
+    "hoursAgo": "{{count}} ਘੰਟੇ ਪਹਿਲਾਂ",
+    "daysAgo": "{{count}} ਦਿਨ ਪਹਿਲਾਂ",
+    "by": "ਵੱਲੋਂ"
   },
   "donation": {
     "title": "ਦਾਨ ਕਰੋ",

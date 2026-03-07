@@ -36,7 +36,10 @@
     "close": "Close",
     "viewAll": "View All",
     "noData": "No data available",
-    "retry": "Retry"
+    "retry": "Retry",
+    "all": "All",
+    "anonymousFarmer": "Anonymous Farmer",
+    "anonymous": "Anonymous"
   },
   "auth": {
     "login": "Login",
@@ -89,7 +92,11 @@
     "yourLocation": "Your Location",
     "selectImage": "Please select an image file (JPG, PNG, etc.)",
     "imageTooLarge": "Image must be less than 2MB",
-    "uploadFirst": "Please upload an image first"
+    "uploadFirst": "Please upload an image first",
+    "geolocationNotSupported": "Geolocation is not supported by your browser",
+    "failedGetLocation": "Failed to get location",
+    "unexpectedResponse": "Unexpected response format",
+    "failedAnalyze": "Failed to analyze image"
   },
   "assistant": {
     "title": "AI Farming Assistant",
@@ -186,6 +193,21 @@
     "dailyRate": "Daily Rate",
     "location": "Location",
     "description": "Description",
+    "typeTractor": "Tractor",
+    "typeHarvester": "Harvester",
+    "typeSprayer": "Sprayer",
+    "typePlough": "Plough",
+    "typeRotavator": "Rotavator",
+    "typeDrone": "Drone",
+    "typeOther": "Other",
+    "fillAllFields": "Please fill all fields",
+    "invalidPhone": "Please enter a valid 10-digit phone number",
+    "bookingFailed": "Booking failed",
+    "failedBooking": "Failed to complete booking",
+    "phonePlaceholder": "10-digit phone number",
+    "minPerDay": "Min /day",
+    "maxPerDay": "Max /day",
+    "bookTitle": "Book: {{name}}",
     "payment": {
       "title": "How would you like to receive payment?",
       "confirmed": "Booking Confirmed!",
@@ -228,7 +250,16 @@
     "qty": "Qty (kg)",
     "pickup": "Pickup",
     "price": "Price",
-    "status": "Status"
+    "status": "Status",
+    "typeRiceStraw": "Rice Straw",
+    "typeWheatStraw": "Wheat Straw",
+    "typeSugarcaneBagasse": "Sugarcane Bagasse",
+    "typeCornStalks": "Corn Stalks",
+    "typeCottonStalks": "Cotton Stalks",
+    "typeOther": "Other",
+    "locationPlaceholder": "City or area",
+    "confirmRemove": "Remove this listing?",
+    "failedAdd": "Failed to add listing"
   },
   "education": {
     "title": "Farming Education",
@@ -239,7 +270,12 @@
     "tip1": "Test your soil health regularly - at least once every cropping season for optimal yield.",
     "tip2": "Use drip irrigation to save up to 60% water compared to traditional flood irrigation.",
     "tip3": "Rotate crops each season to prevent soil nutrient depletion and reduce pest buildup.",
-    "tip4": "Apply neem oil as a natural pesticide to protect crops without harmful chemicals."
+    "tip4": "Apply neem oil as a natural pesticide to protect crops without harmful chemicals.",
+    "categoryCropManagement": "Crop Management",
+    "categoryOrganicFarming": "Organic Farming",
+    "categoryTechnology": "Technology",
+    "categorySchemesFinance": "Schemes & Finance",
+    "categoryWaterManagement": "Water Management"
   },
   "community": {
     "title": "Farmer Community",
@@ -281,7 +317,17 @@
     "failedDelete": "Failed to delete post",
     "failedAnswer": "Failed to add answer",
     "failedBest": "Failed to mark best answer",
-    "youAreHere": "You are here"
+    "youAreHere": "You are here",
+    "categoryCropTips": "Crop Tips",
+    "categoryMarket": "Market Discussion",
+    "categoryWeather": "Weather Updates",
+    "categoryEquipment": "Equipment Reviews",
+    "categoryGeneral": "General",
+    "justNow": "Just now",
+    "minutesAgo": "{{count}}m ago",
+    "hoursAgo": "{{count}}h ago",
+    "daysAgo": "{{count}}d ago",
+    "by": "By"
   },
   "donation": {
     "title": "Support Farmers",

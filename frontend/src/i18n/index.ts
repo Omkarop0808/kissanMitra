@@ -59,7 +59,9 @@ i18n
       or: { translation: or_ },
       ml: { translation: ml },
     },
-    fallbackLng: 'hi',
+    fallbackLng: 'en',
+    supportedLngs: ['en', 'hi', 'pa', 'mr', 'gu', 'te', 'ta', 'kn', 'bn', 'or', 'ml'],
+    nonExplicitSupportedLngs: true,
     interpolation: {
       escapeValue: false,
     },

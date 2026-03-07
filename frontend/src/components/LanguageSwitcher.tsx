@@ -40,44 +40,48 @@ export default function LanguageSwitcher({ mode = 'icon' }: { mode?: 'icon' | 'f
           className="w-full px-3 py-2.5 rounded-xl text-sm font-medium transition-all border border-[var(--color-outline-variant)] bg-transparent text-[var(--color-on-surface-variant)] hover:border-[var(--color-primary)] cursor-pointer flex items-center gap-2"
         >
           <Globe size={14} />
-          <span>{currentLang.flag} {currentLang.nativeLabel}</span>
+          <span className="truncate">{currentLang.flag} {currentLang.nativeLabel}</span>
         </button>
       )}
 
-      {/* Dropdown/Bottom-sheet */}
       {open && (
         <>
-          {/* Mobile: backdrop */}
+          {/* Mobile: full-screen backdrop */}
           <div className="fixed inset-0 bg-black/30 z-40 md:hidden" onClick={() => setOpen(false)} />
 
           {/* Mobile: bottom sheet | Desktop: dropdown */}
-          <div className="fixed bottom-0 left-0 right-0 z-50 md:absolute md:bottom-auto md:left-auto md:right-0 md:top-full md:mt-2 md:w-72">
-            <div className="bg-white border border-[var(--color-outline-variant)] rounded-t-2xl md:rounded-2xl shadow-lg max-h-[70vh] overflow-y-auto">
-              <div className="flex items-center justify-between p-4 border-b border-[var(--color-outline-variant)]">
+          <div className={`fixed bottom-0 left-0 right-0 z-50 md:absolute md:bottom-auto md:top-full md:mt-2 md:w-80 ${mode === 'full' ? 'md:left-0 md:right-auto' : 'md:right-0 md:left-auto'}`}>
+            <div className="bg-white border border-[var(--color-outline-variant)] rounded-t-2xl md:rounded-2xl shadow-lg max-h-[60vh] md:max-h-[80vh] flex flex-col">
+              {/* Header */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--color-outline-variant)] flex-shrink-0">
                 <h3 className="text-sm font-semibold text-[var(--color-on-surface)]">{t('language.select')}</h3>
                 <button onClick={() => setOpen(false)} className="w-7 h-7 rounded-full hover:bg-[var(--color-surface-variant)] flex items-center justify-center bg-transparent border-none cursor-pointer md:hidden">
                   <X size={16} />
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-1 p-2">
-                {languages.map(lang => {
-                  const isActive = i18n.language === lang.code
-                  return (
-                    <button
-                      key={lang.code}
-                      onClick={() => changeLanguage(lang.code)}
-                      className={`p-3 rounded-xl text-left text-sm transition-all border-none cursor-pointer flex items-center gap-2 ${
-                        isActive
-                          ? 'bg-[var(--color-primary-container)] text-[var(--color-primary)] font-semibold'
-                          : 'bg-transparent text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-variant)]'
-                      }`}
-                    >
-                      <span className="text-base">{lang.flag}</span>
-                      <span className="flex-1 truncate">{lang.nativeLabel}</span>
-                      {isActive && <Check size={14} className="text-[var(--color-primary)]" />}
-                    </button>
-                  )
-                })}
+
+              {/* Language grid - scrollable */}
+              <div className="overflow-y-auto p-2">
+                <div className="grid grid-cols-2 gap-1">
+                  {languages.map(lang => {
+                    const isActive = i18n.language === lang.code
+                    return (
+                      <button
+                        key={lang.code}
+                        onClick={() => changeLanguage(lang.code)}
+                        className={`px-3 py-2.5 rounded-xl text-left text-sm transition-all border-none cursor-pointer flex items-center gap-2 min-w-0 ${
+                          isActive
+                            ? 'bg-[var(--color-primary-container)] text-[var(--color-primary)] font-semibold'
+                            : 'bg-transparent text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-variant)]'
+                        }`}
+                      >
+                        <span className="text-base flex-shrink-0">{lang.flag}</span>
+                        <span className="flex-1 truncate text-xs sm:text-sm">{lang.nativeLabel}</span>
+                        {isActive && <Check size={12} className="text-[var(--color-primary)] flex-shrink-0" />}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
             </div>
           </div>
