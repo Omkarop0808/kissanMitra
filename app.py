@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Form, Request, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 import base64
 import requests
 import io
@@ -28,6 +29,13 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8001", "http://127.0.0.1:8001"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
@@ -37,6 +45,7 @@ USERS_FILE = os.path.join(DATA_DIR, "users.json")
 EQUIPMENT_FILE = os.path.join(DATA_DIR, "equipment.json")
 WASTE_FILE = os.path.join(DATA_DIR, "waste_listings.json")
 BOOKINGS_FILE = os.path.join(DATA_DIR, "bookings.json")
+COMMUNITY_FILE = os.path.join(DATA_DIR, "community_posts.json")
 
 
 def load_json(filepath):
@@ -263,7 +272,7 @@ async def book_equipment(equipment_id: str, request: Request):
                 break
         if not item:
             raise HTTPException(status_code=404, detail="Equipment not found")
-        booking = {"id": str(uuid.uuid4()), "equipment_id": equipment_id, "equipment_name": item["name"], "renter_name": body.get("renter_name", ""), "renter_phone": body.get("renter_phone", ""), "start_date": body.get("start_date", ""), "end_date": body.get("end_date", ""), "daily_rate": item["daily_rate"], "status": "confirmed", "created_at": datetime.now().isoformat()}
+        booking = {"id": str(uuid.uuid4()), "equipment_id": equipment_id, "equipment_name": item["name"], "equipment_owner": item.get("owner", ""), "renter_name": body.get("renter_name", ""), "renter_phone": body.get("renter_phone", ""), "start_date": body.get("start_date", ""), "end_date": body.get("end_date", ""), "daily_rate": item["daily_rate"], "status": "pending", "payment_method": None, "payment_details": None, "created_at": datetime.now().isoformat()}
         if booking["start_date"] and booking["end_date"]:
             start = datetime.strptime(booking["start_date"], "%Y-%m-%d")
             end = datetime.strptime(booking["end_date"], "%Y-%m-%d")
@@ -277,6 +286,44 @@ async def book_equipment(equipment_id: str, request: Request):
         raise
     except Exception as e:
         logger.error(f"Error booking equipment: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/bookings")
+async def get_bookings(owner: str = "", renter: str = ""):
+    bookings = load_json(BOOKINGS_FILE)
+    if owner:
+        bookings = [b for b in bookings if b.get("equipment_owner", "") == owner]
+    if renter:
+        bookings = [b for b in bookings if b.get("renter_name", "") == renter]
+    bookings.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+    return JSONResponse(content={"bookings": bookings, "total": len(bookings)})
+
+
+@app.post("/api/bookings/{booking_id}/status")
+async def update_booking_status(booking_id: str, request: Request):
+    try:
+        body = await request.json()
+        new_status = body.get("status", "")
+        payment_method = body.get("payment_method")
+        payment_details = body.get("payment_details")
+        if new_status not in ["pending", "confirmed", "declined"]:
+            raise HTTPException(status_code=400, detail="Invalid status")
+        bookings = load_json(BOOKINGS_FILE)
+        for booking in bookings:
+            if booking["id"] == booking_id:
+                booking["status"] = new_status
+                if payment_method:
+                    booking["payment_method"] = payment_method
+                if payment_details:
+                    booking["payment_details"] = payment_details
+                save_json(BOOKINGS_FILE, bookings)
+                return JSONResponse(content={"success": True, "booking": booking})
+        raise HTTPException(status_code=404, detail="Booking not found")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating booking: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -595,6 +642,113 @@ async def gemini_analyze_image(file: UploadFile = File(...), language: str = For
         return JSONResponse(content={"response": response.text})
     except Exception as e:
         logger.error(f"Gemini image analysis error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/community")
+async def get_community_posts():
+    posts = load_json(COMMUNITY_FILE)
+    posts.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+    return JSONResponse(content={"posts": posts, "total": len(posts)})
+
+
+@app.post("/api/community")
+async def create_community_post(request: Request):
+    try:
+        body = await request.json()
+        title = body.get("title", "").strip()
+        content = body.get("content", "").strip()
+        category = body.get("category", "general")
+        author = body.get("author", "Anonymous Farmer")
+        post_type = body.get("type", "post")  # "post" or "question"
+        lat = body.get("lat")
+        lng = body.get("lng")
+        district = body.get("district", "")
+        if not title or not content:
+            raise HTTPException(status_code=400, detail="Title and content are required")
+        posts = load_json(COMMUNITY_FILE)
+        new_post = {
+            "id": str(uuid.uuid4()),
+            "title": title,
+            "content": content,
+            "category": category,
+            "author": author,
+            "type": post_type,
+            "lat": lat,
+            "lng": lng,
+            "district": district,
+            "answers": [],
+            "bestAnswerId": None,
+            "created_at": datetime.now().isoformat(),
+        }
+        posts.append(new_post)
+        save_json(COMMUNITY_FILE, posts)
+        return JSONResponse(content={"success": True, "post": new_post})
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating community post: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/community/{post_id}/answer")
+async def add_answer_to_post(post_id: str, request: Request):
+    try:
+        body = await request.json()
+        content = body.get("content", "").strip()
+        author = body.get("author", "Anonymous Farmer")
+        if not content:
+            raise HTTPException(status_code=400, detail="Answer content is required")
+        posts = load_json(COMMUNITY_FILE)
+        for post in posts:
+            if post["id"] == post_id:
+                if "answers" not in post:
+                    post["answers"] = []
+                answer = {
+                    "id": str(uuid.uuid4()),
+                    "content": content,
+                    "author": author,
+                    "created_at": datetime.now().isoformat(),
+                }
+                post["answers"].append(answer)
+                save_json(COMMUNITY_FILE, posts)
+                return JSONResponse(content={"success": True, "answer": answer})
+        raise HTTPException(status_code=404, detail="Post not found")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error adding answer: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/community/{post_id}/best-answer")
+async def mark_best_answer(post_id: str, request: Request):
+    try:
+        body = await request.json()
+        answer_id = body.get("answerId", "")
+        posts = load_json(COMMUNITY_FILE)
+        for post in posts:
+            if post["id"] == post_id:
+                post["bestAnswerId"] = answer_id
+                save_json(COMMUNITY_FILE, posts)
+                return JSONResponse(content={"success": True})
+        raise HTTPException(status_code=404, detail="Post not found")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error marking best answer: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/api/community/{post_id}")
+async def delete_community_post(post_id: str):
+    try:
+        posts = load_json(COMMUNITY_FILE)
+        posts = [p for p in posts if p["id"] != post_id]
+        save_json(COMMUNITY_FILE, posts)
+        return JSONResponse(content={"success": True})
+    except Exception as e:
+        logger.error(f"Error deleting community post: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
