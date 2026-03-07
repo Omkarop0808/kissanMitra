@@ -70,5 +70,101 @@
     "price": 100.0,
     "seller": "Test Farmer",
     "created_at": "2026-03-03T15:19:34.530995"
+  },
+  {
+    "id": "47b8bc2b-fbd4-464c-8907-27b337468837",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-07T12:35:37.534054"
+  },
+  {
+    "id": "c9a54b7a-e528-434c-b908-b61fdc7f676d",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-07T12:45:55.813898"
+  },
+  {
+    "id": "8dbc1907-2258-4ad8-b503-bfb9975db9fb",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-07T13:47:23.446708"
+  },
+  {
+    "id": "36cf94e3-48dc-428a-9655-fbafbc01cacf",
+    "waste_type": "Rice Straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 500.0,
+    "location": "Ludhiana",
+    "pickup_date": "",
+    "status": "pending",
+    "price": 250.0,
+    "seller": "anonymous",
+    "created_at": "2026-03-07T15:55:50.058386"
+  },
+  {
+    "id": "96a79b13-9a30-4813-a7ec-d282bc0a2c60",
+    "waste_type": "Rice Straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 500.0,
+    "location": "Ludhiana",
+    "pickup_date": "",
+    "status": "pending",
+    "price": 250.0,
+    "seller": "anonymous",
+    "created_at": "2026-03-07T15:58:46.777277"
+  },
+  {
+    "id": "b6ceda41-2b79-478a-8758-af77757f7312",
+    "waste_type": "Rice Straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 500.0,
+    "location": "Ludhiana",
+    "pickup_date": "",
+    "status": "pending",
+    "price": 250.0,
+    "seller": "anonymous",
+    "created_at": "2026-03-07T16:24:25.332393"
+  },
+  {
+    "id": "7c3f236d-fbe3-4cee-b738-7570433eab03",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-07T16:33:02.108273"
+  },
+  {
+    "id": "6b6f432b-31e6-4703-8471-805600f022d7",
+    "waste_type": "rice-straw",
+    "waste_type_label": "Rice Straw",
+    "quantity": 100.0,
+    "location": "Test Village",
+    "pickup_date": "2026-03-10",
+    "status": "pending",
+    "price": 100.0,
+    "seller": "Test Farmer",
+    "created_at": "2026-03-07T16:34:14.211414"
   }
 ]

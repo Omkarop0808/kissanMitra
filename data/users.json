@@ -52,5 +52,50 @@
     "farm_name": "Test Farmer Farm",
     "password_hash": "e0d437386fbfacb06b3e42fd03819688:f5782b409d1f9d9d8f4ebb765e53d6249453074d10c9f174d78817d3c025e96a",
     "created_at": "2026-03-03T15:19:26.507398"
+  },
+  {
+    "id": "9d83728e-71ce-4205-a0d2-c3239c98f883",
+    "name": "Test Farmer",
+    "email": "test_1772867131@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "f65c4f49839237a6c4042abd69d6213c:b65262f46e90f35a6fb3d2e5ac6b4fb9b92745e48be84688f0d15720636d2b0a",
+    "created_at": "2026-03-07T12:35:31.545083"
+  },
+  {
+    "id": "ad95c419-4e12-4145-a6cd-a1443bf7b8f7",
+    "name": "Test Farmer",
+    "email": "test_1772867731@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "8d5abbf37229992bf8a664029306db38:9d3392d3c864d629bc146c8cd40a4491ce19c37b12c37f967a1385cbf0155616",
+    "created_at": "2026-03-07T12:45:31.437622"
+  },
+  {
+    "id": "53d84c0b-65cb-4acf-b470-d5e3a7a28838",
+    "name": "Test Farmer",
+    "email": "test_1772871386@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "cc82604ed38b7610ee6a3b6c7a7eb46d:fc6e6476484879c07bac2de7957b1ac10f17ceac0c86848884e1f2a88cb60210",
+    "created_at": "2026-03-07T13:46:26.968249"
+  },
+  {
+    "id": "032f53b6-1cd6-47a3-9629-d2ba67418c33",
+    "name": "Test Farmer",
+    "email": "test_1772881345@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "f427af28e7178f56120c1c6988194e15:ef4b14bbaff1a64dab58abaa4340d09fbb90f03bf243c74ddca261a1af433106",
+    "created_at": "2026-03-07T16:32:25.542297"
+  },
+  {
+    "id": "f5c89555-42e9-4960-9812-a42581dd0c7b",
+    "name": "Test Farmer",
+    "email": "test_1772881419@test.com",
+    "phone": "9876543210",
+    "farm_name": "Test Farmer Farm",
+    "password_hash": "f241198774543677712c211217d4b9ce:02d4b1487e6e8a27a5342907005edbaee707cd0ebbe5b2ff3f554172bf191c82",
+    "created_at": "2026-03-07T16:33:39.275137"
   }
 ]
