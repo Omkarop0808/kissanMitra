@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { marked } from 'marked'
 import { Bot, Globe, Mic, Square, Volume2, Send, User } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
@@ -15,24 +16,17 @@ const LANGUAGES = [
   { code: 'gu', label: 'Gujarati', speechCode: 'gu-IN' },
 ]
 
-const QUICK_QUESTIONS = [
-  'What crops should I plant this season?',
-  'How do I improve my soil health?',
-  'What government schemes are available for farmers?',
-  'How can I protect my crops from pests?',
-]
-
 interface ChatMessage {
   id: string
   sender: 'user' | 'bot'
   text: string
   suggestions?: string[]
+  isWebSearch?: boolean
 }
 
 export default function FarmerAssistant() {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { id: 'welcome', sender: 'bot', text: 'Namaste! I am your AI Farming Assistant. I can help you with farming advice, financial guidance, government schemes, weather information, and more. How can I help you today?', suggestions: QUICK_QUESTIONS }
-  ])
+  const { t } = useTranslation()
+  const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [language, setLanguage] = useState('en')
@@ -46,6 +40,10 @@ export default function FarmerAssistant() {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
+
+  useEffect(() => {
+    setMessages([{ id: 'welcome', sender: 'bot', text: t('assistant.welcome'), suggestions: [t('assistant.q1'), t('assistant.q2'), t('assistant.q3'), t('assistant.q4')] }])
+  }, [t])
 
   const extractSuggestions = (text: string): string[] => {
     const suggestions: string[] = []
@@ -84,11 +82,12 @@ export default function FarmerAssistant() {
 
     try {
       let data: any
+      const langLabel = LANGUAGES.find(l => l.code === language)?.label || 'English'
       if (webSearchEnabled) {
         const res = await fetch('/api/web-search', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question: messageText }),
+          body: JSON.stringify({ question: `${messageText} (respond in ${langLabel})` }),
         })
         data = await res.json()
       } else {
@@ -112,7 +111,7 @@ export default function FarmerAssistant() {
       const suggestions = extractSuggestions(responseText)
       const cleanText = responseText.split('\n').filter((l: string) => !l.trim().startsWith('>> ')).join('\n')
 
-      const botMsg: ChatMessage = { id: (Date.now() + 1).toString(), sender: 'bot', text: cleanText, suggestions }
+      const botMsg: ChatMessage = { id: (Date.now() + 1).toString(), sender: 'bot', text: cleanText, suggestions, isWebSearch: webSearchEnabled }
       setMessages(prev => [...prev, botMsg])
       setChatHistory(prev => [...prev, `Assistant: ${cleanText}`])
     } catch (err: any) {
@@ -180,7 +179,7 @@ export default function FarmerAssistant() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-        <PageHeader icon={Bot} title="AI Farming Assistant" subtitle="Ask any farming question in your language." />
+        <PageHeader icon={Bot} title={t('assistant.title')} subtitle={t('assistant.subtitle')} />
         <div className="flex items-center gap-3">
           <select value={language} onChange={e => setLanguage(e.target.value)} className="form-select text-sm py-1.5 w-auto">
             {LANGUAGES.map(l => (
@@ -195,18 +194,12 @@ export default function FarmerAssistant() {
                 : 'bg-transparent border-[var(--color-outline-variant)] text-[var(--color-on-surface-variant)] hover:border-[var(--color-primary)]'
             }`}
           >
-            <Globe size={14} />Web Search
+            <Globe size={14} />{t('assistant.webSearch')}
           </button>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-4">
-        {QUICK_QUESTIONS.map((q, i) => (
-          <button key={i} onClick={() => sendMessage(q)} className="quick-question">{q}</button>
-        ))}
-      </div>
-
-      <div className="bg-white border border-[var(--color-outline-variant)] rounded-2xl overflow-hidden flex flex-col shadow-[var(--shadow-sm)]" style={{ height: 'calc(100vh - 320px)', minHeight: '400px' }}>
+      <div className="bg-white border border-[var(--color-outline-variant)] rounded-2xl overflow-hidden flex flex-col shadow-[var(--shadow-sm)]" style={{ height: 'calc(100vh - 280px)', minHeight: '400px' }}>
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map(msg => (
             <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -221,13 +214,18 @@ export default function FarmerAssistant() {
                     <div className="chat-message-user">{msg.text}</div>
                   ) : (
                     <div className="chat-message-bot">
+                      {msg.isWebSearch && (
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full mb-2">
+                          <Globe size={10} />Web Search
+                        </span>
+                      )}
                       <div className="markdown-content" dangerouslySetInnerHTML={{ __html: marked(msg.text) as string }} />
                       <button
                         onClick={() => speakText(msg.text)}
                         className="mt-2 text-xs text-[var(--color-on-surface-variant)] hover:text-[var(--color-primary)] bg-transparent border-none cursor-pointer flex items-center gap-1"
                       >
                         {isSpeaking ? <Square size={12} /> : <Volume2 size={12} />}
-                        {isSpeaking ? 'Stop' : 'Listen'}
+                        {isSpeaking ? t('assistant.stop') : t('assistant.listen')}
                       </button>
                     </div>
                   )}
@@ -273,7 +271,7 @@ export default function FarmerAssistant() {
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && sendMessage()}
-            placeholder="Type your question..."
+            placeholder={t('assistant.placeholder')}
             className="form-input flex-1"
             disabled={loading}
           />

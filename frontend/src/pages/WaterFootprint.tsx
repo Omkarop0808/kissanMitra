@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Droplets, Calculator, Lightbulb, CheckCircle, AlertCircle, CalendarDays } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import InputCard from '../components/InputCard'
@@ -15,6 +16,7 @@ interface WaterResult {
 }
 
 export default function WaterFootprint() {
+  const { t } = useTranslation()
   const [cropType, setCropType] = useState('Rice')
   const [soilType, setSoilType] = useState('Loam')
   const [irrigation, setIrrigation] = useState('Drip')
@@ -69,49 +71,49 @@ export default function WaterFootprint() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
-      <PageHeader icon={Droplets} title="Water Footprint Calculator" subtitle="Estimate water requirements based on your crop, soil, and climate conditions." />
+      <PageHeader icon={Droplets} title={t('water.title')} subtitle={t('water.subtitle')} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <InputCard title="Input Parameters">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Crop Type</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('water.cropType')}</label>
               <select value={cropType} onChange={e => setCropType(e.target.value)} className="form-select">
                 {CROPS.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Soil Type</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('water.soilType')}</label>
               <select value={soilType} onChange={e => setSoilType(e.target.value)} className="form-select">
                 {SOILS.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Irrigation Method</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('water.irrigationMethod')}</label>
               <select value={irrigation} onChange={e => setIrrigation(e.target.value)} className="form-select">
                 {IRRIGATION.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Area (hectares)</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('water.area')}</label>
               <input type="number" value={area} onChange={e => setArea(e.target.value)} min="0.1" step="0.1" className="form-input" />
             </div>
             <div>
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Temperature (°C)</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('water.temperature')}</label>
               <input type="number" value={temperature} onChange={e => setTemperature(e.target.value)} className="form-input" />
             </div>
             <div>
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Humidity (%)</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('water.humidity')}</label>
               <input type="number" value={humidity} onChange={e => setHumidity(e.target.value)} min="0" max="100" className="form-input" />
             </div>
             <div>
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Rainfall (mm/month)</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('water.rainfall')}</label>
               <input type="number" value={rainfall} onChange={e => setRainfall(e.target.value)} min="0" className="form-input" />
             </div>
           </div>
 
           <PrimaryButton onClick={handleCalculate} loading={loading} className="w-full mt-6 py-3 text-center">
-            <Calculator size={18} className="mr-2" />Calculate Water Footprint
+            <Calculator size={18} className="mr-2" />{t('water.calculate')}
           </PrimaryButton>
 
           {error && (
@@ -126,25 +128,25 @@ export default function WaterFootprint() {
             <div className="animate-fade-in space-y-4">
               <div className="stat-card">
                 <Droplets size={24} className="text-[var(--color-primary)] mb-2 mx-auto" />
-                <p className="text-sm text-[var(--color-on-surface-variant)]">Total Water Required</p>
+                <p className="text-sm text-[var(--color-on-surface-variant)]">{t('water.totalWater')}</p>
                 <p className="text-3xl font-bold text-[var(--color-primary)]">{result.totalWater.toLocaleString(undefined, { maximumFractionDigits: 1 })} <span className="text-lg">kL</span></p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="stat-card">
                   <Droplets size={20} className="text-blue-500 mb-2 mx-auto" />
-                  <p className="text-xs text-[var(--color-on-surface-variant)]">Daily Water</p>
+                  <p className="text-xs text-[var(--color-on-surface-variant)]">{t('water.dailyWater')}</p>
                   <p className="text-xl font-bold text-[var(--color-on-surface)]">{result.dailyWater.toLocaleString(undefined, { maximumFractionDigits: 1 })} <span className="text-sm text-[var(--color-on-surface-variant)]">kL</span></p>
                 </div>
                 <div className="stat-card">
                   <CalendarDays size={20} className="text-purple-500 mb-2 mx-auto" />
-                  <p className="text-xs text-[var(--color-on-surface-variant)]">Weekly Water</p>
+                  <p className="text-xs text-[var(--color-on-surface-variant)]">{t('water.weeklyWater')}</p>
                   <p className="text-xl font-bold text-[var(--color-on-surface)]">{result.weeklyWater.toLocaleString(undefined, { maximumFractionDigits: 1 })} <span className="text-sm text-[var(--color-on-surface-variant)]">kL</span></p>
                 </div>
               </div>
 
               <InputCard>
                 <h3 className="text-lg font-semibold mb-3 text-[var(--color-primary)] flex items-center gap-2">
-                  <Lightbulb size={20} />Water Saving Tips
+                  <Lightbulb size={20} />{t('water.tips')}
                 </h3>
                 <ul className="space-y-2">
                   {getTips().map((tip, i) => (

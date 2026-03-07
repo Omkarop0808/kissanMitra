@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Chart, registerables } from 'chart.js'
 import { TrendingUp, Loader2, Info } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
@@ -21,6 +22,7 @@ interface MarketRecord {
 }
 
 export default function MarketAnalysis() {
+  const { t } = useTranslation()
   const [crop, setCrop] = useState('Rice')
   const [state, setState] = useState('Rajasthan')
   const [date, setDate] = useState(() => {
@@ -59,7 +61,7 @@ export default function MarketAnalysis() {
         updateChart(mapped)
       } else {
         setRecords([])
-        setError('No data available for the selected filters. Try a different date or commodity.')
+        setError(t('market.noResults'))
         if (chartInstance.current) chartInstance.current.destroy()
       }
     } catch {
@@ -110,18 +112,18 @@ export default function MarketAnalysis() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <PageHeader icon={TrendingUp} title="Market Price Analysis" subtitle="Real-time commodity prices from Indian agricultural markets." />
+      <PageHeader icon={TrendingUp} title={t('market.title')} subtitle={t('market.subtitle')} />
 
       {/* Filters */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div>
-          <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Commodity</label>
+          <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('market.selectCrop')}</label>
           <select value={crop} onChange={e => setCrop(e.target.value)} className="form-select">
             {CROPS.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">State</label>
+          <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('market.selectState')}</label>
           <select value={state} onChange={e => setState(e.target.value)} className="form-select">
             {STATES.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
@@ -135,7 +137,7 @@ export default function MarketAnalysis() {
       {loading && (
         <div className="text-center py-8">
           <Loader2 size={24} className="animate-spin text-[var(--color-primary)] mx-auto" />
-          <p className="text-[var(--color-on-surface-variant)] mt-2">Loading market data...</p>
+          <p className="text-[var(--color-on-surface-variant)] mt-2">{t('common.loading')}</p>
         </div>
       )}
 
@@ -148,7 +150,7 @@ export default function MarketAnalysis() {
       {/* Chart */}
       {records.length > 0 && (
         <div className="bg-white border border-[var(--color-outline-variant)] rounded-2xl shadow-[var(--shadow-sm)] p-6 mb-6">
-          <h3 className="text-lg font-semibold text-[var(--color-on-surface)] mb-4">Price Trend</h3>
+          <h3 className="text-lg font-semibold text-[var(--color-on-surface)] mb-4">{t('market.priceChart')}</h3>
           <div style={{ height: '350px' }}>
             <canvas ref={chartRef}></canvas>
           </div>

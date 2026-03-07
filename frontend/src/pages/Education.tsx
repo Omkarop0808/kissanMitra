@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { GraduationCap, Search, Sprout, Droplets, Cpu, Landmark, PlayCircle, Lightbulb, CheckCircle, LayoutGrid } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import InputCard from '../components/InputCard'
@@ -38,6 +39,7 @@ const categoryIconMap: Record<string, typeof LayoutGrid> = {
 }
 
 export default function Education() {
+  const { t } = useTranslation()
   const [activeCategory, setActiveCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -49,14 +51,14 @@ export default function Education() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <PageHeader icon={GraduationCap} title="Farming Education" subtitle="Learn modern farming techniques, government schemes, and sustainable agriculture practices." />
+      <PageHeader icon={GraduationCap} title={t('education.title')} subtitle={t('education.subtitle')} />
 
       <div className="mb-6">
         <div className="relative max-w-md">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-outline)]" />
           <input
             type="text"
-            placeholder="Search videos..."
+            placeholder={t('education.searchVideos')}
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             className="form-input pl-10"
@@ -86,7 +88,7 @@ export default function Education() {
       {filteredVideos.length === 0 ? (
         <div className="text-center py-16 text-[var(--color-outline)]">
           <GraduationCap size={36} className="mx-auto mb-4" />
-          <p>No videos found matching your search.</p>
+          <p>{t('education.noVideos')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -122,14 +124,14 @@ export default function Education() {
 
       <InputCard className="mt-12">
         <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-[var(--color-on-surface)]">
-          <Lightbulb size={20} className="text-[var(--color-amber)]" />Quick Farming Tips
+          <Lightbulb size={20} className="text-[var(--color-amber)]" />{t('education.quickTips')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
-            'Test your soil health regularly - at least once every cropping season for optimal yield.',
-            'Use drip irrigation to save up to 60% water compared to traditional flood irrigation.',
-            'Rotate crops each season to prevent soil nutrient depletion and reduce pest buildup.',
-            'Apply neem oil as a natural pesticide to protect crops without harmful chemicals.',
+            t('education.tip1'),
+            t('education.tip2'),
+            t('education.tip3'),
+            t('education.tip4'),
           ].map((tip, i) => (
             <div key={i} className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-[var(--color-primary-container)] flex items-center justify-center flex-shrink-0">

@@ -1,28 +1,31 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
+import LanguageSwitcher from './LanguageSwitcher'
 import {
   LayoutDashboard, Leaf, Bot, TrendingUp, CloudSun, Droplets,
   Landmark, Tractor, Recycle, GraduationCap, Users, Heart, LogOut,
 } from 'lucide-react'
 
 const navItems = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/crop-care', icon: Leaf, label: 'Crop Health' },
-  { to: '/farmer-assistant', icon: Bot, label: 'AI Assistant' },
-  { to: '/market-analysis', icon: TrendingUp, label: 'Market Prices' },
-  { to: '/weather-advisory', icon: CloudSun, label: 'Weather' },
-  { to: '/water-footprint', icon: Droplets, label: 'Water Footprint' },
-  { to: '/schemes', icon: Landmark, label: 'Gov. Schemes' },
-  { to: '/equipment-rental', icon: Tractor, label: 'Equipment' },
-  { to: '/waste-exchange', icon: Recycle, label: 'Waste Exchange' },
-  { to: '/education', icon: GraduationCap, label: 'Education' },
-  { to: '/community', icon: Users, label: 'Community' },
-  { to: '/donation', icon: Heart, label: 'Support' },
+  { to: '/dashboard', icon: LayoutDashboard, key: 'nav.dashboard' },
+  { to: '/crop-care', icon: Leaf, key: 'nav.cropHealth' },
+  { to: '/farmer-assistant', icon: Bot, key: 'nav.aiAssistant' },
+  { to: '/market-analysis', icon: TrendingUp, key: 'nav.market' },
+  { to: '/weather-advisory', icon: CloudSun, key: 'nav.weather' },
+  { to: '/water-footprint', icon: Droplets, key: 'nav.water' },
+  { to: '/schemes', icon: Landmark, key: 'nav.schemes' },
+  { to: '/equipment-rental', icon: Tractor, key: 'nav.equipment' },
+  { to: '/waste-exchange', icon: Recycle, key: 'nav.waste' },
+  { to: '/education', icon: GraduationCap, key: 'nav.education' },
+  { to: '/community', icon: Users, key: 'nav.community' },
+  { to: '/donation', icon: Heart, key: 'nav.donation' },
 ]
 
 export default function Sidebar() {
   const location = useLocation()
   const { user, logout } = useAuth()
+  const { t } = useTranslation()
 
   return (
     <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-60 bg-white border-r border-[var(--color-outline-variant)] flex-col z-40">
@@ -32,8 +35,8 @@ export default function Sidebar() {
           <span className="text-white text-lg font-bold">KM</span>
         </div>
         <div>
-          <p className="font-bold text-[var(--color-on-surface)] text-base leading-tight">Kissan Mitra</p>
-          <p className="text-[var(--color-on-surface-variant)] text-xs">Smart Farming</p>
+          <p className="font-bold text-[var(--color-on-surface)] text-base leading-tight">{t('app.name')}</p>
+          <p className="text-[var(--color-on-surface-variant)] text-xs">{t('app.tagline')}</p>
         </div>
       </Link>
 
@@ -53,11 +56,15 @@ export default function Sidebar() {
               }`}
             >
               <Icon size={20} />
-              <span>{item.label}</span>
+              <span>{t(item.key)}</span>
             </Link>
           )
         })}
       </nav>
+
+      <div className="px-3 mb-2">
+        <LanguageSwitcher mode="full" />
+      </div>
 
       {/* User section */}
       <div className="border-t border-[var(--color-outline-variant)] p-4">
@@ -77,7 +84,7 @@ export default function Sidebar() {
           className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-sm font-medium text-[var(--color-error)] hover:bg-[var(--color-error-container)] transition-colors bg-transparent border-none cursor-pointer"
         >
           <LogOut size={18} />
-          <span>Logout</span>
+          <span>{t('auth.logout')}</span>
         </button>
       </div>
     </aside>

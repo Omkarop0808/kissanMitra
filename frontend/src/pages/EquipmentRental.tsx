@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import { bookingsApi } from '../services/api'
 import {
@@ -53,6 +54,7 @@ const DEFAULT_IMAGES: Record<string, string> = {
 
 export default function EquipmentRental() {
   const { user } = useAuth()
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<'browse' | 'my-listings'>('browse')
   const [equipment, setEquipment] = useState<Equipment[]>([])
   const [loading, setLoading] = useState(true)
@@ -150,7 +152,7 @@ export default function EquipmentRental() {
       })
       const data = await res.json()
       if (data.success) {
-        setBookSuccess('Booking request sent! Awaiting owner confirmation.')
+        setBookSuccess(t('equipment.awaitingConfirm'))
         setTimeout(() => { setBookingItem(null); setBookSuccess('') }, 3000)
       } else { setBookError(data.message || 'Booking failed') }
     } catch { setBookError('Failed to complete booking') }
@@ -229,8 +231,8 @@ export default function EquipmentRental() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <PageHeader icon={Tractor} title="Equipment Rental" subtitle="Browse and rent farm equipment at affordable rates." />
-        <button onClick={() => setShowAdd(true)} className="btn-primary flex items-center gap-2"><Plus size={16} />List Equipment</button>
+        <PageHeader icon={Tractor} title={t('equipment.title')} subtitle={t('equipment.subtitle')} />
+        <button onClick={() => setShowAdd(true)} className="btn-primary flex items-center gap-2"><Plus size={16} />{t('equipment.listEquipment')}</button>
       </div>
 
       {/* Tabs */}
@@ -241,7 +243,7 @@ export default function EquipmentRental() {
             activeTab === 'browse' ? 'bg-[var(--color-primary)] text-white' : 'bg-transparent text-[var(--color-on-surface-variant)]'
           }`}
         >
-          Browse
+          {t('equipment.browse')}
         </button>
         <button
           onClick={() => setActiveTab('my-listings')}
@@ -249,7 +251,7 @@ export default function EquipmentRental() {
             activeTab === 'my-listings' ? 'bg-[var(--color-primary)] text-white' : 'bg-transparent text-[var(--color-on-surface-variant)]'
           }`}
         >
-          <ClipboardList size={14} />My Listings
+          <ClipboardList size={14} />{t('equipment.myListings')}
         </button>
       </div>
 
@@ -260,7 +262,7 @@ export default function EquipmentRental() {
             <select value={filterType} onChange={e => setFilterType(e.target.value)} className="form-select">
               {EQUIPMENT_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
-            <input value={filterLocation} onChange={e => setFilterLocation(e.target.value)} placeholder="Location..." className="form-input" />
+            <input value={filterLocation} onChange={e => setFilterLocation(e.target.value)} placeholder={t('equipment.location')} className="form-input" />
             <input type="number" value={minPrice} onChange={e => setMinPrice(e.target.value)} placeholder="Min /day" className="form-input" />
             <input type="number" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} placeholder="Max /day" className="form-input" />
           </div>
@@ -268,7 +270,7 @@ export default function EquipmentRental() {
           {loading ? (
             <div className="text-center py-12"><Loader2 size={24} className="animate-spin text-[var(--color-primary)] mx-auto" /></div>
           ) : equipment.length === 0 ? (
-            <div className="text-center py-12 text-[var(--color-outline)]"><Tractor size={36} className="mx-auto mb-3" /><p>No equipment found.</p></div>
+            <div className="text-center py-12 text-[var(--color-outline)]"><Tractor size={36} className="mx-auto mb-3" /><p>{t('equipment.noEquipment')}</p></div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {equipment.map(item => (
@@ -277,7 +279,7 @@ export default function EquipmentRental() {
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-semibold text-lg text-[var(--color-on-surface)]">{item.name}</h3>
-                      <span className="text-[var(--color-primary)] font-bold">{item.daily_rate}/day</span>
+                      <span className="text-[var(--color-primary)] font-bold">{item.daily_rate}{t('equipment.perDay')}</span>
                     </div>
                     <p className="text-[var(--color-on-surface-variant)] text-sm mb-2">{item.description}</p>
                     <p className="text-[var(--color-outline)] text-xs mb-1 flex items-center gap-1"><MapPin size={12} />{item.location}</p>
@@ -288,7 +290,7 @@ export default function EquipmentRental() {
                       </div>
                     )}
                     <button onClick={() => { setBookingItem(item); setBookName(user?.name || ''); setBookPhone(user?.phone || ''); setBookError(''); setBookSuccess('') }} className="btn-primary w-full text-center py-2 text-sm flex items-center justify-center gap-1">
-                      <CalendarCheck size={14} />Book Now
+                      <CalendarCheck size={14} />{t('equipment.bookNow')}
                     </button>
                   </div>
                 </div>
@@ -304,8 +306,8 @@ export default function EquipmentRental() {
           ) : myEquipment.length === 0 ? (
             <div className="text-center py-12 text-[var(--color-outline)]">
               <Tractor size={36} className="mx-auto mb-3" />
-              <p>You haven't listed any equipment yet.</p>
-              <button onClick={() => setShowAdd(true)} className="btn-primary mt-4 flex items-center gap-2 mx-auto"><Plus size={16} />List Equipment</button>
+              <p>{t('equipment.notListed')}</p>
+              <button onClick={() => setShowAdd(true)} className="btn-primary mt-4 flex items-center gap-2 mx-auto"><Plus size={16} />{t('equipment.listEquipment')}</button>
             </div>
           ) : (
             <div className="space-y-6">
@@ -317,22 +319,22 @@ export default function EquipmentRental() {
                       <img src={getImage(item)} alt={item.name} className="w-20 h-20 rounded-xl object-cover" onError={e => (e.currentTarget.src = '/images/equipment-placeholder.svg')} />
                       <div className="flex-1">
                         <h3 className="font-semibold text-lg text-[var(--color-on-surface)]">{item.name}</h3>
-                        <p className="text-sm text-[var(--color-on-surface-variant)]">{item.daily_rate}/day · {item.location}</p>
+                        <p className="text-sm text-[var(--color-on-surface-variant)]">{item.daily_rate}{t('equipment.perDay')} · {item.location}</p>
                         <span className={`text-xs px-2 py-0.5 rounded-full mt-1 inline-block ${
                           itemBookings.some(b => b.status === 'confirmed') ? 'bg-blue-50 text-blue-600' :
                           itemBookings.some(b => b.status === 'pending') ? 'bg-amber-50 text-amber-600' :
                           'bg-green-50 text-green-600'
                         }`}>
-                          {itemBookings.some(b => b.status === 'confirmed') ? 'Rented Out' :
-                           itemBookings.some(b => b.status === 'pending') ? 'Pending Confirmation' :
-                           'Available'}
+                          {itemBookings.some(b => b.status === 'confirmed') ? t('equipment.rented') :
+                           itemBookings.some(b => b.status === 'pending') ? t('equipment.pending') :
+                           t('equipment.available')}
                         </span>
                       </div>
                     </div>
 
                     {itemBookings.length > 0 ? (
                       <div className="space-y-3">
-                        <h4 className="text-sm font-semibold text-[var(--color-on-surface-variant)]">Booking Requests</h4>
+                        <h4 className="text-sm font-semibold text-[var(--color-on-surface-variant)]">{t('equipment.bookingRequests')}</h4>
                         {itemBookings.map(booking => (
                           <div key={booking.id} className={`p-3 rounded-xl border text-sm ${
                             booking.status === 'confirmed' ? 'bg-green-50 border-green-200' :
@@ -349,8 +351,8 @@ export default function EquipmentRental() {
                                 booking.status === 'declined' ? 'bg-red-100 text-red-700' :
                                 'bg-amber-100 text-amber-700'
                               }`}>
-                                {booking.status === 'confirmed' ? (booking.payment_method ? 'Payment Shared' : 'Confirmed') :
-                                 booking.status === 'declined' ? 'Declined' : 'Pending'}
+                                {booking.status === 'confirmed' ? (booking.payment_method ? t('equipment.payment.paymentShared') : t('common.confirm')) :
+                                 booking.status === 'declined' ? t('common.decline') : t('equipment.pending')}
                               </span>
                             </div>
                             <p className="flex items-center gap-1 text-[var(--color-on-surface-variant)]">
@@ -367,13 +369,13 @@ export default function EquipmentRental() {
                                   onClick={() => handleConfirmBooking(booking)}
                                   className="btn-primary flex-1 py-2 text-sm flex items-center justify-center gap-1"
                                 >
-                                  <CheckCircle size={14} />Confirm
+                                  <CheckCircle size={14} />{t('equipment.confirmBooking')}
                                 </button>
                                 <button
                                   onClick={() => handleDeclineBooking(booking.id)}
                                   className="flex-1 py-2 text-sm rounded-xl border border-[var(--color-error)] text-[var(--color-error)] bg-transparent cursor-pointer hover:bg-red-50 transition-colors flex items-center justify-center gap-1"
                                 >
-                                  <XCircle size={14} />Decline
+                                  <XCircle size={14} />{t('equipment.declineBooking')}
                                 </button>
                               </div>
                             )}
@@ -381,7 +383,7 @@ export default function EquipmentRental() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-sm text-[var(--color-outline)]">No booking requests yet.</p>
+                      <p className="text-sm text-[var(--color-outline)]">{t('equipment.noBookings')}</p>
                     )}
                   </InputCard>
                 )
@@ -405,17 +407,17 @@ export default function EquipmentRental() {
               <>
                 {bookError && <div className="bg-[var(--color-error-container)] text-[var(--color-error)] rounded-xl p-3 mb-3 text-sm">{bookError}</div>}
                 <div className="space-y-3">
-                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Full Name *</label><input value={bookName} onChange={e => setBookName(e.target.value)} className="form-input" required /></div>
-                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Phone Number *</label><input value={bookPhone} onChange={e => setBookPhone(e.target.value)} className="form-input" placeholder="10-digit phone number" required /></div>
-                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Start Date *</label><input type="date" value={bookStart} onChange={e => setBookStart(e.target.value)} className="form-input" required /></div>
-                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">End Date *</label><input type="date" value={bookEnd} onChange={e => setBookEnd(e.target.value)} className="form-input" required /></div>
+                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.fullName')} *</label><input value={bookName} onChange={e => setBookName(e.target.value)} className="form-input" required /></div>
+                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.phoneNumber')} *</label><input value={bookPhone} onChange={e => setBookPhone(e.target.value)} className="form-input" placeholder="10-digit phone number" required /></div>
+                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.startDate')} *</label><input type="date" value={bookStart} onChange={e => setBookStart(e.target.value)} className="form-input" required /></div>
+                  <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.endDate')} *</label><input type="date" value={bookEnd} onChange={e => setBookEnd(e.target.value)} className="form-input" required /></div>
                   {bookStart && bookEnd && calcDays() > 0 && (
                     <div className="bg-[var(--color-surface-variant)] rounded-xl p-3 text-center">
                       <p className="text-sm text-[var(--color-on-surface-variant)]">{calcDays()} days x {bookingItem.daily_rate} = <span className="text-[var(--color-primary)] font-bold text-lg">{(bookingItem.daily_rate * calcDays()).toLocaleString()}</span></p>
                     </div>
                   )}
                 </div>
-                <PrimaryButton onClick={handleBook} loading={bookLoading} className="w-full mt-4 py-2.5 text-center">Submit Booking Request</PrimaryButton>
+                <PrimaryButton onClick={handleBook} loading={bookLoading} className="w-full mt-4 py-2.5 text-center">{t('equipment.submitBooking')}</PrimaryButton>
               </>
             )}
           </div>
@@ -428,7 +430,7 @@ export default function EquipmentRental() {
           <div className="modal-content max-w-lg" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold text-[var(--color-on-surface)]">
-                {paymentSuccess ? 'Booking Confirmed!' : 'How would you like to receive payment?'}
+                {paymentSuccess ? t('equipment.payment.confirmed') : t('equipment.payment.title')}
               </h3>
               <button onClick={() => setPaymentBooking(null)} className="w-8 h-8 rounded-full hover:bg-[var(--color-surface-variant)] flex items-center justify-center bg-transparent border-none cursor-pointer"><X size={18} /></button>
             </div>
@@ -446,8 +448,8 @@ export default function EquipmentRental() {
                 >
                   <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center"><Banknote size={24} className="text-green-600" /></div>
                   <div>
-                    <p className="font-semibold text-[var(--color-on-surface)]">Cash</p>
-                    <p className="text-sm text-[var(--color-on-surface-variant)]">Meet in person and collect cash</p>
+                    <p className="font-semibold text-[var(--color-on-surface)]">{t('equipment.payment.cash')}</p>
+                    <p className="text-sm text-[var(--color-on-surface-variant)]">{t('equipment.payment.cashDesc')}</p>
                   </div>
                 </button>
                 <button
@@ -456,8 +458,8 @@ export default function EquipmentRental() {
                 >
                   <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center"><Smartphone size={24} className="text-blue-600" /></div>
                   <div>
-                    <p className="font-semibold text-[var(--color-on-surface)]">GPay / UPI</p>
-                    <p className="text-sm text-[var(--color-on-surface-variant)]">Share UPI ID or QR code with renter</p>
+                    <p className="font-semibold text-[var(--color-on-surface)]">{t('equipment.payment.upi')}</p>
+                    <p className="text-sm text-[var(--color-on-surface-variant)]">{t('equipment.payment.upiDesc')}</p>
                   </div>
                 </button>
                 <button
@@ -466,8 +468,8 @@ export default function EquipmentRental() {
                 >
                   <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center"><CreditCard size={24} className="text-purple-600" /></div>
                   <div>
-                    <p className="font-semibold text-[var(--color-on-surface)]">Card / Bank Transfer</p>
-                    <p className="text-sm text-[var(--color-on-surface-variant)]">Share bank details for NEFT/IMPS transfer</p>
+                    <p className="font-semibold text-[var(--color-on-surface)]">{t('equipment.payment.bank')}</p>
+                    <p className="text-sm text-[var(--color-on-surface-variant)]">{t('equipment.payment.bankDesc')}</p>
                   </div>
                 </button>
               </div>
@@ -475,22 +477,22 @@ export default function EquipmentRental() {
               <div className="space-y-4">
                 <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
                   <Banknote size={28} className="text-green-600 mx-auto mb-2" />
-                  <p className="text-sm text-green-700">Cash payment agreed. Contact the renter to arrange meetup.</p>
+                  <p className="text-sm text-green-700">{t('equipment.payment.cashAgreed')}</p>
                 </div>
                 <div className="bg-[var(--color-surface-variant)] rounded-xl p-3">
-                  <p className="text-sm"><strong>Renter:</strong> {paymentBooking.renter_name}</p>
+                  <p className="text-sm"><strong>{t('equipment.payment.renter')}:</strong> {paymentBooking.renter_name}</p>
                   <p className="text-sm flex items-center gap-1"><Phone size={12} />{paymentBooking.renter_phone}</p>
-                  <p className="text-sm"><strong>Amount:</strong> <span className="text-[var(--color-primary)] font-bold">{paymentBooking.total_cost?.toLocaleString() || '—'}</span></p>
+                  <p className="text-sm"><strong>{t('equipment.payment.amount')}:</strong> <span className="text-[var(--color-primary)] font-bold">{paymentBooking.total_cost?.toLocaleString() || '—'}</span></p>
                 </div>
                 <PrimaryButton onClick={handlePaymentSubmit} loading={paymentLoading} className="w-full py-2.5 text-center">
-                  Confirm Booking
+                  {t('equipment.confirmBooking')}
                 </PrimaryButton>
-                <button onClick={() => setPaymentMethod(null)} className="w-full text-sm text-[var(--color-on-surface-variant)] hover:underline bg-transparent border-none cursor-pointer">Back to payment options</button>
+                <button onClick={() => setPaymentMethod(null)} className="w-full text-sm text-[var(--color-on-surface-variant)] hover:underline bg-transparent border-none cursor-pointer">{t('equipment.payment.backToOptions')}</button>
               </div>
             ) : paymentMethod === 'upi' ? (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Your UPI ID or GPay Number</label>
+                  <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.payment.upiPlaceholder')}</label>
                   <input value={upiId} onChange={e => setUpiId(e.target.value)} className="form-input" placeholder="example@upi or 9876543210" />
                 </div>
                 {upiId && (
@@ -503,44 +505,44 @@ export default function EquipmentRental() {
                         />
                       </div>
                     </div>
-                    <p className="text-xs text-[var(--color-outline)] text-center">Renter can scan this QR to pay</p>
+                    <p className="text-xs text-[var(--color-outline)] text-center">{t('equipment.payment.scanQR')}</p>
                     <a
                       href={getWhatsAppUrl(paymentBooking)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-primary w-full py-2.5 text-center flex items-center justify-center gap-2 no-underline"
                     >
-                      <ExternalLink size={14} />Share via WhatsApp
+                      <ExternalLink size={14} />{t('equipment.payment.shareWhatsApp')}
                     </a>
                   </>
                 )}
                 <PrimaryButton onClick={handlePaymentSubmit} loading={paymentLoading} disabled={!upiId} className="w-full py-2.5 text-center">
-                  Confirm & Share Payment
+                  {t('equipment.payment.confirmShare')}
                 </PrimaryButton>
-                <button onClick={() => setPaymentMethod(null)} className="w-full text-sm text-[var(--color-on-surface-variant)] hover:underline bg-transparent border-none cursor-pointer">Back to payment options</button>
+                <button onClick={() => setPaymentMethod(null)} className="w-full text-sm text-[var(--color-on-surface-variant)] hover:underline bg-transparent border-none cursor-pointer">{t('equipment.payment.backToOptions')}</button>
               </div>
             ) : (
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Account Holder Name</label>
+                  <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.payment.accountName')}</label>
                   <input value={bankName} onChange={e => setBankName(e.target.value)} className="form-input" />
                 </div>
                 <div>
-                  <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Account Number</label>
+                  <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.payment.accountNumber')}</label>
                   <input value={bankAccount} onChange={e => setBankAccount(e.target.value)} className="form-input" />
                 </div>
                 <div>
-                  <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">IFSC Code</label>
+                  <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.payment.ifsc')}</label>
                   <input value={bankIfsc} onChange={e => setBankIfsc(e.target.value)} className="form-input" placeholder="e.g. SBIN0001234" />
                 </div>
                 {bankName && bankAccount && bankIfsc && (
                   <>
                     <div className="bg-[var(--color-surface-variant)] rounded-xl p-3">
-                      <p className="text-xs text-[var(--color-outline)] mb-1">Bank Details Summary</p>
+                      <p className="text-xs text-[var(--color-outline)] mb-1">{t('equipment.payment.bankSummary')}</p>
                       <p className="text-sm"><strong>Name:</strong> {bankName}</p>
                       <p className="text-sm"><strong>A/C:</strong> {bankAccount}</p>
                       <p className="text-sm"><strong>IFSC:</strong> {bankIfsc}</p>
-                      <p className="text-sm"><strong>Amount:</strong> <span className="text-[var(--color-primary)] font-bold">{paymentBooking.total_cost?.toLocaleString() || '—'}</span></p>
+                      <p className="text-sm"><strong>{t('equipment.payment.amount')}:</strong> <span className="text-[var(--color-primary)] font-bold">{paymentBooking.total_cost?.toLocaleString() || '—'}</span></p>
                     </div>
                     <a
                       href={getWhatsAppUrl(paymentBooking)}
@@ -548,14 +550,14 @@ export default function EquipmentRental() {
                       rel="noopener noreferrer"
                       className="btn-primary w-full py-2.5 text-center flex items-center justify-center gap-2 no-underline"
                     >
-                      <ExternalLink size={14} />Share via WhatsApp
+                      <ExternalLink size={14} />{t('equipment.payment.shareWhatsApp')}
                     </a>
                   </>
                 )}
                 <PrimaryButton onClick={handlePaymentSubmit} loading={paymentLoading} disabled={!bankName || !bankAccount || !bankIfsc} className="w-full py-2.5 text-center">
-                  Confirm & Share Payment
+                  {t('equipment.payment.confirmShare')}
                 </PrimaryButton>
-                <button onClick={() => setPaymentMethod(null)} className="w-full text-sm text-[var(--color-on-surface-variant)] hover:underline bg-transparent border-none cursor-pointer">Back to payment options</button>
+                <button onClick={() => setPaymentMethod(null)} className="w-full text-sm text-[var(--color-on-surface-variant)] hover:underline bg-transparent border-none cursor-pointer">{t('equipment.payment.backToOptions')}</button>
               </div>
             )}
           </div>
@@ -567,20 +569,20 @@ export default function EquipmentRental() {
         <div className="modal-overlay" onClick={() => setShowAdd(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-[var(--color-on-surface)]">List Your Equipment</h3>
+              <h3 className="text-lg font-bold text-[var(--color-on-surface)]">{t('equipment.listEquipment')}</h3>
               <button onClick={() => setShowAdd(false)} className="w-8 h-8 rounded-full hover:bg-[var(--color-surface-variant)] flex items-center justify-center bg-transparent border-none cursor-pointer"><X size={18} /></button>
             </div>
             <form onSubmit={handleAdd} className="space-y-3">
-              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Equipment Name</label><input value={addName} onChange={e => setAddName(e.target.value)} className="form-input" required /></div>
-              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Type</label>
+              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.equipmentName')}</label><input value={addName} onChange={e => setAddName(e.target.value)} className="form-input" required /></div>
+              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.type')}</label>
                 <select value={addType} onChange={e => setAddType(e.target.value)} className="form-select">
                   {EQUIPMENT_TYPES.filter(t => t !== 'All').map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
               </div>
-              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Daily Rate</label><input type="number" value={addRate} onChange={e => setAddRate(e.target.value)} className="form-input" required /></div>
-              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Location</label><input value={addLocation} onChange={e => setAddLocation(e.target.value)} className="form-input" required /></div>
-              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Description</label><textarea value={addDesc} onChange={e => setAddDesc(e.target.value)} className="form-input" rows={3}></textarea></div>
-              <PrimaryButton type="submit" loading={addLoading} className="w-full py-2.5 text-center">List Equipment</PrimaryButton>
+              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.dailyRate')}</label><input type="number" value={addRate} onChange={e => setAddRate(e.target.value)} className="form-input" required /></div>
+              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.location')}</label><input value={addLocation} onChange={e => setAddLocation(e.target.value)} className="form-input" required /></div>
+              <div><label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('equipment.description')}</label><textarea value={addDesc} onChange={e => setAddDesc(e.target.value)} className="form-input" rows={3}></textarea></div>
+              <PrimaryButton type="submit" loading={addLoading} className="w-full py-2.5 text-center">{t('equipment.listEquipment')}</PrimaryButton>
             </form>
           </div>
         </div>

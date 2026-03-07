@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CloudSun, Search, RefreshCw, Wind, Droplets, Sprout, ChevronLeft, ChevronRight, CheckCircle, ArrowRight, Loader2, AlertCircle, Calendar } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import InputCard from '../components/InputCard'
@@ -61,6 +62,7 @@ function getActivities(weather: CurrentWeather | null): string[] {
 }
 
 export default function WeatherAdvisory() {
+  const { t } = useTranslation()
   const [city, setCity] = useState('Jaipur')
   const [cityInput, setCityInput] = useState('Jaipur')
   const [current, setCurrent] = useState<CurrentWeather | null>(null)
@@ -132,9 +134,9 @@ export default function WeatherAdvisory() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <PageHeader icon={CloudSun} title="Weather Advisory" subtitle="Agricultural weather forecast and crop recommendations." />
+      <PageHeader icon={CloudSun} title={t('weather.title')} subtitle={t('weather.subtitle')} />
       <div className="flex gap-2 mb-6 max-w-md">
-        <input value={cityInput} onChange={e => setCityInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSearch()} placeholder="Enter city name..." className="form-input flex-1" />
+        <input value={cityInput} onChange={e => setCityInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleSearch()} placeholder={t('weather.enterCity')} className="form-input flex-1" />
         <button onClick={handleSearch} className="btn-primary px-4"><Search size={16} /></button>
         <button onClick={() => fetchWeather(city)} className="btn-secondary px-4"><RefreshCw size={16} /></button>
       </div>
@@ -157,12 +159,12 @@ export default function WeatherAdvisory() {
               <div className="flex gap-6">
                 <div className="text-center">
                   <Wind size={20} className="text-[var(--color-primary)] mx-auto mb-1" />
-                  <p className="text-sm text-[var(--color-on-surface-variant)]">Wind</p>
+                  <p className="text-sm text-[var(--color-on-surface-variant)]">{t('weather.wind')}</p>
                   <p className="font-semibold text-[var(--color-on-surface)]">{current.wind_speed} km/h</p>
                 </div>
                 <div className="text-center">
                   <Droplets size={20} className="text-[var(--color-primary)] mx-auto mb-1" />
-                  <p className="text-sm text-[var(--color-on-surface-variant)]">Humidity</p>
+                  <p className="text-sm text-[var(--color-on-surface-variant)]">{t('weather.humidity')}</p>
                   <p className="font-semibold text-[var(--color-on-surface)]">{current.humidity}%</p>
                 </div>
               </div>
@@ -171,7 +173,7 @@ export default function WeatherAdvisory() {
 
           {forecast.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-xl font-semibold mb-3 text-[var(--color-on-surface)]">Forecast</h3>
+              <h3 className="text-xl font-semibold mb-3 text-[var(--color-on-surface)]">{t('weather.forecast')}</h3>
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {forecast.map((f, i) => (
                   <div key={i} className="weather-card flex-shrink-0">
@@ -187,7 +189,7 @@ export default function WeatherAdvisory() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <InputCard>
-              <h3 className="text-lg font-semibold mb-3 text-[var(--color-primary)] flex items-center gap-2"><Sprout size={20} />Crop Advisory</h3>
+              <h3 className="text-lg font-semibold mb-3 text-[var(--color-primary)] flex items-center gap-2"><Sprout size={20} />{t('weather.advisory')}</h3>
               <ul className="space-y-2">
                 {getCropAdvice(current).map((a, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-[var(--color-on-surface-variant)]">
@@ -206,7 +208,7 @@ export default function WeatherAdvisory() {
             </InputCard>
 
             <InputCard>
-              <h3 className="text-lg font-semibold mb-3 text-[var(--color-primary)] flex items-center gap-2"><Calendar size={20} />Crop Calendar</h3>
+              <h3 className="text-lg font-semibold mb-3 text-[var(--color-primary)] flex items-center gap-2"><Calendar size={20} />{t('weather.calendar')}</h3>
               <div className="flex items-center justify-between mb-3">
                 <button onClick={() => { if (calMonth === 0) { setCalMonth(11); setCalYear(y => y - 1) } else setCalMonth(m => m - 1) }} className="text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] bg-transparent border-none cursor-pointer"><ChevronLeft size={20} /></button>
                 <span className="font-semibold text-[var(--color-on-surface)]">{MONTHS[calMonth]} {calYear}</span>

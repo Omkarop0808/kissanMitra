@@ -109,11 +109,21 @@ TAVILY_*.md
 CROP_DISEASE_DETECTION_GUIDE.md
 DEMO_CHEAT_SHEET.md
 DEMO_GUIDE.md
-HACKATHON_*.md
+HACKATHON_DEMO_GUIDE.md
+SETUP.md
+TASKS.md
+CONTRIBUTING.md
+VOICE_TTS_GUIDE.md
+designuiux.md
 
 # Keep these important docs
 !README.md
+!HACKATHON_LIVE_DEMO_SCRIPT.md
 !REQUIREMENTS.md
 !DESIGN.md
 !.env.example
 !GET_API_KEYS_AND_MODELS.md
+
+# Node
+node_modules/
+frontend/dist/

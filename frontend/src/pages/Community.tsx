@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import { communityApi } from '../services/api'
 import {
@@ -47,9 +48,9 @@ const categoryIconMap: Record<string, typeof MessageCircle> = {
 }
 
 const locationFilters = [
-  { key: 'global', label: 'Global', icon: Globe },
-  { key: 'area', label: 'My Area', icon: MapPin },
-  { key: 'district', label: 'My District', icon: Home },
+  { key: 'global', tKey: 'community.filterGlobal', icon: Globe },
+  { key: 'area', tKey: 'community.filterArea', icon: MapPin },
+  { key: 'district', tKey: 'community.filterDistrict', icon: Home },
 ]
 
 const defaultPosts: Post[] = [
@@ -90,6 +91,7 @@ function FlyTo({ lat, lng }: { lat: number; lng: number }) {
 
 export default function Community() {
   const { user } = useAuth()
+  const { t } = useTranslation()
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('All')
@@ -158,13 +160,13 @@ export default function Community() {
       })
       setNewTitle(''); setNewContent(''); setNewCategory('General'); setNewType('post'); setShowCreateForm(false)
       await loadPosts()
-    } catch { setError('Failed to create post') }
+    } catch { setError(t('community.failedCreate')) }
     finally { setSubmitting(false) }
   }
 
   const handleDeletePost = async (id: string) => {
     try { await communityApi.remove(id); setPosts(prev => prev.filter(p => p.id !== id)) }
-    catch { setError('Failed to delete post') }
+    catch { setError(t('community.failedDelete')) }
   }
 
   const handleAddAnswer = async (postId: string) => {
@@ -174,7 +176,7 @@ export default function Community() {
       await communityApi.addAnswer(postId, { content: answerText.trim(), author: user?.name || 'Anonymous Farmer' })
       setAnswerText('')
       await loadPosts()
-    } catch { setError('Failed to add answer') }
+    } catch { setError(t('community.failedAnswer')) }
     finally { setAnswerSubmitting(false) }
   }
 
@@ -182,7 +184,7 @@ export default function Community() {
     try {
       await communityApi.markBestAnswer(postId, answerId)
       await loadPosts()
-    } catch { setError('Failed to mark best answer') }
+    } catch { setError(t('community.failedBest')) }
   }
 
   const filteredPosts = useMemo(() => {
@@ -218,7 +220,7 @@ export default function Community() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <PageHeader icon={Users} title="Farmer Community" subtitle="Share knowledge, ask questions, and connect with fellow farmers." />
+        <PageHeader icon={Users} title={t('community.title')} subtitle={t('community.subtitle')} />
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowMap(!showMap)}
@@ -228,11 +230,11 @@ export default function Community() {
                 : 'bg-white border-[var(--color-outline-variant)] text-[var(--color-on-surface-variant)] hover:border-[var(--color-primary)]'
             }`}
           >
-            <MapIcon size={14} />{showMap ? 'Feed' : 'Map'}
+            <MapIcon size={14} />{showMap ? t('community.feed') : t('community.map')}
           </button>
           <button onClick={() => setShowCreateForm(!showCreateForm)} className="btn-primary flex items-center gap-2 whitespace-nowrap">
             {showCreateForm ? <X size={16} /> : <Plus size={16} />}
-            {showCreateForm ? 'Cancel' : 'New Post'}
+            {showCreateForm ? t('community.cancel') : t('community.newPost')}
           </button>
         </div>
       </div>
@@ -247,7 +249,7 @@ export default function Community() {
       {showCreateForm && (
         <InputCard className="mb-8 animate-fade-in">
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-[var(--color-on-surface)]">
-            <PenLine size={18} className="text-[var(--color-primary)]" />Create a Post
+            <PenLine size={18} className="text-[var(--color-primary)]" />{t('community.createPost')}
           </h2>
           <div className="flex rounded-xl overflow-hidden border border-[var(--color-outline-variant)] mb-4">
             <button
@@ -257,7 +259,7 @@ export default function Community() {
                 newType === 'post' ? 'bg-[var(--color-primary)] text-white' : 'bg-transparent text-[var(--color-on-surface-variant)]'
               }`}
             >
-              <MessageCircle size={14} />Share Post
+              <MessageCircle size={14} />{t('community.sharePost')}
             </button>
             <button
               type="button"
@@ -266,24 +268,24 @@ export default function Community() {
                 newType === 'question' ? 'bg-amber-500 text-white' : 'bg-transparent text-[var(--color-on-surface-variant)]'
               }`}
             >
-              <HelpCircle size={14} />Ask a Question
+              <HelpCircle size={14} />{t('community.askQuestion')}
             </button>
           </div>
           <form onSubmit={handleCreatePost}>
             <div className="mb-4">
               <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">
-                {newType === 'question' ? 'Question Title' : 'Title'}
+                {newType === 'question' ? t('community.questionTitle') : t('community.postTitle')}
               </label>
-              <input type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} className="form-input" placeholder={newType === 'question' ? 'What do you want to ask?' : "What's on your mind?"} required />
+              <input type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} className="form-input" placeholder={newType === 'question' ? t('community.questionPlaceholder') : t('community.postPlaceholder')} required />
             </div>
             <div className="mb-4">
               <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">
-                {newType === 'question' ? 'Details' : 'Content'}
+                {newType === 'question' ? t('community.details') : t('community.content')}
               </label>
-              <textarea value={newContent} onChange={e => setNewContent(e.target.value)} className="form-input min-h-[100px] resize-y" placeholder={newType === 'question' ? 'Provide more details about your question...' : 'Share your experience, tips...'} required />
+              <textarea value={newContent} onChange={e => setNewContent(e.target.value)} className="form-input min-h-[100px] resize-y" placeholder={newType === 'question' ? t('community.detailsPlaceholder') : t('community.contentPlaceholder')} required />
             </div>
             <div className="mb-4">
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Category</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('community.category')}</label>
               <select value={newCategory} onChange={e => setNewCategory(e.target.value)} className="form-select">
                 {postCategories.filter(c => c !== 'All').map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -292,11 +294,11 @@ export default function Community() {
             </div>
             {userLocation && (
               <div className="mb-4 text-xs text-[var(--color-outline)] flex items-center gap-1">
-                <MapPin size={12} />Location will be attached{userDistrict ? ` (${userDistrict})` : ''}
+                <MapPin size={12} />{t('community.locationAttached')}{userDistrict ? ` (${userDistrict})` : ''}
               </div>
             )}
             <PrimaryButton type="submit" loading={submitting}>
-              {newType === 'question' ? 'Post Question' : 'Post to Community'}
+              {newType === 'question' ? t('community.questionBtn') : t('community.postBtn')}
             </PrimaryButton>
           </form>
         </InputCard>
@@ -317,7 +319,7 @@ export default function Community() {
                   : 'bg-white border-[var(--color-outline-variant)] text-[var(--color-on-surface-variant)] hover:border-[var(--color-primary)]'
               }`}
             >
-              <Icon size={13} />{f.label}
+              <Icon size={13} />{t(f.tKey)}
               <span className="text-xs opacity-70">({count})</span>
             </button>
           )
@@ -362,7 +364,7 @@ export default function Community() {
               <>
                 <FlyTo lat={userLocation.lat} lng={userLocation.lng} />
                 <Marker position={[userLocation.lat, userLocation.lng]} icon={greenPinIcon}>
-                  <Popup><strong className="text-green-700">You are here</strong></Popup>
+                  <Popup><strong className="text-green-700">{t('community.youAreHere')}</strong></Popup>
                 </Marker>
               </>
             )}
@@ -383,12 +385,12 @@ export default function Community() {
       ) : loading ? (
         <div className="text-center py-16">
           <div className="loading-dots"><span></span><span></span><span></span></div>
-          <p className="text-[var(--color-on-surface-variant)] mt-4">Loading posts...</p>
+          <p className="text-[var(--color-on-surface-variant)] mt-4">{t('community.loadingPosts')}</p>
         </div>
       ) : filteredPosts.length === 0 ? (
         <div className="text-center py-16 text-[var(--color-outline)]">
           <MessageCircle size={36} className="mx-auto mb-4" />
-          <p>No posts yet. Be the first to share!</p>
+          <p>{t('community.noPosts')}</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -425,12 +427,12 @@ export default function Community() {
                       <div className="ml-auto flex items-center gap-2 flex-wrap">
                         {isQuestion && isAnswered && (
                           <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-green-50 text-green-600 flex items-center gap-1">
-                            <CheckCircle size={10} />Answered
+                            <CheckCircle size={10} />{t('community.answered')}
                           </span>
                         )}
                         {isQuestion && (
                           <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-amber-50 text-amber-600 flex items-center gap-1">
-                            <HelpCircle size={10} />Question
+                            <HelpCircle size={10} />{t('community.question')}
                             {answers.length > 0 && <> · {answers.length} Answer{answers.length > 1 ? 's' : ''}</>}
                           </span>
                         )}
@@ -451,7 +453,7 @@ export default function Community() {
                         className="mt-3 text-sm text-[var(--color-primary)] hover:underline bg-transparent border-none cursor-pointer flex items-center gap-1"
                       >
                         {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                        {isExpanded ? 'Hide Answers' : `View ${answers.length} Answer${answers.length !== 1 ? 's' : ''}`}
+                        {isExpanded ? t('community.hideAnswers') : t('community.viewAnswers', { count: answers.length })}
                       </button>
                     )}
 
@@ -465,7 +467,7 @@ export default function Community() {
                                 <div className="flex items-center gap-2 mb-1">
                                   {isBest && <Award size={14} className="text-green-600" />}
                                   <strong className={isBest ? 'text-green-700' : 'text-[var(--color-on-surface)]'}>{ans.author}</strong>
-                                  {isBest && <span className="text-xs text-green-600 font-medium">Best Answer</span>}
+                                  {isBest && <span className="text-xs text-green-600 font-medium">{t('community.bestAnswer')}</span>}
                                   <span className="text-xs text-[var(--color-outline)] ml-auto">{timeAgo(ans.created_at)}</span>
                                 </div>
                                 <p className="text-[var(--color-on-surface-variant)]">{ans.content}</p>
@@ -474,14 +476,14 @@ export default function Community() {
                                     onClick={() => handleMarkBest(post.id, ans.id)}
                                     className="mt-2 text-xs text-[var(--color-primary)] hover:underline bg-transparent border-none cursor-pointer flex items-center gap-1"
                                   >
-                                    <CheckCircle size={12} />Mark as Best Answer
+                                    <CheckCircle size={12} />{t('community.markBest')}
                                   </button>
                                 )}
                               </div>
                             )
                           })
                         ) : (
-                          <p className="text-sm text-[var(--color-outline)]">No answers yet. Be the first to help!</p>
+                          <p className="text-sm text-[var(--color-outline)]">{t('community.noAnswers')}</p>
                         )}
                         <div className="flex gap-2 mt-3">
                           <input
@@ -489,7 +491,7 @@ export default function Community() {
                             value={answerText}
                             onChange={e => setAnswerText(e.target.value)}
                             onKeyDown={e => e.key === 'Enter' && handleAddAnswer(post.id)}
-                            placeholder="Write your answer..."
+                            placeholder={t('community.writeAnswer')}
                             className="form-input flex-1 text-sm"
                           />
                           <button

@@ -1,16 +1,18 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { LayoutDashboard, Leaf, Bot, CloudSun, Heart } from 'lucide-react'
 
 const tabs = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Home' },
-  { to: '/crop-care', icon: Leaf, label: 'Crops' },
-  { to: '/farmer-assistant', icon: Bot, label: 'AI' },
-  { to: '/weather-advisory', icon: CloudSun, label: 'Weather' },
-  { to: '/donation', icon: Heart, label: 'Support' },
+  { to: '/dashboard', icon: LayoutDashboard, key: 'nav.dashboard' },
+  { to: '/crop-care', icon: Leaf, key: 'nav.cropHealth' },
+  { to: '/farmer-assistant', icon: Bot, key: 'nav.aiAssistant' },
+  { to: '/weather-advisory', icon: CloudSun, key: 'nav.weather' },
+  { to: '/donation', icon: Heart, key: 'nav.donation' },
 ]
 
 export default function BottomNav() {
   const location = useLocation()
+  const { t } = useTranslation()
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-[var(--color-outline-variant)] flex items-center justify-around z-40">
@@ -27,7 +29,7 @@ export default function BottomNav() {
               <Icon size={20} className={active ? 'text-[var(--color-primary)]' : 'text-[var(--color-on-surface-variant)]'} />
             </div>
             <span className={`text-[10px] font-medium ${active ? 'text-[var(--color-primary)]' : 'text-[var(--color-on-surface-variant)]'}`}>
-              {tab.label}
+              {t(tab.key)}
             </span>
           </Link>
         )

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { marked } from 'marked'
 import { Leaf, CloudUpload, X, Search, AlertCircle, HeartPulse, Map, ImageIcon, MapPin, Navigation } from 'lucide-react'
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap } from 'react-leaflet'
@@ -72,6 +73,8 @@ export default function CropCare() {
   const [locationLoading, setLocationLoading] = useState(false)
   const [locationError, setLocationError] = useState('')
 
+  const { t } = useTranslation()
+
   const detectLocation = () => {
     if (!navigator.geolocation) {
       setLocationError('Geolocation is not supported by your browser')
@@ -98,11 +101,11 @@ export default function CropCare() {
 
   const handleFileSelect = (file: File) => {
     if (!file.type.startsWith('image/')) {
-      setError('Please select an image file (JPG, PNG, etc.)')
+      setError(t('cropCare.selectImage'))
       return
     }
     if (file.size > 2 * 1024 * 1024) {
-      setError('Image must be less than 2MB')
+      setError(t('cropCare.imageTooLarge'))
       return
     }
     setError('')
@@ -140,7 +143,7 @@ export default function CropCare() {
 
   const handleSubmit = async () => {
     if (!selectedFile) {
-      setError('Please upload an image first')
+      setError(t('cropCare.uploadFirst'))
       return
     }
     setLoading(true)
@@ -183,7 +186,7 @@ export default function CropCare() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <PageHeader icon={Leaf} title="Crop Disease Detection" subtitle="Upload a crop or leaf image to identify diseases and get treatment recommendations." />
+      <PageHeader icon={Leaf} title={t('cropCare.title')} subtitle={t('cropCare.subtitle')} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Upload Section */}
@@ -197,8 +200,8 @@ export default function CropCare() {
                 onDragOver={e => e.preventDefault()}
               >
                 <CloudUpload size={36} className="text-[var(--color-primary)] mb-3" />
-                <p className="text-[var(--color-on-surface)] mb-1">Click to upload or drag & drop</p>
-                <p className="text-[var(--color-outline)] text-sm">JPG, PNG (Max 2MB)</p>
+                <p className="text-[var(--color-on-surface)] mb-1">{t('cropCare.upload')}</p>
+                <p className="text-[var(--color-outline)] text-sm">{t('cropCare.uploadHint')}</p>
               </div>
             ) : (
               <div className="relative">
@@ -220,7 +223,7 @@ export default function CropCare() {
             />
 
             <div className="mt-4">
-              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Response Language</label>
+              <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('cropCare.language')}</label>
               <select value={language} onChange={e => setLanguage(e.target.value)} className="form-select">
                 {LANGUAGES.map(l => (
                   <option key={l.code} value={l.code}>{l.label}</option>
@@ -234,7 +237,7 @@ export default function CropCare() {
               disabled={!selectedFile}
               className="w-full mt-4 py-3 text-center"
             >
-              <Search size={18} className="mr-2" />Analyze Image
+              <Search size={18} className="mr-2" />{t('cropCare.analyze')}
             </PrimaryButton>
 
             {error && (
@@ -253,7 +256,7 @@ export default function CropCare() {
                 <InputCard>
                   <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 text-[var(--color-on-surface)]">
                     <HeartPulse size={20} className="text-[var(--color-primary)]" />
-                    Plant Health Score
+                    {t('cropCare.healthScore')}
                   </h3>
                   <div className="flex items-center gap-4 mb-2">
                     <div className="flex-1 h-4 bg-[var(--color-surface-variant)] rounded-full overflow-hidden">
@@ -273,22 +276,22 @@ export default function CropCare() {
                   <p className={`text-sm font-medium ${
                     healthScore >= 66 ? 'text-green-600' : healthScore >= 33 ? 'text-orange-600' : 'text-red-600'
                   }`}>
-                    {healthScore >= 80 ? 'Excellent - Plant appears healthy' :
-                     healthScore >= 66 ? 'Good - Minor issues detected' :
-                     healthScore >= 45 ? 'Fair - Treatment recommended' :
-                     healthScore >= 25 ? 'Poor - Immediate action needed' :
-                     'Critical - Urgent intervention required'}
+                    {healthScore >= 80 ? t('cropCare.excellent') :
+                     healthScore >= 66 ? t('cropCare.good') :
+                     healthScore >= 45 ? t('cropCare.fair') :
+                     healthScore >= 25 ? t('cropCare.poor') :
+                     t('cropCare.critical')}
                   </p>
                 </InputCard>
               )}
 
-              <AIResultCard response={response} title="Analysis Results" />
+              <AIResultCard response={response} title={t('cropCare.results')} />
             </div>
           ) : (
             <InputCard className="flex items-center justify-center min-h-[300px]">
               <div className="text-center text-[var(--color-outline)]">
                 <ImageIcon size={36} className="mx-auto mb-3" />
-                <p>Upload an image to see analysis results</p>
+                <p>{t('cropCare.uploadPrompt')}</p>
               </div>
             </InputCard>
           )}
@@ -300,7 +303,7 @@ export default function CropCare() {
         <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
           <h2 className="text-2xl font-bold flex items-center gap-2 text-[var(--color-on-surface)]">
             <Map size={24} className="text-[var(--color-primary)]" />
-            Disease Hotspot Map
+            {t('cropCare.hotspotMap')}
           </h2>
           <button
             onClick={detectLocation}
@@ -308,7 +311,7 @@ export default function CropCare() {
             className="btn-primary flex items-center gap-2 text-sm px-4 py-2"
           >
             <Navigation size={14} />
-            {locationLoading ? 'Detecting...' : 'Detect My Location'}
+            {locationLoading ? t('cropCare.detecting') : t('cropCare.detectLocation')}
           </button>
         </div>
 
@@ -320,7 +323,7 @@ export default function CropCare() {
 
         {userLocation && getNearbyHotspots().length > 0 && (
           <div className="mb-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl p-3 text-sm">
-            <strong>Nearby Alerts:</strong> {getNearbyHotspots().length} disease hotspot(s) detected near your area. Check the map below.
+            <strong>{t('cropCare.nearbyAlerts')}:</strong> {t('cropCare.hotspotsNear', { count: getNearbyHotspots().length })}
           </div>
         )}
 
@@ -342,7 +345,7 @@ export default function CropCare() {
                 <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon}>
                   <Popup>
                     <div className="text-center">
-                      <strong className="text-green-700">Your Location</strong>
+                      <strong className="text-green-700">{t('cropCare.yourLocation')}</strong>
                       <br />
                       <span className="text-xs text-gray-500">{userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}</span>
                     </div>
@@ -370,7 +373,7 @@ export default function CropCare() {
                     <span className="text-xs">{h.region}</span>
                     <br />
                     <span className="text-xs" style={{ color: severityColor[h.severity] }}>
-                      Severity: {h.severity}
+                      {t('cropCare.severity')}: {h.severity}
                     </span>
                   </div>
                 </Popup>
@@ -381,17 +384,17 @@ export default function CropCare() {
 
         <div className="flex items-center gap-6 mt-3 text-sm text-[var(--color-on-surface-variant)]">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-red-500 inline-block" />High
+            <span className="w-3 h-3 rounded-full bg-red-500 inline-block" />{t('cropCare.high')}
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-amber-500 inline-block" />Moderate
+            <span className="w-3 h-3 rounded-full bg-amber-500 inline-block" />{t('cropCare.moderate')}
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-green-500 inline-block" />Low
+            <span className="w-3 h-3 rounded-full bg-green-500 inline-block" />{t('cropCare.low')}
           </div>
           {userLocation && (
             <div className="flex items-center gap-2">
-              <MapPin size={14} className="text-[var(--color-primary)]" />Your Location
+              <MapPin size={14} className="text-[var(--color-primary)]" />{t('cropCare.yourLocation')}
             </div>
           )}
         </div>

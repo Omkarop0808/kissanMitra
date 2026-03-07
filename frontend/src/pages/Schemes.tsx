@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { marked } from 'marked'
 import { Landmark, Send, HandCoins, Shield, Droplets, CreditCard, Apple, List, Bot, User } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
@@ -19,12 +20,15 @@ interface ChatMsg {
 }
 
 export default function Schemes() {
-  const [messages, setMessages] = useState<ChatMsg[]>([
-    { id: 'welcome', role: 'assistant', content: 'Welcome! I can help you learn about government agricultural schemes. Click a scheme button below or type your question.' }
-  ])
+  const { t } = useTranslation()
+  const [messages, setMessages] = useState<ChatMsg[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const chatEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setMessages([{ id: 'welcome', role: 'assistant', content: t('schemes.welcome') }])
+  }, [t])
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -56,7 +60,7 @@ export default function Schemes() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <PageHeader icon={Landmark} title="Government Schemes" subtitle="Learn about agricultural schemes and government support for farmers." />
+      <PageHeader icon={Landmark} title={t('schemes.title')} subtitle={t('schemes.subtitle')} />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
         {SCHEMES.map(scheme => {
@@ -106,7 +110,7 @@ export default function Schemes() {
         </div>
 
         <div className="border-t border-[var(--color-outline-variant)] p-3 flex gap-2">
-          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendMessage()} placeholder="Ask about any government scheme..." className="form-input flex-1" disabled={loading} />
+          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && sendMessage()} placeholder={t('schemes.askAbout')} className="form-input flex-1" disabled={loading} />
           <button onClick={() => sendMessage()} disabled={loading || !input.trim()} className="btn-primary px-4 disabled:opacity-50">
             <Send size={16} />
           </button>

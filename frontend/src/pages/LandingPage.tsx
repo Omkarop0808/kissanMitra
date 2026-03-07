@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import {
   Bug, TrendingUp, CloudSun, Droplets, Landmark, Bot,
@@ -50,6 +51,7 @@ const faqs = [
 export default function LandingPage() {
   const { login, signup, isAuthenticated } = useAuth()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [showLogin, setShowLogin] = useState(false)
   const [showSignup, setShowSignup] = useState(false)
   const [error, setError] = useState('')
@@ -150,11 +152,11 @@ export default function LandingPage() {
             <div className="w-9 h-9 rounded-xl bg-[var(--color-primary)] flex items-center justify-center">
               <span className="text-white text-sm font-bold">KM</span>
             </div>
-            <span className="font-bold text-lg text-[var(--color-on-surface)]">Kissan Mitra</span>
+            <span className="font-bold text-lg text-[var(--color-on-surface)]">{t('app.name')}</span>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={() => setShowLogin(true)} className="btn-secondary text-sm">Login</button>
-            <button onClick={() => setShowSignup(true)} className="btn-primary text-sm">Get Started</button>
+            <button onClick={() => setShowLogin(true)} className="btn-secondary text-sm">{t('auth.login')}</button>
+            <button onClick={() => setShowSignup(true)} className="btn-primary text-sm">{t('landing.getStarted')}</button>
           </div>
         </div>
       </nav>
@@ -163,18 +165,17 @@ export default function LandingPage() {
       <section className="hero-gradient pt-32 pb-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-white">
-            Empowering Farmers with{' '}
-            <span className="text-[var(--color-primary-container)]">AI-Powered Insights</span>
+            {t('landing.heroTitle')}
           </h1>
           <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-            Smart agriculture solutions for Indian farmers — disease detection, market analysis, weather forecasting, and more in 9 Indian languages.
+            {t('landing.heroSubtitle')}
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <button onClick={() => setShowSignup(true)} className="bg-white text-[var(--color-primary)] px-8 py-3 rounded-xl font-semibold text-lg border-none cursor-pointer hover:shadow-lg transition-all flex items-center gap-2">
-              <Rocket size={20} />Get Started Free
+              <Rocket size={20} />{t('landing.getStarted')}
             </button>
             <button onClick={() => setShowLogin(true)} className="bg-transparent text-white border-2 border-white/60 px-8 py-3 rounded-xl font-semibold text-lg cursor-pointer hover:bg-white/10 transition-all flex items-center gap-2">
-              <LogIn size={20} />Login
+              <LogIn size={20} />{t('auth.login')}
             </button>
           </div>
         </div>
@@ -184,7 +185,7 @@ export default function LandingPage() {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            What <span className="text-[var(--color-primary)]">Kissan Mitra</span> Offers
+            {t('landing.features')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((f, i) => {
@@ -207,7 +208,7 @@ export default function LandingPage() {
       <section className="py-20 px-4 bg-[var(--color-surface-variant)]">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            How It <span className="text-[var(--color-primary)]">Works</span>
+            {t('landing.howItWorks')}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((s, i) => {
@@ -305,7 +306,7 @@ export default function LandingPage() {
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            What <span className="text-[var(--color-primary)]">Farmers</span> Say
+            {t('landing.testimonials')}
           </h2>
           <div className="relative overflow-hidden">
             <div
@@ -353,7 +354,7 @@ export default function LandingPage() {
       <section className="py-20 px-4 bg-[var(--color-surface-variant)]">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
-            Frequently Asked <span className="text-[var(--color-primary)]">Questions</span>
+            {t('landing.faq')}
           </h2>
           <div className="space-y-3">
             {faqs.map((faq, i) => (
@@ -383,7 +384,7 @@ export default function LandingPage() {
                 <div className="w-8 h-8 rounded-lg bg-[var(--color-primary)] flex items-center justify-center">
                   <span className="text-white text-xs font-bold">KM</span>
                 </div>
-                <span className="font-bold text-[var(--color-on-surface)]">Kissan Mitra</span>
+                <span className="font-bold text-[var(--color-on-surface)]">{t('app.name')}</span>
               </div>
               <p className="text-[var(--color-on-surface-variant)] text-sm leading-relaxed">
                 Empowering Indian farmers with AI-powered insights for smarter, sustainable agriculture.
@@ -432,7 +433,7 @@ export default function LandingPage() {
         <div className="modal-overlay" onClick={closeModals}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-[var(--color-on-surface)]">Welcome Back</h2>
+              <h2 className="text-xl font-bold text-[var(--color-on-surface)]">{t('auth.loginTitle')}</h2>
               <button onClick={closeModals} className="w-8 h-8 rounded-full hover:bg-[var(--color-surface-variant)] flex items-center justify-center bg-transparent border-none cursor-pointer transition-colors">
                 <X size={20} className="text-[var(--color-on-surface-variant)]" />
               </button>
@@ -440,21 +441,21 @@ export default function LandingPage() {
             {error && <div className="bg-[var(--color-error-container)] text-[var(--color-error)] rounded-xl p-3 mb-4 text-sm">{error}</div>}
             <form onSubmit={handleLogin}>
               <div className="mb-4">
-                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Email</label>
+                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('auth.email')}</label>
                 <input type="email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} className="form-input" placeholder="your@email.com" required />
               </div>
               <div className="mb-6">
-                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Password</label>
+                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('auth.password')}</label>
                 <input type="password" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} className="form-input" placeholder="Enter password" required />
               </div>
               <button type="submit" disabled={loading} className="btn-primary w-full text-center py-3">
-                {loading ? 'Logging in...' : 'Login'}
+                {loading ? t('common.loading') : t('auth.login')}
               </button>
             </form>
             <p className="text-center text-sm text-[var(--color-on-surface-variant)] mt-4">
-              Don't have an account?{' '}
+              {t('auth.noAccount')}{' '}
               <button onClick={() => { setShowLogin(false); setShowSignup(true); setError('') }} className="text-[var(--color-primary)] bg-transparent border-none cursor-pointer underline font-medium">
-                Sign Up
+                {t('auth.signup')}
               </button>
             </p>
           </div>
@@ -466,7 +467,7 @@ export default function LandingPage() {
         <div className="modal-overlay" onClick={closeModals}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-[var(--color-on-surface)]">Create Account</h2>
+              <h2 className="text-xl font-bold text-[var(--color-on-surface)]">{t('auth.signupTitle')}</h2>
               <button onClick={closeModals} className="w-8 h-8 rounded-full hover:bg-[var(--color-surface-variant)] flex items-center justify-center bg-transparent border-none cursor-pointer transition-colors">
                 <X size={20} className="text-[var(--color-on-surface-variant)]" />
               </button>
@@ -474,33 +475,33 @@ export default function LandingPage() {
             {error && <div className="bg-[var(--color-error-container)] text-[var(--color-error)] rounded-xl p-3 mb-4 text-sm">{error}</div>}
             <form onSubmit={handleSignup}>
               <div className="mb-3">
-                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Full Name</label>
+                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('auth.name')}</label>
                 <input type="text" value={signupName} onChange={e => setSignupName(e.target.value)} className="form-input" placeholder="Your name" required />
               </div>
               <div className="mb-3">
-                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Email</label>
+                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('auth.email')}</label>
                 <input type="email" value={signupEmail} onChange={e => setSignupEmail(e.target.value)} className="form-input" placeholder="your@email.com" required />
               </div>
               <div className="mb-3">
-                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Password</label>
+                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('auth.password')}</label>
                 <input type="password" value={signupPassword} onChange={e => setSignupPassword(e.target.value)} className="form-input" placeholder="Create password" required />
               </div>
               <div className="mb-3">
-                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Phone</label>
+                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('auth.phone')}</label>
                 <input type="tel" value={signupPhone} onChange={e => setSignupPhone(e.target.value)} className="form-input" placeholder="Phone number" required />
               </div>
               <div className="mb-4">
-                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">Farm Name</label>
+                <label className="block text-sm text-[var(--color-on-surface-variant)] mb-1">{t('auth.farmName')}</label>
                 <input type="text" value={signupFarm} onChange={e => setSignupFarm(e.target.value)} className="form-input" placeholder="Your farm name" required />
               </div>
               <button type="submit" disabled={loading} className="btn-primary w-full text-center py-3">
-                {loading ? 'Creating Account...' : 'Sign Up'}
+                {loading ? t('common.loading') : t('auth.signup')}
               </button>
             </form>
             <p className="text-center text-sm text-[var(--color-on-surface-variant)] mt-4">
-              Already have an account?{' '}
+              {t('auth.haveAccount')}{' '}
               <button onClick={() => { setShowSignup(false); setShowLogin(true); setError('') }} className="text-[var(--color-primary)] bg-transparent border-none cursor-pointer underline font-medium">
-                Login
+                {t('auth.login')}
               </button>
             </p>
           </div>
