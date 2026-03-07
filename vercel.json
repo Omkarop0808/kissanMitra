@@ -4,9 +4,9 @@
   "installCommand": "echo 'skip'",
   "framework": null,
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://kissan-mitra.onrender.com/api/:path*" },
-    { "source": "/disease_prediction", "destination": "https://kissan-mitra.onrender.com/disease_prediction" },
-    { "source": "/static/:path*", "destination": "https://kissan-mitra.onrender.com/static/:path*" },
+    { "source": "/api/:path*", "destination": "https://kissan-mitra-fyvl.onrender.com/api/:path*" },
+    { "source": "/disease_prediction", "destination": "https://kissan-mitra-fyvl.onrender.com/disease_prediction" },
+    { "source": "/static/:path*", "destination": "https://kissan-mitra-fyvl.onrender.com/static/:path*" },
     { "source": "/((?!assets|images|favicon).*)", "destination": "/index.html" }
   ]
 }
