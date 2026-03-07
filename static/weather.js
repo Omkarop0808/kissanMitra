@@ -22,6 +22,83 @@ const weatherIcons = {
     '50n': 'fa-smog'
 };
 
+// Generate dynamic weather advice based on conditions
+function generateWeatherAdvice(weatherData) {
+    if (!weatherData || !weatherData.main) return "Weather conditions are favorable for normal farming activities.";
+    
+    const temp = weatherData.main.temp;
+    const humidity = weatherData.main.humidity;
+    const rainfall = weatherData.rain ? (weatherData.rain['1h'] || weatherData.rain['3h'] || 0) : 0;
+    
+    // High temperature advice
+    if (temp > 35) {
+        return "High temperatures expected. Consider evening irrigation to reduce water loss through evaporation. Provide shade for sensitive crops.";
+    }
+    
+    // Rainfall advice
+    if (rainfall > 10) {
+        return "Rain expected. Postpone irrigation and fertilizer application. Ensure proper drainage to prevent waterlogging.";
+    }
+    
+    // Low humidity advice
+    if (humidity < 40) {
+        return "Low humidity detected. Increase irrigation frequency and consider mulching to retain soil moisture.";
+    }
+    
+    // Cold weather advice
+    if (temp < 15) {
+        return "Cool temperatures detected. Protect sensitive crops from cold stress. Consider frost protection measures if needed.";
+    }
+    
+    // Default favorable conditions
+    return "Weather conditions are favorable for normal farming activities. Good time for field operations and crop management.";
+}
+
+// Generate recommended activities based on weather
+function generateRecommendedActivities(weatherData) {
+    if (!weatherData || !weatherData.main) {
+        return ["Regular soil moisture monitoring", "Pest and disease inspection", "Equipment maintenance"];
+    }
+    
+    const temp = weatherData.main.temp;
+    const humidity = weatherData.main.humidity;
+    const rainfall = weatherData.rain ? (weatherData.rain['1h'] || weatherData.rain['3h'] || 0) : 0;
+    const condition = weatherData.weather[0].main.toLowerCase();
+    
+    const activities = [];
+    
+    // Rainy conditions
+    if (rainfall > 5 || condition.includes('rain')) {
+        activities.push("Drainage maintenance and inspection");
+        activities.push("Indoor tasks and equipment maintenance");
+        activities.push("Planning and record keeping");
+        return activities;
+    }
+    
+    // Hot weather
+    if (temp > 35) {
+        activities.push("Early morning harvesting (before 10 AM)");
+        activities.push("Mulching to retain soil moisture");
+        activities.push("Shade net installation for sensitive crops");
+        return activities;
+    }
+    
+    // Sunny with low humidity
+    if (condition.includes('clear') && humidity < 50) {
+        activities.push("Irrigation scheduling");
+        activities.push("Fertilizer application");
+        activities.push("Pest control spraying");
+        return activities;
+    }
+    
+    // Default activities
+    activities.push("Regular soil moisture monitoring");
+    activities.push("Pest and disease inspection");
+    activities.push("Early morning irrigation");
+    
+    return activities;
+}
+
 // Get current weather
 async function getCurrentWeather(city) {
     try {
@@ -78,6 +155,13 @@ function updateCurrentWeather(data) {
 
         if (windElement) windElement.textContent = `${windSpeed} m/s`;
         if (humidityElement) humidityElement.textContent = `${humidity}%`;
+        
+        // Update last updated time
+        const lastUpdated = document.getElementById('last-updated');
+        if (lastUpdated) {
+            const now = new Date();
+            lastUpdated.textContent = `Updated: ${now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+        }
     } catch (error) {
         console.error('Error updating current weather UI:', error);
     }
@@ -149,6 +233,30 @@ function updateForecast(data) {
     }
 }
 
+// Update crop advice and recommended activities
+function updateAdvice(weatherData) {
+    try {
+        const adviceElement = document.getElementById('crop-advice');
+        const activitiesElement = document.getElementById('recommended-activities');
+        
+        if (adviceElement) {
+            const advice = generateWeatherAdvice(weatherData);
+            adviceElement.textContent = advice;
+        }
+        
+        if (activitiesElement) {
+            const activities = generateRecommendedActivities(weatherData);
+            let html = '';
+            activities.forEach(activity => {
+                html += `<li>${activity}</li>`;
+            });
+            activitiesElement.innerHTML = html;
+        }
+    } catch (error) {
+        console.error('Error updating advice:', error);
+    }
+}
+
 // Initialize weather data
 async function initializeWeather(city = 'Jaipur') {
     try {
@@ -158,6 +266,7 @@ async function initializeWeather(city = 'Jaipur') {
         if (currentWeather && forecast) {
             updateCurrentWeather(currentWeather);
             updateForecast(forecast);
+            updateAdvice(currentWeather);
         } else {
             console.error('Failed to fetch weather data');
             const errorMessage = document.createElement('div');
@@ -176,16 +285,22 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeWeather();
 
     // Refresh weather data
-    document.getElementById('refresh-weather').addEventListener('click', () => {
-        const city = document.getElementById('location-input').value || 'Jaipur';
-        initializeWeather(city);
-    });
+    const refreshBtn = document.getElementById('refresh-weather');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            const city = document.getElementById('location-input').value || 'Jaipur';
+            initializeWeather(city);
+        });
+    }
 
     // Search location
-    document.getElementById('location-input').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            const city = e.target.value;
-            initializeWeather(city);
-        }
-    });
+    const locationInput = document.getElementById('location-input');
+    if (locationInput) {
+        locationInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const city = e.target.value;
+                initializeWeather(city);
+            }
+        });
+    }
 }); 

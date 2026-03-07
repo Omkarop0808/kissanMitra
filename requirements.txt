@@ -5,14 +5,13 @@ python-dotenv
 pydantic
 
 # For Machine Learning & AI
-tensorflow==2.19.0
-numpy<1.27
+tensorflow>=2.20.0
 pillow
 scikit-learn
 joblib
 
 # For the AI Chatbots
-google-generativeai
+google-genai
 langchain-core
 requests
 pandas
@@ -24,7 +23,7 @@ langchain
 langchain-community
 jinja2
 sentence-transformers
-tf-keras==2.19.0
+tf-keras>=2.20.0
 python-multipart
 
 # For authentication

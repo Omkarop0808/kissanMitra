@@ -174,7 +174,7 @@ test("Farmer Chat: Gov Schemes Routing", test_farmer_chat_schemes)
 
 # ========== 5. GOVERNMENT SCHEMES CHAT (Gemini) ==========
 print("\n" + "=" * 60)
-print("5. GOVERNMENT SCHEMES CHAT (Google Gemini 2.0 Flash)")
+print("5. GOVERNMENT SCHEMES CHAT (Google Gemini 2.5 Flash)")
 print("=" * 60)
 
 def test_gemini_chat():
@@ -426,7 +426,7 @@ print("FEATURES MATRIX:")
 print("-" * 60)
 features = [
     ("Farmer AI Assistant", "Groq Llama 3.3 70B", "GROQ_API_KEY", "Multi-agent LangGraph + RAG"),
-    ("Government Schemes Chat", "Google Gemini 2.0 Flash", "GEMINI_API_KEY", "Gemini generative AI"),
+    ("Government Schemes Chat", "Google Gemini 2.5 Flash", "GEMINI_API_KEY", "Gemini generative AI"),
     ("Disease Detection", "Gemini Vision (fallback)", "GEMINI_API_KEY", "ML model missing -> Gemini"),
     ("Weather Advisory", "OpenWeatherMap", "OPEN_WEATHER_API_KEY", "Current + 5-day forecast"),
     ("Market Analysis", "Data.gov.in", "DATA_GOV_API_KEY", "Commodity market prices"),

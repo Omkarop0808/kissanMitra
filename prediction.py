@@ -241,14 +241,14 @@ def _gemini_vision_analysis(image_path, selected_language):
         return None
 
     try:
-        import google.generativeai as genai
+        from google import genai
+        from google.genai import types
 
-        genai.configure(api_key=GEMINI_API_KEY)
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        client = genai.Client(api_key=GEMINI_API_KEY)
 
-        img = Image.open(image_path)
-        # Copy image data into memory so the file handle is released (Windows file lock fix)
-        img.load()
+        # Read image file
+        with open(image_path, "rb") as img_file:
+            img_data = img_file.read()
 
         prompt = (
             "You are an expert agricultural scientist and plant pathologist. "
@@ -261,8 +261,15 @@ def _gemini_vision_analysis(image_path, selected_language):
             f"Respond entirely in the following language: {selected_language}."
         )
 
-        response = model.generate_content([prompt, img])
-        img.close()  # Release file handle
+        # Use the correct format for the new API
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[
+                types.Part(text=prompt),
+                types.Part(inline_data=types.Blob(mime_type="image/jpeg", data=img_data))
+            ]
+        )
+        
         content_text = response.text
 
         logger.info("Gemini vision analysis succeeded.")

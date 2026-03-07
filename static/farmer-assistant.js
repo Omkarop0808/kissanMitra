@@ -21,18 +21,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ── Language mapping ──────────────────────────────────────────
     const LANG_MAP = {
-        'en': { name: 'English', sttCode: 'en-IN', ttsLang: 'en-IN' },
-        'hi': { name: 'हिन्दी', sttCode: 'hi-IN', ttsLang: 'hi-IN' },
-        'pa': { name: 'ਪੰਜਾਬੀ', sttCode: 'pa-IN', ttsLang: 'pa-IN' },
-        'kn': { name: 'ಕನ್ನಡ', sttCode: 'kn-IN', ttsLang: 'kn-IN' },
-        'ta': { name: 'தமிழ்', sttCode: 'ta-IN', ttsLang: 'ta-IN' },
-        'te': { name: 'తెలుగు', sttCode: 'te-IN', ttsLang: 'te-IN' },
-        'ml': { name: 'മലയാളം', sttCode: 'ml-IN', ttsLang: 'ml-IN' },
-        'mr': { name: 'मराठी', sttCode: 'mr-IN', ttsLang: 'mr-IN' },
-        'gu': { name: 'ગુજરાતી', sttCode: 'gu-IN', ttsLang: 'gu-IN' },
+        'en': { name: 'English', sttCode: 'en-IN', ttsLang: 'en-IN', altLangs: ['en-US', 'en-GB', 'en'] },
+        'hi': { name: 'हिन्दी', sttCode: 'hi-IN', ttsLang: 'hi-IN', altLangs: ['hi'] },
+        'pa': { name: 'ਪੰਜਾਬੀ', sttCode: 'pa-IN', ttsLang: 'pa-IN', altLangs: ['pa-Guru-IN', 'pa'] },
+        'kn': { name: 'ಕನ್ನಡ', sttCode: 'kn-IN', ttsLang: 'kn-IN', altLangs: ['kn'] },
+        'ta': { name: 'தமிழ்', sttCode: 'ta-IN', ttsLang: 'ta-IN', altLangs: ['ta-LK', 'ta'] },
+        'te': { name: 'తెలుగు', sttCode: 'te-IN', ttsLang: 'te-IN', altLangs: ['te'] },
+        'ml': { name: 'മലയാളം', sttCode: 'ml-IN', ttsLang: 'ml-IN', altLangs: ['ml'] },
+        'mr': { name: 'मराठी', sttCode: 'mr-IN', ttsLang: 'mr-IN', altLangs: ['mr'] },
+        'gu': { name: 'ગુજરાતી', sttCode: 'gu-IN', ttsLang: 'gu-IN', altLangs: ['gu'] },
     };
 
+    // Load available voices on page load
+    var availableVoices = [];
+    function loadVoices() {
+        availableVoices = window.speechSynthesis.getVoices();
+        console.log('Available TTS voices:', availableVoices.length);
+        // Log Indian language voices for debugging
+        availableVoices.forEach(function(voice) {
+            if (voice.lang.includes('-IN') || voice.lang.match(/^(hi|pa|kn|ta|te|ml|mr|gu)/)) {
+                console.log('Indian voice found:', voice.name, '-', voice.lang);
+            }
+        });
+    }
+    
+    // Load voices immediately and on change
+    if (window.speechSynthesis) {
+        loadVoices();
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
     // ── Inject voice & TTS buttons into the UI ───────────────────
+    function _injectVoiceButtons() {
+        // Find the send button's parent container
+        var sendBtn = document.getElementById('send-button');
+        if (!sendBtn || !sendBtn.parentElement) return;
+
+        // Create mic button
+        var micBtn = document.createElement('button');
+        micBtn.id = 'mic-button';
+        micBtn.className = 'w-12 h-12 rounded-xl border border-[#2d3d2f] bg-[#1a2e1d] text-gray-400 flex items-center justify-center transition-all hover:text-white hover:bg-[#223423]';
+        micBtn.title = 'Voice input';
+        micBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        micBtn.addEventListener('click', toggleVoiceInput);
+
+        // Insert mic button before send button
+        sendBtn.parentElement.insertBefore(micBtn, sendBtn);
+    }
+
     _injectVoiceButtons();
 
     // ── Web Search Toggle ─────────────────────────────────────────
@@ -375,8 +411,59 @@ document.addEventListener('DOMContentLoaded', function () {
 
         currentUtterance = new SpeechSynthesisUtterance(cleanText);
         currentUtterance.lang = langInfo.ttsLang;
-        currentUtterance.rate = 0.9;
-        currentUtterance.pitch = 1;
+        
+        // Get available voices and select the best one for the language
+        var voices = availableVoices.length > 0 ? availableVoices : window.speechSynthesis.getVoices();
+        var selectedVoice = null;
+        
+        // Priority 1: Exact match (e.g., hi-IN)
+        for (var i = 0; i < voices.length; i++) {
+            if (voices[i].lang === langInfo.ttsLang) {
+                selectedVoice = voices[i];
+                console.log('Exact match found:', voices[i].name, '-', voices[i].lang);
+                break;
+            }
+        }
+        
+        // Priority 2: Try alternative language codes
+        if (!selectedVoice && langInfo.altLangs) {
+            for (var j = 0; j < langInfo.altLangs.length; j++) {
+                for (var k = 0; k < voices.length; k++) {
+                    if (voices[k].lang === langInfo.altLangs[j] || voices[k].lang.startsWith(langInfo.altLangs[j])) {
+                        selectedVoice = voices[k];
+                        console.log('Alternative match found:', voices[k].name, '-', voices[k].lang);
+                        break;
+                    }
+                }
+                if (selectedVoice) break;
+            }
+        }
+        
+        // Priority 3: Language code prefix match (e.g., hi, ta, te)
+        if (!selectedVoice) {
+            for (var m = 0; m < voices.length; m++) {
+                if (voices[m].lang.startsWith(langCode)) {
+                    selectedVoice = voices[m];
+                    console.log('Prefix match found:', voices[m].name, '-', voices[m].lang);
+                    break;
+                }
+            }
+        }
+        
+        // If we found a matching voice, use it
+        if (selectedVoice) {
+            currentUtterance.voice = selectedVoice;
+            console.log('✅ Using voice:', selectedVoice.name, 'for language:', langInfo.ttsLang);
+        } else {
+            console.warn('⚠️ No voice found for language:', langInfo.ttsLang, '- using default');
+            // Show available voices for debugging
+            console.log('Available voices:', voices.map(function(v) { return v.lang + ': ' + v.name; }).join(', '));
+        }
+        
+        // Adjust rate and pitch for better pronunciation
+        currentUtterance.rate = 0.85;  // Slightly slower for clarity
+        currentUtterance.pitch = 1.0;
+        currentUtterance.volume = 1.0;
 
         currentUtterance.onstart = function() {
             isSpeaking = true;
@@ -394,7 +481,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
-        currentUtterance.onerror = function() {
+        currentUtterance.onerror = function(event) {
+            console.error('TTS error:', event.error);
             isSpeaking = false;
             if (button) {
                 button.classList.remove('speaking');
@@ -402,6 +490,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
+        // Speak the text
         window.speechSynthesis.speak(currentUtterance);
     }
 });

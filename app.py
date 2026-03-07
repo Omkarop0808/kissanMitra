@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 from fastapi.staticfiles import StaticFiles
 from prediction import model_response
 import pandas as pd
-import google.generativeai as genai
+from google import genai
 from pydantic import BaseModel
 from FarmerAssistant import app as farmer_assistant_app, main as init_farmer_assistant
 from langchain_core.messages import HumanMessage, AIMessage
@@ -103,18 +103,28 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 DATA_GOV_API_KEY = os.getenv("DATA_GOV_API_KEY")
 OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-PERPLEXITY_API_KEY = os.getenv("PERPLEXITY_API_KEY")
+
 
 if not GEMINI_API_KEY:
     raise ValueError("GEMINI_API_KEY is not set in the .env file")
 
-genai.configure(api_key=GEMINI_API_KEY)
-gemini_model = genai.GenerativeModel("gemini-2.0-flash")
+gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 
 if not GROQ_API_KEY:
     raise ValueError("GROQ API KEY is not set in the .env file")
 
-init_farmer_assistant()
+# Initialize farmer assistant lazily on first use to avoid blocking server startup
+# init_farmer_assistant()
+farmer_assistant_initialized = False
+
+def ensure_farmer_assistant_initialized():
+    global farmer_assistant_initialized
+    if not farmer_assistant_initialized:
+        logger.info("Initializing Farmer Assistant (first use)...")
+        init_farmer_assistant()
+        farmer_assistant_initialized = True
+        logger.info("Farmer Assistant initialized successfully")
+
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -407,7 +417,10 @@ async def chat(request: Request):
         if not question:
             raise HTTPException(status_code=400, detail="Question is required")
         prompt = "You are an AI assistant helping farmers understand government schemes. Please provide detailed, accurate information about the following question related to government schemes for farmers. Format your response with: Use **bold** for important points, Use *italics* for emphasis, Include relevant links where applicable, Use bullet points for lists, Add line breaks between sections, Keep the language simple and easy to understand. If the question is not about government schemes, politely inform the user that you can only help with government scheme related queries. Question: " + question
-        response = gemini_model.generate_content(prompt)
+        response = gemini_client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt
+        )
         return JSONResponse(content={"response": response.text})
     except Exception as e:
         logger.error(f"Error in chat: {str(e)}")
@@ -417,6 +430,9 @@ async def chat(request: Request):
 @app.post("/api/farmer-chat")
 async def farmer_chat(request: Request):
     try:
+        # Initialize farmer assistant on first use
+        ensure_farmer_assistant_initialized()
+        
         body = await request.json()
         question = body.get("question", "")
         chat_history = body.get("chat_history", [])
@@ -508,27 +524,50 @@ async def web_search(request: Request):
     try:
         body = await request.json()
         question = body.get("question", "")
-        perplexity_key = os.getenv("PERPLEXITY_API_KEY")
-        if not perplexity_key:
-            raise HTTPException(status_code=500, detail="Perplexity API key not configured")
-        response = requests.post(
-            "https://api.perplexity.ai/chat/completions",
-            json={
-                "model": "sonar",
-                "messages": [
-                    {"role": "system", "content": "You are KisanSaathi, an agricultural AI assistant. Only answer agriculture-related questions. Respond in the same language as the user's query."},
-                    {"role": "user", "content": question}
-                ],
-                "temperature": 0.2,
-                "max_tokens": 2048
-            },
-            headers={"Authorization": f"Bearer {perplexity_key}", "Content-Type": "application/json"},
-            timeout=30
-        )
-        if response.status_code == 200:
-            return JSONResponse(content=response.json())
-        else:
-            raise HTTPException(status_code=response.status_code, detail="Perplexity API error")
+        
+        # Use Tavily API for web search (free, no credit card required)
+        tavily_key = os.getenv("TAVILY_API_KEY")
+        if not tavily_key:
+            raise HTTPException(status_code=500, detail="TAVILY_API_KEY not configured. Please set it in .env file. Get free API key from https://app.tavily.com")
+        
+        try:
+            response = requests.post(
+                "https://api.tavily.com/search",
+                json={
+                    "api_key": tavily_key,
+                    "query": question,
+                    "search_depth": "basic",
+                    "include_answer": True,
+                    "max_results": 5
+                },
+                timeout=30
+            )
+            if response.status_code == 200:
+                data = response.json()
+                # Format Tavily response to match expected format
+                answer = data.get("answer", "")
+                results = data.get("results", [])
+                
+                # Build response with sources
+                response_text = answer
+                if results:
+                    response_text += "\n\nSources:\n"
+                    for i, result in enumerate(results[:3], 1):
+                        response_text += f"{i}. {result.get('title', 'Source')} - {result.get('url', '')}\n"
+                
+                return JSONResponse(content={
+                    "choices": [{
+                        "message": {
+                            "role": "assistant",
+                            "content": response_text
+                        }
+                    }]
+                })
+            else:
+                raise HTTPException(status_code=response.status_code, detail=f"Tavily API error: {response.text}")
+        except Exception as e:
+            logger.error(f"Tavily search failed: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Web search error: {str(e)}")
     except HTTPException:
         raise
     except Exception as e:
@@ -539,10 +578,20 @@ async def web_search(request: Request):
 @app.post("/api/gemini-analyze")
 async def gemini_analyze_image(file: UploadFile = File(...), language: str = Form("English")):
     try:
+        from google.genai import types
+        
         contents = await file.read()
         img = Image.open(io.BytesIO(contents))
+        
         prompt = f"Analyze this agricultural/plant image. Identify any disease, pest damage, or health issues. Provide causes, prevention, and treatment. Respond in {language}."
-        response = gemini_model.generate_content([prompt, img])
+        
+        response = gemini_client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[
+                types.Part.from_text(text=prompt),
+                types.Part.from_bytes(data=contents, mime_type=file.content_type or "image/jpeg")
+            ]
+        )
         return JSONResponse(content={"response": response.text})
     except Exception as e:
         logger.error(f"Gemini image analysis error: {str(e)}")
