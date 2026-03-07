@@ -39,11 +39,6 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# Serve frontend build (React/Vite production build)
-FRONTEND_DIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), "frontend", "dist")
-if os.path.isdir(FRONTEND_DIST):
-    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIST, "assets")), name="frontend-assets")
-
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
@@ -755,22 +750,6 @@ async def delete_community_post(post_id: str):
     except Exception as e:
         logger.error(f"Error deleting community post: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-
-
-# --- SPA catch-all: serve React frontend for all non-API routes ---
-from fastapi.responses import FileResponse
-
-@app.get("/{full_path:path}")
-async def serve_frontend(full_path: str):
-    # Serve static files from frontend/dist if they exist
-    file_path = os.path.join(FRONTEND_DIST, full_path)
-    if full_path and os.path.isfile(file_path):
-        return FileResponse(file_path)
-    # For all other paths, return index.html (SPA routing)
-    index_path = os.path.join(FRONTEND_DIST, "index.html")
-    if os.path.isfile(index_path):
-        return FileResponse(index_path)
-    return JSONResponse(content={"error": "Frontend not built"}, status_code=404)
 
 
 if __name__ == "__main__":

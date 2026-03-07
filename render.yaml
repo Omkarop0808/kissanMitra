@@ -7,8 +7,6 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.11
-      - key: NODE_VERSION
-        value: 20.18.0
       - key: GROQ_API_KEY
         sync: false
       - key: GEMINI_API_KEY
