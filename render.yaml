@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: kissan-mitra
+    runtime: python
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: OPEN_WEATHER_API_KEY
+        sync: false
+      - key: DATA_GOV_API_KEY
+        sync: false
+      - key: APP_SECRET_KEY
+        sync: false
