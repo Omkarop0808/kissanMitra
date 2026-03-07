@@ -113,8 +113,7 @@ mkdir "Disease prediction Model/trained_model"
 Open `Kisaan-Saathi/.env` and update the Gemini API key:
 
 ```bash
-# OLD (quota exceeded)
-GEMINI_API_KEY=AIzaSyAC9U2BXhFGo0xeDPBiKDa7m1fm8HG9FSU
+
 
 # NEW (replace with your new key)
 GEMINI_API_KEY=AIzaSy_YOUR_NEW_KEY_HERE
