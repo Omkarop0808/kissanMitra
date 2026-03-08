@@ -110,7 +110,7 @@ mkdir "Disease prediction Model/trained_model"
 
 ## 🎯 Step 3: Update Your .env File
 
-Open `Kisaan-Saathi/.env` and update the Gemini API key:
+Open `Kisaan-Mitra/.env` and update the Gemini API key:
 
 ```bash
 
