@@ -86,15 +86,27 @@ Indian agriculture faces critical challenges:
 
 | Dashboard | AI Assistant | Disease Detection |
 |-----------|-------------|-------------------|
-| *Main dashboard with all 13 features* | *Multi-agent chat with voice I/O* | *Gemini Vision-powered diagnosis* |
+| *Main dashboard with all 13 features*
+<img width="1919" height="959" alt="Screenshot 2026-03-08 220720" src="https://github.com/user-attachments/assets/abea5311-20ff-42fe-b60d-cb4ce12c89cf" />
+
+| *Multi-agent chat with voice I/O*
+<img width="1916" height="951" alt="Screenshot 2026-03-08 220733" src="https://github.com/user-attachments/assets/492244fe-76af-4db8-9753-05de42b4ec35" />
+
+| *Gemini Vision-powered diagnosis* |
+<img width="1910" height="961" alt="Screenshot 2026-03-08 220816" src="https://github.com/user-attachments/assets/ef7185cf-67d8-4b8d-9a97-6d80c7bfe7ec" />
 
 | Community Q&A | Equipment Rental | Multilingual |
 |---------------|-----------------|--------------|
-| *Forum with best answers* | *Owner dashboard with UPI QR* | *11 Indian languages with Indic fonts* |
+ <img width="1906" height="947" alt="Screenshot 2026-03-08 220840" src="https://github.com/user-attachments/assets/e56a90cb-0f9f-4a23-8576-2b21670cc2b5" />
 
-> *Add your screenshots here: drag images into this section when editing on GitHub.*
 
----
+
+<img width="1918" height="941" alt="Screenshot 2026-03-08 220851" src="https://github.com/user-attachments/assets/073dc553-1761-447c-8283-7ac62092cea8" />
+
+<img width="1902" height="952" alt="Screenshot 2026-03-08 220914" src="https://github.com/user-attachments/assets/0bc331a1-1ba0-44cd-820c-5f0a44bffba7" />
+<img width="494" height="923" alt="Screenshot 2026-03-08 220957" src="https://github.com/user-attachments/assets/2c6bc254-46c0-475d-a02b-78351ef80db3" />
+<img width="493" height="919" alt="Screenshot 2026-03-08 221010" src="https://github.com/user-attachments/assets/eeedcea0-57de-460c-95c7-043032862289" />
+
 
 ## Tech Stack
 
@@ -162,7 +174,7 @@ cp .env.example .env
 python app.py
 ```
 
-Open `http://127.0.0.1:8000` in your browser.
+Open `localhost:3000` in your browser.
 
 ### API Keys Required
 
