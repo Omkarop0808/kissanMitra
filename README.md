@@ -279,7 +279,7 @@ Each language has **291+ translated UI strings** covering every button, label, f
 | Cost | All APIs on free tiers | Paid subscriptions |
 
 ---
-
+ Elitehacks hackthon 
 ## Team
 
 **Team Name**: omkarpatilop0826
