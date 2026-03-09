@@ -27,6 +27,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 load_dotenv()
 
+import db
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -38,25 +40,8 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
-os.makedirs(DATA_DIR, exist_ok=True)
-USERS_FILE = os.path.join(DATA_DIR, "users.json")
-EQUIPMENT_FILE = os.path.join(DATA_DIR, "equipment.json")
-WASTE_FILE = os.path.join(DATA_DIR, "waste_listings.json")
-BOOKINGS_FILE = os.path.join(DATA_DIR, "bookings.json")
-COMMUNITY_FILE = os.path.join(DATA_DIR, "community_posts.json")
-
-
-def load_json(filepath):
-    if os.path.exists(filepath):
-        with open(filepath, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return []
-
-
-def save_json(filepath, data):
-    with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, default=str)
+# Initialize database (Supabase if configured, else JSON fallback)
+db.init_db()
 
 
 def hash_password(password):
@@ -70,34 +55,21 @@ def verify_password(password, stored_hash):
     return hashlib.sha256((password + salt).encode()).hexdigest() == hashed
 
 
-def init_equipment_data():
-    equipment = load_json(EQUIPMENT_FILE)
-    if not equipment:
-        default_equipment = [
-            {"id": str(uuid.uuid4()), "type": "tractor", "name": "Mahindra 575 DI Tractor", "daily_rate": 900, "location": "Ghaziabad, UP", "description": "45 HP tractor, well maintained.", "rating": 4.0, "reviews": 8, "owner": "demo_owner", "available": True, "image": "/static/images/tractor.jpg", "created_at": datetime.now().isoformat()},
-            {"id": str(uuid.uuid4()), "type": "sprayer", "name": "Power Sprayer", "daily_rate": 250, "location": "Pune, MH", "description": "High-pressure power sprayer.", "rating": 3.0, "reviews": 5, "owner": "demo_owner", "available": True, "image": "/static/images/sprayer.jpg", "created_at": datetime.now().isoformat()},
-            {"id": str(uuid.uuid4()), "type": "harvester", "name": "Combine Harvester", "daily_rate": 3500, "location": "Ludhiana, PB", "description": "Large combine harvester.", "rating": 4.5, "reviews": 14, "owner": "demo_owner", "available": True, "image": "/static/images/Combine-Harvester.jpg", "created_at": datetime.now().isoformat()},
-            {"id": str(uuid.uuid4()), "type": "rotavator", "name": "Rotavator", "daily_rate": 450, "location": "Bhopal, MP", "description": "Heavy-duty rotavator.", "rating": 4.0, "reviews": 7, "owner": "demo_owner", "available": True, "image": "/static/images/Rotavator.jpg", "created_at": datetime.now().isoformat()},
-            {"id": str(uuid.uuid4()), "type": "drone", "name": "Agricultural Drone DJI Agras", "daily_rate": 1200, "location": "Nashik, MH", "description": "Precision spraying drone.", "rating": 4.8, "reviews": 3, "owner": "demo_owner", "available": True, "image": "/static/images/drone.jpg", "created_at": datetime.now().isoformat()},
-            {"id": str(uuid.uuid4()), "type": "plough", "name": "MB Plough (3 Furrow)", "daily_rate": 350, "location": "Indore, MP", "description": "Three-furrow mould board plough.", "rating": 3.5, "reviews": 6, "owner": "demo_owner", "available": True, "image": "/static/images/plough.jpg", "created_at": datetime.now().isoformat()}
-        ]
-        save_json(EQUIPMENT_FILE, default_equipment)
-
-
-def init_waste_data():
-    waste = load_json(WASTE_FILE)
-    if not waste:
-        default_waste = [
-            {"id": str(uuid.uuid4()), "waste_type": "rice-straw", "waste_type_label": "Rice Straw", "quantity": 500, "location": "Village Ramnagar, Varanasi", "pickup_date": (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d"), "status": "pending", "price": 500.0, "seller": "demo_farmer", "created_at": datetime.now().isoformat()},
-            {"id": str(uuid.uuid4()), "waste_type": "sugarcane-bagasse", "waste_type_label": "Sugarcane Bagasse", "quantity": 1000, "location": "Village Kothrud, Pune", "pickup_date": (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d"), "status": "scheduled", "price": 1200.0, "seller": "demo_farmer", "created_at": datetime.now().isoformat()},
-        ]
-        save_json(WASTE_FILE, default_waste)
-
-
 WASTE_RATES = {"rice-straw": 1.00, "wheat-straw": 0.90, "sugarcane-bagasse": 1.20, "corn-stalks": 0.80, "cotton-stalks": 0.70, "other": 0.50}
 
-init_equipment_data()
-init_waste_data()
+# Seed default data if tables/files are empty
+db.init_equipment_data([
+    {"id": str(uuid.uuid4()), "type": "tractor", "name": "Mahindra 575 DI Tractor", "daily_rate": 900, "location": "Ghaziabad, UP", "description": "45 HP tractor, well maintained.", "rating": 4.0, "reviews": 8, "owner": "demo_owner", "available": True, "image": "/static/images/tractor.jpg", "created_at": datetime.now().isoformat()},
+    {"id": str(uuid.uuid4()), "type": "sprayer", "name": "Power Sprayer", "daily_rate": 250, "location": "Pune, MH", "description": "High-pressure power sprayer.", "rating": 3.0, "reviews": 5, "owner": "demo_owner", "available": True, "image": "/static/images/sprayer.jpg", "created_at": datetime.now().isoformat()},
+    {"id": str(uuid.uuid4()), "type": "harvester", "name": "Combine Harvester", "daily_rate": 3500, "location": "Ludhiana, PB", "description": "Large combine harvester.", "rating": 4.5, "reviews": 14, "owner": "demo_owner", "available": True, "image": "/static/images/Combine-Harvester.jpg", "created_at": datetime.now().isoformat()},
+    {"id": str(uuid.uuid4()), "type": "rotavator", "name": "Rotavator", "daily_rate": 450, "location": "Bhopal, MP", "description": "Heavy-duty rotavator.", "rating": 4.0, "reviews": 7, "owner": "demo_owner", "available": True, "image": "/static/images/Rotavator.jpg", "created_at": datetime.now().isoformat()},
+    {"id": str(uuid.uuid4()), "type": "drone", "name": "Agricultural Drone DJI Agras", "daily_rate": 1200, "location": "Nashik, MH", "description": "Precision spraying drone.", "rating": 4.8, "reviews": 3, "owner": "demo_owner", "available": True, "image": "/static/images/drone.jpg", "created_at": datetime.now().isoformat()},
+    {"id": str(uuid.uuid4()), "type": "plough", "name": "MB Plough (3 Furrow)", "daily_rate": 350, "location": "Indore, MP", "description": "Three-furrow mould board plough.", "rating": 3.5, "reviews": 6, "owner": "demo_owner", "available": True, "image": "/static/images/plough.jpg", "created_at": datetime.now().isoformat()}
+])
+db.init_waste_data([
+    {"id": str(uuid.uuid4()), "waste_type": "rice-straw", "waste_type_label": "Rice Straw", "quantity": 500, "location": "Village Ramnagar, Varanasi", "pickup_date": (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d"), "status": "pending", "price": 500.0, "seller": "demo_farmer", "created_at": datetime.now().isoformat()},
+    {"id": str(uuid.uuid4()), "waste_type": "sugarcane-bagasse", "waste_type_label": "Sugarcane Bagasse", "quantity": 1000, "location": "Village Kothrud, Pune", "pickup_date": (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d"), "status": "scheduled", "price": 1200.0, "seller": "demo_farmer", "created_at": datetime.now().isoformat()},
+])
 
 try:
     water_footprint_model = joblib.load("Water Footprint Model/Model/water_footprint_model.pkl")
@@ -193,13 +165,11 @@ async def signup(request: Request):
         farm_name = body.get("farm_name", "").strip()
         if not email or not password or not name:
             raise HTTPException(status_code=400, detail="Name, email and password are required")
-        users = load_json(USERS_FILE)
-        for user in users:
-            if user["email"] == email:
-                raise HTTPException(status_code=400, detail="User with this email already exists")
+        existing = await asyncio.to_thread(db.get_user_by_email, email)
+        if existing:
+            raise HTTPException(status_code=400, detail="User with this email already exists")
         new_user = {"id": str(uuid.uuid4()), "name": name, "email": email, "phone": phone, "farm_name": farm_name or name + " Farm", "password_hash": hash_password(password), "created_at": datetime.now().isoformat()}
-        users.append(new_user)
-        save_json(USERS_FILE, users)
+        await asyncio.to_thread(db.create_user, new_user)
         return JSONResponse(content={"success": True, "user": {"id": new_user["id"], "name": new_user["name"], "email": new_user["email"], "phone": new_user["phone"], "farm_name": new_user["farm_name"]}})
     except HTTPException:
         raise
@@ -216,14 +186,13 @@ async def login(request: Request):
         password = body.get("password", "")
         if not email or not password:
             raise HTTPException(status_code=400, detail="Email and password are required")
-        users = load_json(USERS_FILE)
-        for user in users:
-            if user["email"] == email:
-                if verify_password(password, user["password_hash"]):
-                    return JSONResponse(content={"success": True, "user": {"id": user["id"], "name": user["name"], "email": user["email"], "phone": user.get("phone", ""), "farm_name": user.get("farm_name", "")}})
-                else:
-                    raise HTTPException(status_code=401, detail="Invalid password")
-        raise HTTPException(status_code=404, detail="User not found. Please register first.")
+        user = await asyncio.to_thread(db.get_user_by_email, email)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found. Please register first.")
+        if verify_password(password, user["password_hash"]):
+            return JSONResponse(content={"success": True, "user": {"id": user["id"], "name": user["name"], "email": user["email"], "phone": user.get("phone", ""), "farm_name": user.get("farm_name", "")}})
+        else:
+            raise HTTPException(status_code=401, detail="Invalid password")
     except HTTPException:
         raise
     except Exception as e:
@@ -233,27 +202,16 @@ async def login(request: Request):
 
 @app.get("/api/equipment")
 async def get_equipment(type: str = "", location: str = "", min_price: float = 0, max_price: float = 999999):
-    equipment = load_json(EQUIPMENT_FILE)
-    filtered = equipment
-    if type:
-        filtered = [e for e in filtered if e.get("type") == type]
-    if location:
-        filtered = [e for e in filtered if location.lower() in e.get("location", "").lower()]
-    if min_price > 0:
-        filtered = [e for e in filtered if e.get("daily_rate", 0) >= min_price]
-    if max_price < 999999:
-        filtered = [e for e in filtered if e.get("daily_rate", 0) <= max_price]
-    return JSONResponse(content={"equipment": filtered, "total": len(filtered)})
+    equipment = await asyncio.to_thread(db.get_equipment, type, location, min_price, max_price)
+    return JSONResponse(content={"equipment": equipment, "total": len(equipment)})
 
 
 @app.post("/api/equipment")
 async def add_equipment(request: Request):
     try:
         body = await request.json()
-        equipment = load_json(EQUIPMENT_FILE)
         new_item = {"id": str(uuid.uuid4()), "type": body.get("type", "other"), "name": body.get("name", ""), "daily_rate": float(body.get("daily_rate", 0)), "location": body.get("location", ""), "description": body.get("description", ""), "rating": 0, "reviews": 0, "owner": body.get("owner", "anonymous"), "available": True, "image": "/static/images/" + body.get("type", "equipment") + ".jpg", "created_at": datetime.now().isoformat()}
-        equipment.append(new_item)
-        save_json(EQUIPMENT_FILE, equipment)
+        await asyncio.to_thread(db.add_equipment, new_item)
         return JSONResponse(content={"success": True, "equipment": new_item})
     except Exception as e:
         logger.error(f"Error adding equipment: {str(e)}")
@@ -264,13 +222,7 @@ async def add_equipment(request: Request):
 async def book_equipment(equipment_id: str, request: Request):
     try:
         body = await request.json()
-        equipment = load_json(EQUIPMENT_FILE)
-        bookings = load_json(BOOKINGS_FILE)
-        item = None
-        for e in equipment:
-            if e["id"] == equipment_id:
-                item = e
-                break
+        item = await asyncio.to_thread(db.get_equipment_by_id, equipment_id)
         if not item:
             raise HTTPException(status_code=404, detail="Equipment not found")
         booking = {"id": str(uuid.uuid4()), "equipment_id": equipment_id, "equipment_name": item["name"], "equipment_owner": item.get("owner", ""), "renter_name": body.get("renter_name", ""), "renter_phone": body.get("renter_phone", ""), "start_date": body.get("start_date", ""), "end_date": body.get("end_date", ""), "daily_rate": item["daily_rate"], "status": "pending", "payment_method": None, "payment_details": None, "created_at": datetime.now().isoformat()}
@@ -280,8 +232,7 @@ async def book_equipment(equipment_id: str, request: Request):
             days = max((end - start).days, 1)
             booking["total_cost"] = item["daily_rate"] * days
             booking["days"] = days
-        bookings.append(booking)
-        save_json(BOOKINGS_FILE, bookings)
+        await asyncio.to_thread(db.create_booking, booking)
         return JSONResponse(content={"success": True, "booking": booking})
     except HTTPException:
         raise
@@ -292,12 +243,7 @@ async def book_equipment(equipment_id: str, request: Request):
 
 @app.get("/api/bookings")
 async def get_bookings(owner: str = "", renter: str = ""):
-    bookings = load_json(BOOKINGS_FILE)
-    if owner:
-        bookings = [b for b in bookings if b.get("equipment_owner", "") == owner]
-    if renter:
-        bookings = [b for b in bookings if b.get("renter_name", "") == renter]
-    bookings.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+    bookings = await asyncio.to_thread(db.get_bookings, owner, renter)
     return JSONResponse(content={"bookings": bookings, "total": len(bookings)})
 
 
@@ -310,17 +256,15 @@ async def update_booking_status(booking_id: str, request: Request):
         payment_details = body.get("payment_details")
         if new_status not in ["pending", "confirmed", "declined"]:
             raise HTTPException(status_code=400, detail="Invalid status")
-        bookings = load_json(BOOKINGS_FILE)
-        for booking in bookings:
-            if booking["id"] == booking_id:
-                booking["status"] = new_status
-                if payment_method:
-                    booking["payment_method"] = payment_method
-                if payment_details:
-                    booking["payment_details"] = payment_details
-                save_json(BOOKINGS_FILE, bookings)
-                return JSONResponse(content={"success": True, "booking": booking})
-        raise HTTPException(status_code=404, detail="Booking not found")
+        updates = {"status": new_status}
+        if payment_method:
+            updates["payment_method"] = payment_method
+        if payment_details:
+            updates["payment_details"] = payment_details
+        booking = await asyncio.to_thread(db.update_booking, booking_id, updates)
+        if not booking:
+            raise HTTPException(status_code=404, detail="Booking not found")
+        return JSONResponse(content={"success": True, "booking": booking})
     except HTTPException:
         raise
     except Exception as e:
@@ -330,7 +274,7 @@ async def update_booking_status(booking_id: str, request: Request):
 
 @app.get("/api/waste")
 async def get_waste_listings():
-    waste = load_json(WASTE_FILE)
+    waste = await asyncio.to_thread(db.get_waste_listings)
     return JSONResponse(content={"listings": waste, "rates": WASTE_RATES})
 
 
@@ -338,7 +282,6 @@ async def get_waste_listings():
 async def add_waste_listing(request: Request):
     try:
         body = await request.json()
-        waste = load_json(WASTE_FILE)
         waste_type = body.get("waste_type", "")
         raw_qty = body.get("quantity", 0)
         # Handle string quantities like "100 kg" by extracting the number
@@ -351,8 +294,7 @@ async def add_waste_listing(request: Request):
         rate = WASTE_RATES.get(waste_type, 0.50)
         waste_labels = {"rice-straw": "Rice Straw", "wheat-straw": "Wheat Straw", "sugarcane-bagasse": "Sugarcane Bagasse", "corn-stalks": "Corn Stalks", "cotton-stalks": "Cotton Stalks", "other": "Other"}
         new_listing = {"id": str(uuid.uuid4()), "waste_type": waste_type, "waste_type_label": waste_labels.get(waste_type, waste_type), "quantity": quantity, "location": body.get("location", ""), "pickup_date": body.get("pickup_date", ""), "status": "pending", "price": round(quantity * rate, 2), "seller": body.get("seller", "anonymous"), "created_at": datetime.now().isoformat()}
-        waste.append(new_listing)
-        save_json(WASTE_FILE, waste)
+        await asyncio.to_thread(db.add_waste_listing, new_listing)
         return JSONResponse(content={"success": True, "listing": new_listing})
     except Exception as e:
         logger.error(f"Error adding waste listing: {str(e)}")
@@ -362,9 +304,7 @@ async def add_waste_listing(request: Request):
 @app.delete("/api/waste/{listing_id}")
 async def delete_waste_listing(listing_id: str):
     try:
-        waste = load_json(WASTE_FILE)
-        waste = [w for w in waste if w["id"] != listing_id]
-        save_json(WASTE_FILE, waste)
+        await asyncio.to_thread(db.delete_waste_listing, listing_id)
         return JSONResponse(content={"success": True})
     except Exception as e:
         logger.error(f"Error deleting waste listing: {str(e)}")
@@ -658,8 +598,7 @@ async def gemini_analyze_image(file: UploadFile = File(...), language: str = For
 
 @app.get("/api/community")
 async def get_community_posts():
-    posts = load_json(COMMUNITY_FILE)
-    posts.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+    posts = await asyncio.to_thread(db.get_community_posts)
     return JSONResponse(content={"posts": posts, "total": len(posts)})
 
 
@@ -677,7 +616,6 @@ async def create_community_post(request: Request):
         district = body.get("district", "")
         if not title or not content:
             raise HTTPException(status_code=400, detail="Title and content are required")
-        posts = load_json(COMMUNITY_FILE)
         new_post = {
             "id": str(uuid.uuid4()),
             "title": title,
@@ -692,8 +630,7 @@ async def create_community_post(request: Request):
             "bestAnswerId": None,
             "created_at": datetime.now().isoformat(),
         }
-        posts.append(new_post)
-        save_json(COMMUNITY_FILE, posts)
+        await asyncio.to_thread(db.create_community_post, new_post)
         return JSONResponse(content={"success": True, "post": new_post})
     except HTTPException:
         raise
@@ -710,21 +647,19 @@ async def add_answer_to_post(post_id: str, request: Request):
         author = body.get("author", "Anonymous Farmer")
         if not content:
             raise HTTPException(status_code=400, detail="Answer content is required")
-        posts = load_json(COMMUNITY_FILE)
-        for post in posts:
-            if post["id"] == post_id:
-                if "answers" not in post:
-                    post["answers"] = []
-                answer = {
-                    "id": str(uuid.uuid4()),
-                    "content": content,
-                    "author": author,
-                    "created_at": datetime.now().isoformat(),
-                }
-                post["answers"].append(answer)
-                save_json(COMMUNITY_FILE, posts)
-                return JSONResponse(content={"success": True, "answer": answer})
-        raise HTTPException(status_code=404, detail="Post not found")
+        post = await asyncio.to_thread(db.get_community_post_by_id, post_id)
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        answer = {
+            "id": str(uuid.uuid4()),
+            "content": content,
+            "author": author,
+            "created_at": datetime.now().isoformat(),
+        }
+        answers = post.get("answers", []) or []
+        answers.append(answer)
+        await asyncio.to_thread(db.update_community_post, post_id, {"answers": answers})
+        return JSONResponse(content={"success": True, "answer": answer})
     except HTTPException:
         raise
     except Exception as e:
@@ -737,13 +672,10 @@ async def mark_best_answer(post_id: str, request: Request):
     try:
         body = await request.json()
         answer_id = body.get("answerId", "")
-        posts = load_json(COMMUNITY_FILE)
-        for post in posts:
-            if post["id"] == post_id:
-                post["bestAnswerId"] = answer_id
-                save_json(COMMUNITY_FILE, posts)
-                return JSONResponse(content={"success": True})
-        raise HTTPException(status_code=404, detail="Post not found")
+        result = await asyncio.to_thread(db.update_community_post, post_id, {"bestAnswerId": answer_id})
+        if not result:
+            raise HTTPException(status_code=404, detail="Post not found")
+        return JSONResponse(content={"success": True})
     except HTTPException:
         raise
     except Exception as e:
@@ -754,9 +686,7 @@ async def mark_best_answer(post_id: str, request: Request):
 @app.delete("/api/community/{post_id}")
 async def delete_community_post(post_id: str):
     try:
-        posts = load_json(COMMUNITY_FILE)
-        posts = [p for p in posts if p["id"] != post_id]
-        save_json(COMMUNITY_FILE, posts)
+        await asyncio.to_thread(db.delete_community_post, post_id)
         return JSONResponse(content={"success": True})
     except Exception as e:
         logger.error(f"Error deleting community post: {str(e)}")
