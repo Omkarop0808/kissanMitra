@@ -12,12 +12,13 @@
 
 ---
 
-## Demo Video & Pitch Vedio
+## Demo Video & Pitch Vedio & PPT
 
 
 > https://www.canva.com/design/DAHDYCOJDxQ/0gkGiDt1RVHdSWUz-4b1hg/edit?utm_content=DAHDYCOJDxQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 >https://drive.google.com/file/d/1mpMt7zv6q4p188qL6psoWdPi7qUVy9s8/view?usp=drivesdk
+>https://www.canva.com/design/DAHB96kAaFA/juwXJC0qAjZfsT2X3h4USg/edit?utm_content=DAHB96kAaFA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 
 ---
@@ -86,18 +87,22 @@ Indian agriculture faces critical challenges:
 
 ## Screenshots
 
-| Dashboard | AI Assistant | Disease Detection |
+| Dashboard | AI Assistant | Disease Detection | Gov Schema 
 |-----------|-------------|-------------------|
 | *Main dashboard with all 13 features*
 <img width="1919" height="959" alt="Screenshot 2026-03-08 220720" src="https://github.com/user-attachments/assets/abea5311-20ff-42fe-b60d-cb4ce12c89cf" />
 
-| *Multi-agent chat with voice I/O*
-<img width="1916" height="951" alt="Screenshot 2026-03-08 220733" src="https://github.com/user-attachments/assets/492244fe-76af-4db8-9753-05de42b4ec35" />
+| *Multi-agent chat with voice I/O* 
+<img width="1820" height="882" alt="Screenshot 2026-03-09 135730" src="https://github.com/user-attachments/assets/8ba56f19-d1d4-435e-b09c-d4afd22dfbdb" />
+
+<img width="1905" height="891" alt="Screenshot 2026-03-09 135824" src="https://github.com/user-attachments/assets/72c3d07e-432a-4a27-bae1-c1412bb07887" />
+<img width="1860" height="885" alt="Screenshot 2026-03-09 135651" src="https://github.com/user-attachments/assets/4ab77bb0-1f32-4807-8e69-10c6088fdc60" />
+
 
 | *Gemini Vision-powered diagnosis* |
 <img width="1910" height="961" alt="Screenshot 2026-03-08 220816" src="https://github.com/user-attachments/assets/ef7185cf-67d8-4b8d-9a97-6d80c7bfe7ec" />
 
-| Community Q&A | Equipment Rental | Multilingual |
+| Community Q&A | Equipment Rental | Multilingual |Water Footprint
 |---------------|-----------------|--------------|
  <img width="1906" height="947" alt="Screenshot 2026-03-08 220840" src="https://github.com/user-attachments/assets/e56a90cb-0f9f-4a23-8576-2b21670cc2b5" />
 
@@ -108,6 +113,7 @@ Indian agriculture faces critical challenges:
 <img width="1902" height="952" alt="Screenshot 2026-03-08 220914" src="https://github.com/user-attachments/assets/0bc331a1-1ba0-44cd-820c-5f0a44bffba7" />
 <img width="494" height="923" alt="Screenshot 2026-03-08 220957" src="https://github.com/user-attachments/assets/2c6bc254-46c0-475d-a02b-78351ef80db3" />
 <img width="493" height="919" alt="Screenshot 2026-03-08 221010" src="https://github.com/user-attachments/assets/eeedcea0-57de-460c-95c7-043032862289" />
+<img width="1915" height="916" alt="Screenshot 2026-03-09 135742" src="https://github.com/user-attachments/assets/9699e306-4716-4236-b6eb-d1ffe262ec96" />
 
 
 ## Tech Stack
