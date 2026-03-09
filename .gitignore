@@ -1,0 +1,129 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment variables
+.env
+
+# Kiro AI
+.kiro/
+
+# Temporary files
+tmpclaude-*
+*.tmp
+*.temp
+
+# Logs
+*.log
+logs/
+
+# Database - Keep chroma_db for deployment
+# chroma_db/ is now tracked for easy deployment
+
+# ML Models (large files) - Keep class_indices.json
+*.h5
+*.keras
+*.pkl
+*.pth
+*.pt
+*.onnx
+*.pb
+
+# Data files - Keep initial data for deployment
+# data/ folder is now tracked with initial data
+
+# Test results
+test_results.json
+*.pyc
+test_all_apis.py
+test_bugfix_verification.py
+test_gemini_api.py
+test_gemini_version.py
+quick_validation.py
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Backup files
+*.bak
+*.backup
+
+# Coverage
+.coverage
+htmlcov/
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Git
+.git/
+
+# Unnecessary documentation (keep only essential)
+*_REPORT.md
+*_SUMMARY.md
+*_FIX*.md
+*_VERIFICATION*.md
+CODE_REVIEW*.md
+FINAL_*.md
+QUICK_*.md
+SETUP_COMPLETE*.md
+VERIFICATION_*.md
+GEMINI_*.md
+TAVILY_*.md
+CROP_DISEASE_DETECTION_GUIDE.md
+DEMO_CHEAT_SHEET.md
+DEMO_GUIDE.md
+HACKATHON_DEMO_GUIDE.md
+SETUP.md
+TASKS.md
+CONTRIBUTING.md
+VOICE_TTS_GUIDE.md
+designuiux.md
+
+# Keep these important docs
+!README.md
+!HACKATHON_LIVE_DEMO_SCRIPT.md
+!REQUIREMENTS.md
+!DESIGN.md
+!.env.example
+!GET_API_KEYS_AND_MODELS.md
+
+# Node
+node_modules/
+frontend/dist/
