@@ -12,11 +12,13 @@
 
 ---
 
-## Demo Video
+## Demo Video & Pitch Vedio
 
-https://github.com/user-attachments/assets/YOUR_VIDEO_ID
 
-> *Upload your demo video to the GitHub repo (drag & drop into Issues or use Releases), then replace the link above.*
+> https://www.canva.com/design/DAHDYCOJDxQ/0gkGiDt1RVHdSWUz-4b1hg/edit?utm_content=DAHDYCOJDxQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+>https://drive.google.com/file/d/1mpMt7zv6q4p188qL6psoWdPi7qUVy9s8/view?usp=drivesdk
+
 
 ---
 
