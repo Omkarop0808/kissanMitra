@@ -30,8 +30,8 @@ python-multipart
 bcrypt
 PyJWT
 
-# For data storage (Supabase PostgreSQL)
-supabase
+# For data storage
+aiofiles
 
 # For maps
 folium
