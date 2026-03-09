@@ -36,7 +36,7 @@ Indian agriculture faces critical challenges:
 
 ## Our Solution
 
-**Kissan Mitra** is a comprehensive AI-powered platform that addresses ALL these challenges through **13 integrated features**, accessible in **11 Indian languages**, with **voice I/O** and a **Material Design 3** interface.
+**Kissan Mitra** is a comprehensive AI-powered platform that addresses ALL these challenges through **13 integrated features**, accessible in **11 Indian languages**, with **voice I/O** and a **Material Design 3** interface and many more to know more  checkout our features below.
 
 ---
 
