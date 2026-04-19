@@ -35,3 +35,6 @@ aiofiles
 
 # For maps
 folium
+
+# For Supabase
+supabase

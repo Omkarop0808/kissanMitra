@@ -11,7 +11,7 @@ import time
 import os
 import sys
 
-BASE = "http://127.0.0.1:8000"
+BASE = "http://127.0.0.1:8001"
 PASS = 0
 FAIL = 0
 SKIP = 0
@@ -302,9 +302,9 @@ def test_web_search():
 test("Web Search: Perplexity API", test_web_search)
 
 
-# ========== 10. EQUIPMENT RENTAL CRUD ==========
+# ========== 10. EQUIPMENT RENTAL CRUD (Supabase) ==========
 print("\n" + "=" * 60)
-print("10. EQUIPMENT RENTAL (CRUD)")
+print("10. EQUIPMENT RENTAL (Supabase CRUD)")
 print("=" * 60)
 
 def test_equipment_list():
@@ -331,9 +331,9 @@ test("Equipment: List", test_equipment_list)
 test("Equipment: Add New", test_equipment_add)
 
 
-# ========== 11. WASTE EXCHANGE CRUD ==========
+# ========== 11. WASTE EXCHANGE CRUD (Supabase) ==========
 print("\n" + "=" * 60)
-print("11. WASTE EXCHANGE (CRUD)")
+print("11. WASTE EXCHANGE (Supabase CRUD)")
 print("=" * 60)
 
 def test_waste_list():
@@ -434,8 +434,8 @@ features = [
     ("Web Search", "Perplexity AI", "PERPLEXITY_API_KEY", "OPTIONAL - real-time web"),
     ("Voice Input/TTS", "Browser Web Speech API", "None", "No API key needed"),
     ("RAG Knowledge Base", "sentence-transformers", "None", "Local embeddings + ChromaDB"),
-    ("Equipment Rental", "JSON storage", "None", "CRUD operations"),
-    ("Waste Exchange", "JSON storage", "None", "CRUD operations"),
+    ("Equipment Rental", "Supabase DB", "SUPABASE_URL", "CRUD operations"),
+    ("Waste Exchange", "Supabase DB", "SUPABASE_URL", "CRUD operations"),
 ]
 
 for feat, service, key, note in features:
