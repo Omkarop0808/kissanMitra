@@ -295,6 +295,7 @@ Each language has **291+ translated UI strings** covering every button, label, f
 | Omkar Patil | Full Stack Developer & AI/ML Integration |
 | Joel Wilson | Frontend Developer |
 | Arnav Potale | Backend Developer & Designer |
+| Rahul Senapati | Research |
 
 ---
 
